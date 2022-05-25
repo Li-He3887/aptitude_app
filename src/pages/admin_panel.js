@@ -19,6 +19,7 @@ import SearchIcon from '@material-ui/icons/Search';
 // import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -26,12 +27,20 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
       marginRight: theme.spacing(2),
     },
+    logo: {
+      color: "#000"
+    },
+    appBar: {
+      backgroundColor: "#fff"
+    },
     image: {
       flexGrow: 0.1,
       display: 'none',
       [theme.breakpoints.up('sm')]: {
         display: 'block',
       },
+      maxHeight: '50px',
+      maxWidth: '100px'
     },
     search: {
       position: 'relative',
@@ -109,13 +118,14 @@ function AdminPanel() {
                     {/* Toolbar */}
                     <AppBar 
                         position="fixed" 
-                        color="white"
+                        className={classes.appBar}
+                        // color="white"
                         >
                         <Toolbar>
                         <IconButton
                             edge="start"
-                            className={classes.menuButton}
-                            color="dark"
+                            className={classes.logo}
+                            // color="dark"
                             aria-label="open drawer"
                         >
                             <MenuIcon />
@@ -159,7 +169,7 @@ function AdminPanel() {
                 </Drawer>
                 <main className={classes.content}>
                     <Toolbar />
-                    <h1>OverView</h1>
+                    <h1>Overview</h1>
                 </main>
             </div>
 
