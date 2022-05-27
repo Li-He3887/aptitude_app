@@ -1,8 +1,5 @@
 import * as React from 'react';
-// import Link from '@mui/material/Link';
-// import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
-// import TextField from '@mui/material/TextField';
+import ResponsiveImage from '../components/ResponsiveImage'
 import {
     Link,
     Box,
@@ -12,10 +9,18 @@ import {
 
 function Login() {
     return(
+        <div>
+            <ResponsiveImage
+                  width='130px'
+                  margin='10px'
+                  alt='Forward School'
+                  src={require('../../public/forward-school-logo-blue.png')}
+                />
+
             <Box
-                component="form"
+                component='form'
                 sx={{
-                    m: "auto",
+                    m: 'auto',
                     width: 500,
                     maxWidth: '100%',
                 }}
@@ -23,39 +28,43 @@ function Login() {
                 <TextField
                     fullWidth
                     required
-                    margin="dense"
-                    id="outlined-required"
-                    label="Email"
-                    placeholder="Your@email.com"
+                    margin='normal'
+                    variant='outlined'
+                    id='outlined-required'
+                    label='Email'
+                    placeholder='Your@email.com'
                 />
 
                 <TextField
                     required
                     fullWidth
-                    margin="normal"
-                    id="outlined-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
+                    margin='normal'
+                    variant='outlined'
+                    id='outlined-password-input'
+                    label='Password'
+                    type='password'
+                    autoComplete='current-password'
                 />
 
                 <Button 
-                    variant="contained" 
-                    size="large"
+                    variant='contained' 
+                    size='large'
                     sx={{
-                        m: "auto"
+                        m: '40px'
                     }}
                 >
                     Login
                 </Button>
 
                 <div>
-                    <Link href="/">
+                    <Link href='/'>
                         Forgot Password?
                     </Link>
                 </div>
             </Box>
+        </div>
+            
     )
   }
   
-  export default Login;
+  export default Login

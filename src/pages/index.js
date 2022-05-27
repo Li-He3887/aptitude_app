@@ -291,12 +291,13 @@ const Index = () => {
               />
 
               <TextField
-                id="outlined-select-currency"
+                id='outlined-select-currency'
                 select
                 fullWidth
                 required
-                margin="normal"
-                label="Programmens"
+                margin='normal'
+                variant='outlined'
+                label='Programmens'
                 value={program}
                 onChange={programOnChange}
               >
