@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 600,
-        marginLeft: '250px',
+        marginTop: '20px',
     },
 }));
 
@@ -38,9 +38,6 @@ const StyledTableCell = withStyles((theme) => ({
   
   const StyledTableRow = withStyles((theme) => ({
     root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
     },
   }))(TableRow);
   
@@ -74,34 +71,34 @@ function Admins() {
                             Create Admin
                         </Button>
                     </div>
-                    
+
+                      <TableContainer component={Paper}>
+                      <Table className={classes.table} aria-label='customized table'>
+                          <TableHead>
+                          <TableRow>
+                              <StyledTableCell>Name</StyledTableCell>
+                              <StyledTableCell align='center'>Email</StyledTableCell>
+                              <StyledTableCell align='center'>Phone No.</StyledTableCell>
+                              <StyledTableCell align='center'>Organisation</StyledTableCell>
+                              <StyledTableCell align='center'>Role</StyledTableCell>
+                          </TableRow>
+                          </TableHead>
+                          <TableBody>
+                          {rows.map((row) => (
+                              <StyledTableRow key={row.name}>
+                                <StyledTableCell component='th' scope='row'>
+                                    {row.name}
+                                </StyledTableCell>
+                                <StyledTableCell align='center'>{row.email}</StyledTableCell>
+                                <StyledTableCell align='center'>{row.phone}</StyledTableCell>
+                                <StyledTableCell align='center'>{row.organisation}</StyledTableCell>
+                                <StyledTableCell align='center'>{row.role}</StyledTableCell>
+                              </StyledTableRow>
+                          ))}
+                          </TableBody>
+                      </Table>
+                  </TableContainer>
                 </main>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label='customized table'>
-                        <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Name</StyledTableCell>
-                            <StyledTableCell align='center'>Email</StyledTableCell>
-                            <StyledTableCell align='center'>Phone No.</StyledTableCell>
-                            <StyledTableCell align='center'>Organisation</StyledTableCell>
-                            <StyledTableCell align='center'>Role</StyledTableCell>
-                        </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {rows.map((row) => (
-                            <StyledTableRow key={row.name}>
-                            <StyledTableCell component='th' scope='row'>
-                                {row.name}
-                            </StyledTableCell>
-                            <StyledTableCell align='center'>{row.email}</StyledTableCell>
-                            <StyledTableCell align='center'>{row.phone}</StyledTableCell>
-                            <StyledTableCell align='center'>{row.organisation}</StyledTableCell>
-                            <StyledTableCell align='center'>{row.role}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
             </div>
         </div>
     )
