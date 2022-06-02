@@ -19,7 +19,7 @@ import * as Sentry from '@sentry/browser'
 
 import theme from '../config/theme'
 import { getErrorMessage } from '../utils/error'
-import ResponsiveImage from '../components/ResponsiveImage'
+import ResponsiveImage from '../components/responsive-image'
 import FSAT_API from '../api'
 
 const GlobalStyle = createGlobalStyle`

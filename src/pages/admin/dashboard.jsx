@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Sidebar from '../../sidebar/Sidebar'
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import {
   Toolbar,
@@ -10,15 +9,12 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
-import PieChart from '../../components/charts/PieChart'
+
+import AdminLayout from '../../layouts/admin-layout'
+import PieChart from '../../components/charts/pie-chart'
 import Table from '../../components/table'
 
 const useStyles = makeStyles(theme => ({
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    marginLeft: '250px'
-  },
   head1: {
     fontSize: '1.4rem',
     color: '#1853A0'
@@ -108,77 +104,72 @@ function Dashboard() {
   }
 
   return (
-    <div>
-      <Sidebar />
-      <div>
-        <main className={classes.content}>
-          <Toolbar />
-          <h1>Overview</h1>
-          <div className={classes.overviewContainer}>
-            <PieChart />
-          </div>
-          <div className={classes.filterContainer}>
-            <h3 className={classes.head1}>Applicants</h3>
-
-            <div className={classes.filters}>
-              <Button
-                variant='outlined'
-                color='primary'
-                size='small'
-                className={classes.button}
-                endIcon={<CalendarTodayIcon />}
-              >
-                Start Date
-              </Button>
-
-              <Button
-                variant='outlined'
-                color='primary'
-                size='small'
-                className={classes.button}
-                endIcon={<CalendarTodayIcon />}
-              >
-                End Date
-              </Button>
-
-              <TextField
-                id='outlined-select-currency'
-                select
-                size='small'
-                required
-                margin='normal'
-                variant='outlined'
-                label='Status'
-                value={status}
-                onChange={statusOnChange}
-              >
-                {statuses.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder='Search…'
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <Table />
-        </main>
+    <AdminLayout>
+      <Toolbar />
+      <h1>Overview</h1>
+      <div className={classes.overviewContainer}>
+        <PieChart />
       </div>
-    </div>
+      <div className={classes.filterContainer}>
+        <h3 className={classes.head1}>Applicants</h3>
+
+        <div className={classes.filters}>
+          <Button
+            variant='outlined'
+            color='primary'
+            size='small'
+            className={classes.button}
+            endIcon={<CalendarTodayIcon />}
+          >
+            Start Date
+          </Button>
+
+          <Button
+            variant='outlined'
+            color='primary'
+            size='small'
+            className={classes.button}
+            endIcon={<CalendarTodayIcon />}
+          >
+            End Date
+          </Button>
+
+          <TextField
+            id='outlined-select-currency'
+            select
+            size='small'
+            required
+            margin='normal'
+            variant='outlined'
+            label='Status'
+            value={status}
+            onChange={statusOnChange}
+          >
+            {statuses.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder='Search…'
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <Table />
+    </AdminLayout>
   )
 }
 

@@ -8,7 +8,7 @@ import { ResponsivePie } from '@nivo/pie'
 import { ResponsiveBar } from '@nivo/bar'
 
 import theme from '../../../config/theme'
-import ResponsiveImage from '../../../components/ResponsiveImage'
+import ResponsiveImage from '../../../components/responsive-image'
 import FSAT_API from '../../../api'
 const humanizeDuration = require('humanize-duration')
 

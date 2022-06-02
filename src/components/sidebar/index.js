@@ -17,7 +17,7 @@ import PeopleIcon from '@mui/icons-material/People'
 import OtherHousesIcon from '@mui/icons-material/OtherHouses'
 import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import ResponsiveImage from '../components/ResponsiveImage'
+import ResponsiveImage from '../responsive-image'
 
 const drawerWidth = 240
 
@@ -94,12 +94,12 @@ function Sidebar(props) {
           className={classes.image}
           width='200px'
           alt='Forward School'
-          src={require('../../public/forward-school-logo-blue.png')}
+          src={require('../../../public/forward-school-logo-blue.png')}
         />
       </div>
       <h3 className={classes.navbarTitle}>Main</h3>
       <div>
-        <Link href='/admin_panel/dashboard' color='inherit'>
+        <Link href='/admin/dashboard' color='inherit'>
           <ListItem button>
             <ListItemIcon>
               <OtherHousesIcon />
@@ -108,7 +108,7 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-        <Link href='/admin_panel/admins' color='inherit'>
+        <Link href='/admin/users' color='inherit'>
           <ListItem button>
             <ListItemIcon>
               <PeopleIcon />
@@ -127,7 +127,7 @@ function Sidebar(props) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position='fixed' className={classes.appBar}>
-        <Toolbar>
+        <Toolbar variant='dense'>
           <IconButton
             aria-label='open drawer'
             edge='start'

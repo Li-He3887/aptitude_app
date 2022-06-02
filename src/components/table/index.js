@@ -1,4 +1,5 @@
 import React from 'react'
+// import PropTypes from 'prop-types'
 import {
   Table as MuiTable,
   TableBody,
@@ -130,5 +131,13 @@ const Table = () => {
     </>
   )
 }
+
+// Table.propTypes = {
+//   headers: PropTypes.arrayOf({
+//     name: PropTypes.string,
+//     align: PropTypes.string
+//   }),
+//   rows: PropTypes.any
+// }
 
 export default Table

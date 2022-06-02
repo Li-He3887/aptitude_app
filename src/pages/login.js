@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ResponsiveImage from '../components/ResponsiveImage'
+import ResponsiveImage from '../components/responsive-image'
 import { Link, Box, TextField, Button } from '@material-ui/core'
 
 function Login() {
