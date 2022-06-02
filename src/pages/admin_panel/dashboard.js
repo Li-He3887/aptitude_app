@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Sidebar from '../../sidebar/Sidebar';
 import { alpha, makeStyles, withStyles } from '@material-ui/core/styles';
 import {
@@ -12,6 +12,8 @@ import {
   TableHead,
   TableRow,
   Paper,
+  TextField,
+  MenuItem,
 } 
 from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
@@ -27,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
       minWidth: 600,
+    },
+    head1: {
+      color: "#1853A0"
     },
     search: {
       position: 'relative',
@@ -102,6 +107,29 @@ const rows = [
 
 function Dashboard() {
   const classes = useStyles();
+
+  // status List
+  const statuses = [
+    {
+      value: 'All',
+      label: 'All',
+    },
+    {
+      value: 'Pass',
+      label: 'Pass',
+    },
+    {
+      value: 'Fail',
+      label: 'Fail',
+    },
+  ];
+
+  const [status, setStatus] = useState('All');
+
+  const statusOnChange = (event) => {
+    setStatus(event.target.value);
+  };
+
     return(
       <div>
         <Sidebar />
@@ -113,7 +141,7 @@ function Dashboard() {
               <PieChart />
             </div>
             <div>
-              <h3>Applicants</h3>
+              <h3 className={classes.head1}>Applicants</h3>
 
               <Button
                 variant="outlined"
@@ -135,19 +163,37 @@ function Dashboard() {
                 End Date
               </Button>
 
-                <div className={classes.search}>
-                      <div className={classes.searchIcon}>
-                        <SearchIcon />
-                      </div>
-                      <InputBase
-                        placeholder='Search…'
-                        classes={{
-                          root: classes.inputRoot,
-                          input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                      />
+              <TextField
+                id='outlined-select-currency'
+                select
+                size="small"
+                required
+                margin='normal'
+                variant='outlined'
+                label='Status'
+                value={status}
+                onChange={statusOnChange}
+              >
+                {statuses.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
                 </div>
+                <InputBase
+                  placeholder='Search…'
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </div>
             </div>
 
             <TableContainer component={Paper}>

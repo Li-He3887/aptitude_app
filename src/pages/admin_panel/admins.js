@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Sidebar from '../../sidebar/Sidebar';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles, withStyles } from '@material-ui/core/styles';
 import {
   Toolbar,
   Table,
@@ -11,8 +11,12 @@ import {
   TableRow,
   Paper,
   Button,
+  TextField,
+  MenuItem,
+  InputBase
 } 
 from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -22,7 +26,46 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 600,
-        marginTop: '20px',
+        marginTop: '10px',
+    },
+    search: {
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: alpha(theme.palette.common.white, 0.15),
+      '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+      },
+      marginLeft: 0,
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
+      },
+    },
+    searchIcon: {
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    inputRoot: {
+      color: 'inherit',
+    },
+    inputInput: {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        width: '12ch',
+        '&:focus': {
+          width: '20ch',
+        },
+      },
     },
 }));
 
@@ -56,6 +99,51 @@ const StyledTableCell = withStyles((theme) => ({
 
 function Admins() {
     const classes = useStyles();
+
+    // organisation List
+    const organisationList = [
+      {
+        value: 'All',
+        label: 'All',
+      },
+      {
+        value: 'FS',
+        label: 'Forward School',
+      },
+      {
+        value: 'Dell',
+        label: 'DEll',
+      },
+    ];
+
+    const [organisation, setOrganisation] = useState('All');
+
+    const organisationOnChange = (event) => {
+      setOrganisation(event.target.value);
+    };
+
+    // role List
+    const roleList = [
+      {
+        value: 'All',
+        label: 'All',
+      },
+      {
+        value: 'AD',
+        label: 'Admin',
+      },
+      {
+        value: 'SA',
+        label: 'Super Admin',
+      },
+    ];
+
+    const [role, setRole] = useState('All');
+
+    const roleOnChange = (event) => {
+      setRole(event.target.value);
+    };
+
     return(
         <div>
             <Sidebar />
@@ -65,11 +153,63 @@ function Admins() {
                     <div display='inline'>
                         <h1>Admins</h1>
                         <Button 
-                            variant='contained' 
-                            color='primary' 
-                            href='#'>
-                            Create Admin
+                          variant='contained' 
+                          color='primary' 
+                          size="small"
+                          href='#'>
+                          Create Admin
                         </Button>
+                    </div>
+                    
+                    <div>
+                      <TextField
+                            id='outlined-select-currency'
+                            select
+                            size="small"
+                            margin='normal'
+                            variant='outlined'
+                            label='Organisation'
+                            value={organisation}
+                            onChange={organisationOnChange}
+                          >
+                            {organisationList.map((option) => (
+                              <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                      </TextField>
+
+                      {/* <TextField
+                            id='outlined-select-currency'
+                            select
+                            size="normal"
+                            marginLeft="10px"
+                          
+                            variant='outlined'
+                            label='Role'
+                            value={role}
+                            onChange={roleOnChange}
+                          >
+                            {roleList.map((option) => (
+                              <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                      </TextField> */}
+
+                      <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                          <SearchIcon />
+                        </div>
+                        <InputBase
+                          placeholder='Search…'
+                          classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                          }}
+                          inputProps={{ 'aria-label': 'search' }}
+                        />
+                      </div>
                     </div>
 
                       <TableContainer component={Paper}>

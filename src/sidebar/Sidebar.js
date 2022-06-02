@@ -4,127 +4,163 @@ import {
     Toolbar,
     IconButton,
     Drawer,
+    Hidden,
     CssBaseline,
-    Link
+    Link,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
 } 
 from '@material-ui/core';
-import ResponsiveImage from '../components/ResponsiveImage'
-import MenuIcon from '@material-ui/icons/Menu';
+
 import PeopleIcon from '@mui/icons-material/People';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
-import { makeStyles } from '@material-ui/core/styles';
-
+import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import ResponsiveImage from '../components/ResponsiveImage'
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-    // Toolbar
-    menuButton: {
-      marginRight: theme.spacing(2),
+  root: {
+    display: 'flex',
+  },
+  image: {
+    flexGrow: 0.1,
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
     },
-    logo: {
-      color: '#000'
+    maxHeight: '100px',
+    maxWidth: '150px'
+  },
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 1,
     },
-    appBar: {
-      backgroundColor: '#fff'
+  },
+  appBar: {
+    backgroundColor: '#fff',
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
     },
-    image: {
-      flexGrow: 0.1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
       display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
-      maxHeight: '50px',
-      maxWidth: '100px'
     },
+  },
+  // necessary for content to be below app bar
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
 
-    // Sidebar
-    root: {
-        display: 'flex',
-      },
-      drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-      },
-      drawerPaper: {
-        width: drawerWidth,
-      },
-      drawerContainer: {
-        overflow: 'auto',
-        marginLeft: theme.spacing(2),
-      },
-  }));
+function Sidebar(props) {
+  const { window } = props;
+  const classes = useStyles();
+  const theme = useTheme();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-function Sidebar() {
-    const classes = useStyles();
-    return(
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <div>
+      <div className={classes.toolbar} />
+        <h3>Main</h3>
         <div>
-            <div className={classes.root}>
-                <CssBaseline />
-                <Drawer
-                    className={classes.drawer}
-                    variant='permanent'
-                    classes={{
-                    paper: classes.drawerPaper,
-                    }}
-                >
-                    {/* Toolbar */}
-                    <AppBar 
-                        position='fixed' 
-                        className={classes.appBar}
-                        // color='white'
-                        >
-                        <Toolbar>
-                          <IconButton
-                              edge='start'
-                              className={classes.logo}
-                              // color='dark'
-                              aria-label='open drawer'
-                          >
-                              <MenuIcon />
-                          </IconButton>
-                          <ResponsiveImage
-                              variant='h6'
-                              className={classes.image}
-                              width='30px'
-                              alt='Forward School'
-                              src={require('../../public/forward-school-logo-blue.png')}
-                          />
-                        </Toolbar>
-                    </AppBar>
-
-                    {/* SideBar */}
-                    <Toolbar />
-                    <div className={classes.drawerContainer}>
-                        <h5>Main</h5>
-                        <div>
-                            <Link 
-                                href='/admin_panel/dashboard' 
-                                color='inherit'
-                                display='block'>
-                                <a display='inline'>
-                                    <OtherHousesIcon />
-                                    Dashboard
-                                </a>
-                            </Link>
-                            <Link 
-                                href='/admin_panel/admins' 
-                                color='inherit'
-                                display='block'>
-                                <a>
-                                    <PeopleIcon />
-                                    Admins
-                                </a>
-                            </Link>
-                        </div>
+            <Link 
+                href='/admin_panel/dashboard' 
+                color='inherit'>
+                <ListItem button  >
+                    <ListItemIcon ><OtherHousesIcon /></ListItemIcon>
+                    <ListItemText primary={"Dashboard"} />
+                </ListItem>
+            </Link>
                             
-                    </div>
-                </Drawer>
-            </div>
+            <Link 
+                href="/admin_panel/admins"
+                color='inherit'>
+                <ListItem button  >
+                    <ListItemIcon ><PeopleIcon /></ListItemIcon>
+                    <ListItemText primary={"Admins"} />
+                </ListItem>
+            </Link>
 
         </div>
-    )
-    
+    </div>
+  );
+
+  const container = window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <ResponsiveImage
+            noWrap
+            variant='h6'
+            className={classes.image}
+            width='90px'
+            alt='Forward School'
+            src={require('../../public/forward-school-logo-blue.png')}
+            />
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
+    </div>
+  );
 }
 
-export default Sidebar
+
+
+export default Sidebar;
