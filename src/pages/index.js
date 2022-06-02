@@ -154,27 +154,27 @@ const Index = () => {
   const programming = [
     {
       value: 'ND',
-      label: 'NitroDegree',
+      label: 'NitroDegree'
     },
     {
       value: 'DS',
-      label: 'Data Science',
+      label: 'Data Science'
     },
     {
       value: 'BEW',
-      label: 'Web Development',
+      label: 'Web Development'
     },
     {
       value: 'MOB',
-      label: 'Mobile Development',
+      label: 'Mobile Development'
     }
-  ];
+  ]
 
-  const [program, setProgram] = useState('ND');
+  const [program, setProgram] = useState('ND')
 
-  const programOnChange = (event) => {
-    setProgram(event.target.value);
-  };
+  const programOnChange = event => {
+    setProgram(event.target.value)
+  }
 
   const hasError = field =>
     !!(formState.touched[field] && formState.errors[field])
@@ -301,7 +301,7 @@ const Index = () => {
                 value={program}
                 onChange={programOnChange}
               >
-                {programming.map((option) => (
+                {programming.map(option => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>

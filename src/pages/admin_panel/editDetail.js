@@ -1,12 +1,12 @@
-import React from 'react';
-import Sidebar from '../../sidebar/Sidebar';
+import React from 'react'
+import Sidebar from '../../sidebar/Sidebar'
 
-function EditDetail () {
-    return(
-        <div>
-            <Sidebar />
-        </div>
-    )
+function EditDetail() {
+  return (
+    <div>
+      <Sidebar />
+    </div>
+  )
 }
 
-export default EditDetail;
+export default EditDetail
