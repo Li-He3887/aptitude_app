@@ -127,7 +127,7 @@ function Sidebar(props) {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position='fixed' className={classes.appBar}>
-        <Toolbar variant='dense'>
+        <Toolbar>
           <IconButton
             aria-label='open drawer'
             edge='start'
