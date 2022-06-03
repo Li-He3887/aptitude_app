@@ -1,18 +1,13 @@
 import React, { useState } from 'react'
 import { alpha, makeStyles } from '@material-ui/core/styles'
-import {
-  Toolbar,
-  InputBase,
-  Button,
-  TextField,
-  MenuItem
-} from '@material-ui/core'
+import { Toolbar, TextField, InputAdornment } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
 import Table from '../../components/table'
+import Select from '../../components/select'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -24,13 +19,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  filters: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
   search: {
@@ -75,33 +64,25 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     margin: theme.spacing(1)
+  },
+  filters: {
+    marginTop: '0.4rem',
+    marginBottom: '1rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  filter: {
+    marginRight: '0.8rem'
   }
 }))
 
 function Dashboard() {
   const classes = useStyles()
 
-  // status List
-  const statuses = [
-    {
-      value: 'All',
-      label: 'All'
-    },
-    {
-      value: 'Pass',
-      label: 'Pass'
-    },
-    {
-      value: 'Fail',
-      label: 'Fail'
-    }
-  ]
-
   const [status, setStatus] = useState('All')
-
-  const statusOnChange = event => {
-    setStatus(event.target.value)
-  }
 
   return (
     <AdminLayout>
@@ -110,61 +91,52 @@ function Dashboard() {
       <div className={classes.overviewContainer}>
         <PieChart />
       </div>
+      <h3 className={classes.head1}>Applicants</h3>
       <div className={classes.filterContainer}>
-        <h3 className={classes.head1}>Applicants</h3>
-
         <div className={classes.filters}>
-          <Button
+          <TextField
+            label='Start Date'
             variant='outlined'
-            color='primary'
-            size='small'
-            className={classes.button}
-            endIcon={<CalendarTodayIcon />}
-          >
-            Start Date
-          </Button>
+            className={classes.filter}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <CalendarTodayIcon />
+                </InputAdornment>
+              )
+            }}
+          />
+          <TextField
+            label='End Date'
+            variant='outlined'
+            className={classes.filter}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <CalendarTodayIcon />
+                </InputAdornment>
+              )
+            }}
+          />
 
-          <Button
+          <Select
             variant='outlined'
-            color='primary'
-            size='small'
-            className={classes.button}
-            endIcon={<CalendarTodayIcon />}
-          >
-            End Date
-          </Button>
+            label='Role'
+            value={status}
+            setValue={setStatus}
+          />
 
           <TextField
-            id='outlined-select-currency'
-            select
-            size='small'
-            required
-            margin='normal'
+            label='Search'
             variant='outlined'
-            label='Status'
-            value={status}
-            onChange={statusOnChange}
-          >
-            {statuses.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder='Search…'
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+          />
         </div>
       </div>
 

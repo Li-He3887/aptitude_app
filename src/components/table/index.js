@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 // import PropTypes from 'prop-types'
 import {
   Table as MuiTable,
@@ -22,7 +23,12 @@ const StyledTableCell = withStyles(theme => ({
 }))(TableCell)
 
 const StyledTableRow = withStyles(theme => ({
-  root: {}
+  root: {
+    '&:hover': {
+      backgroundColor: 'lightgrey',
+      cursor: 'pointer'
+    }
+  }
 }))(TableRow)
 
 function createData(name, email, phone, programmes, score, time, status) {
@@ -89,8 +95,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+// Pass dynamic props into it
 const Table = () => {
   const classes = useStyles()
+  const router = useRouter()
+
+  // Make this dynamic
+  const handleOnRowClick = id => router.push(`/admin/applicant/${id}`)
 
   return (
     <>
@@ -101,7 +112,7 @@ const Table = () => {
               <StyledTableCell>Full Name</StyledTableCell>
               <StyledTableCell align='center'>Email</StyledTableCell>
               <StyledTableCell align='center'>Phone No.</StyledTableCell>
-              <StyledTableCell align='center'>Programmens</StyledTableCell>
+              <StyledTableCell align='center'>Programmes</StyledTableCell>
               <StyledTableCell align='center'>Score</StyledTableCell>
               <StyledTableCell align='center'>Time Taken</StyledTableCell>
               <StyledTableCell align='center'>Status</StyledTableCell>
@@ -109,7 +120,10 @@ const Table = () => {
           </TableHead>
           <TableBody>
             {rows.map(row => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow
+                key={row.name}
+                onClick={() => handleOnRowClick(row.name)}
+              >
                 <StyledTableCell component='th' scope='row'>
                   {row.name}
                 </StyledTableCell>
