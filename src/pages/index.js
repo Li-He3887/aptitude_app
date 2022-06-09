@@ -151,7 +151,7 @@ const Index = () => {
       })
   }
 
-  const programming = [
+  const programList = [
     {
       value: 'ND',
       label: 'NitroDegree'
@@ -174,6 +174,23 @@ const Index = () => {
 
   const programOnChange = event => {
     setProgram(event.target.value)
+  }
+
+  const organisationList = [
+    {
+      value: 'FS',
+      label: 'Forward School'
+    },
+    {
+      value: 'Dell',
+      label: 'Dell'
+    }
+  ]
+
+  const [organisation, setOrganisation] = useState('FS')
+
+  const OrganisationOnChange = event => {
+    setOrganisation(event.target.value)
   }
 
   const hasError = field =>
@@ -301,7 +318,25 @@ const Index = () => {
                 value={program}
                 onChange={programOnChange}
               >
-                {programming.map(option => (
+                {programList.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+
+              <TextField
+                id='outlined-select-currency'
+                select
+                fullWidth
+                required
+                margin='normal'
+                variant='outlined'
+                label='Organisation'
+                value={organisation}
+                onChange={OrganisationOnChange}
+              >
+                {organisationList.map(option => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>

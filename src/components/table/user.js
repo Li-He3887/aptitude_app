@@ -32,8 +32,8 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow)
 
-function createData(name, email, phone, programmes, score, time, status) {
-  return { name, email, phone, programmes, score, time, status }
+function createData(name, email, phone, organisation, role) {
+  return { name, email, phone, organisation, role }
 }
 
 const rows = [
@@ -41,46 +41,36 @@ const rows = [
     'Chris Evans',
     'chris@avengers.com',
     '016-432 7864',
-    'DS',
-    '18/20',
-    '15m 3s',
-    'Pass'
+    'Forward School',
+    'Admin'
   ),
   createData(
     'Some dude',
     'some@dude.com',
     '012-345 6789',
-    'FEW',
-    '14/20',
-    '5m 45s',
-    'Fail'
+    'Dell',
+    'Super'
   ),
   createData(
     'Some dude',
     'some@dude.com',
     '012-345 6789',
-    'ND',
-    '18/20',
-    '15m 3s',
-    'Pass'
+    'Forward School',
+    'Super'
   ),
   createData(
     'Some dude',
     'some@dude.com',
     '012-345 6789',
-    'FEW',
-    '14/20',
-    '5m 45s',
-    'Fail'
+    'Dell',
+    'Admin'
   ),
   createData(
     'Some dude',
     'some@dude.com',
     '012-345 6789',
-    'FEW',
-    '14/20',
-    '5m 45s',
-    'Fail'
+    'Dell',
+    'Admin'
   )
 ]
 
@@ -97,12 +87,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // Pass dynamic props into it
-const Table = () => {
+const User = () => {
   const classes = useStyles()
   const router = useRouter()
 
   // Make this dynamic
-  const handleOnRowClick = id => router.push(`/admin/applicant/${id}`)
+  const handleOnRowClick = id => router.push(`/admin/users/${id}`)
 
   return (
     <>
@@ -113,10 +103,8 @@ const Table = () => {
               <StyledTableCell>Full Name</StyledTableCell>
               <StyledTableCell align='center'>Email</StyledTableCell>
               <StyledTableCell align='center'>Phone No.</StyledTableCell>
-              <StyledTableCell align='center'>Programmes</StyledTableCell>
-              <StyledTableCell align='center'>Score</StyledTableCell>
-              <StyledTableCell align='center'>Time Taken</StyledTableCell>
-              <StyledTableCell align='center'>Status</StyledTableCell>
+              <StyledTableCell align='center'>Organisation</StyledTableCell>
+              <StyledTableCell align='center'>Role</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -131,13 +119,9 @@ const Table = () => {
                 <StyledTableCell align='center'>{row.email}</StyledTableCell>
                 <StyledTableCell align='center'>{row.phone}</StyledTableCell>
                 <StyledTableCell align='center'>
-                  {row.programmes}
+                  {row.organisation}
                 </StyledTableCell>
-                <StyledTableCell align='center'>{row.score}</StyledTableCell>
-                <StyledTableCell align='center'>{row.time}</StyledTableCell>
-                <StyledTableCell align='center'>
-                  <div className={classes.statusCell}>{row.status}</div>
-                </StyledTableCell>
+                <StyledTableCell align='center'>{row.role}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -155,4 +139,4 @@ const Table = () => {
 //   rows: PropTypes.any
 // }
 
-export default Table
+export default User

@@ -15,6 +15,7 @@ import {
 
 import PeopleIcon from '@mui/icons-material/People'
 import OtherHousesIcon from '@mui/icons-material/OtherHouses'
+import SettingsIcon from '@mui/icons-material/Settings'
 import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import ResponsiveImage from '../responsive-image'
@@ -114,6 +115,15 @@ function Sidebar(props) {
               <PeopleIcon />
             </ListItemIcon>
             <ListItemText primary='Admins' />
+          </ListItem>
+        </Link>
+
+        <Link href='/' color='inherit'>
+          <ListItem button>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary='Setting' />
           </ListItem>
         </Link>
       </div>

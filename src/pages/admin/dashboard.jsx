@@ -6,7 +6,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
-import Table from '../../components/table'
+import Table from '../../components/table/result'
 import Select from '../../components/select'
 
 const useStyles = makeStyles(theme => ({
@@ -121,7 +121,7 @@ function Dashboard() {
 
           <Select
             variant='outlined'
-            label='Role'
+            label='Status'
             value={status}
             setValue={setStatus}
           />

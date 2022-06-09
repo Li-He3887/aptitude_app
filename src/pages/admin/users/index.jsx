@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/Search'
 
 import AdminLayout from '../../../layouts/admin-layout'
-import Table from '../../../components/table'
+import Table from '../../../components/table/user'
 
 const useStyles = makeStyles({
   container: {
