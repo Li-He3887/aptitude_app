@@ -6,7 +6,6 @@ import { useTheme } from '@material-ui/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
 const ChartContainer = styled.div`
-  width: '100%';
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -15,6 +14,7 @@ const ChartContainer = styled.div`
   position: relative;
   background-color: rgb(232, 240, 247);
   border-radius: 12px;
+  width: '100%';
 `
 
 const PieContianer = styled.div`

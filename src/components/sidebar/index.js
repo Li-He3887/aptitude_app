@@ -69,7 +69,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '0.8rem'
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    paddingTop: '1rem'
   },
   content: {
     flexGrow: 1,
