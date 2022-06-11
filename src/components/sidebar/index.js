@@ -8,6 +8,7 @@ import {
   Hidden,
   CssBaseline,
   Link,
+  List,
   ListItem,
   ListItemIcon,
   ListItemText
@@ -73,6 +74,29 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3)
+  },
+  list: {
+    height: '100%',
+    marginTop: '1.4rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  link: {
+    width: '100%',
+
+    '&:hover': {
+      textDecoration: 'none'
+    }
+  },
+  lastLink: {
+    width: '100%',
+    marginTop: 'auto',
+
+    '&:hover': {
+      textDecoration: 'none'
+    }
   }
 }))
 
@@ -87,7 +111,7 @@ function Sidebar(props) {
   }
 
   const drawer = (
-    <div>
+    <>
       <div className={classes.toolbar}>
         <ResponsiveImage
           noWrap
@@ -98,9 +122,9 @@ function Sidebar(props) {
           src={require('../../../public/forward-school-logo-blue.png')}
         />
       </div>
-      <h3 className={classes.navbarTitle}>Main</h3>
-      <div>
-        <Link href='/admin/dashboard' color='inherit'>
+      {/* <h3 className={classes.navbarTitle}>Main</h3> */}
+      <List className={classes.list}>
+        <Link href='/admin/dashboard' color='inherit' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <OtherHousesIcon />
@@ -109,7 +133,7 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-        <Link href='/admin/users' color='inherit'>
+        <Link href='/admin/users' color='inherit' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <PeopleIcon />
@@ -118,16 +142,20 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-        <Link href='/' color='inherit'>
+        <Link
+          href='/admin/settings'
+          color='inherit'
+          className={classes.lastLink}
+        >
           <ListItem button>
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary='Setting' />
+            <ListItemText primary='Settings' />
           </ListItem>
         </Link>
-      </div>
-    </div>
+      </List>
+    </>
   )
 
   const container =
