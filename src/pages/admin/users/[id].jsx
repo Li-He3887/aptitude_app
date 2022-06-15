@@ -1,11 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import AdminLayout from '../../../layouts/admin-layout'
 import { makeStyles } from '@material-ui/styles'
 import {
   Card,
   CardContent,
   IconButton,
-  Typography
+  Typography,
+  Grid
 } from '@material-ui/core'
 import DeleteIcon from '@mui/icons-material/Delete'
 
@@ -26,43 +27,53 @@ const useStyles = makeStyles({
     alignItems: 'center'
   },
   card:{
-    marginLeft: '15px',
-    marginRight: '15px',
+    marginLeft: '20px',
+    marginRight: '20px',
   },
 })
 
 const SingleUser = () => {
   const classes = useStyles()
+
+  const [editing, setEditing] = useState(false)
   return(
     <AdminLayout>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
-          <h1>Admin Detail</h1>
+          <h1>Admins Detail</h1>
         </div>
 
         <Card className={classes.root}>
+          <Grid container spacing={3}>
+            <Grid item xs={11}>
+              <CardContent className={classes.card}>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Name: Chris Evans
+                </Typography>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Email : chris@avengers.com
+                </Typography>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Phone No : 010-1111111
+                </Typography>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Organisation : Forward School
+                </Typography>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Role : Admin
+                </Typography>
+              </CardContent>
+            </Grid>
 
-            <IconButton aria-label="delete" size="medium">
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
-
-          <CardContent className={classes.card}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Name: Chris Evans
-            </Typography>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Email : chris@avengers.com
-            </Typography>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Phone No : 010-1111111
-            </Typography>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Organisation : Forward School
-            </Typography>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Role : Admin
-            </Typography>
-          </CardContent>
+            <Grid item xs={1}>
+              <IconButton aria-label="delete" size="medium">
+                {
+                  editing? <CloseIcon fontSize="inherit" /> : <DeleteIcon fontSize="inherit" />
+                }
+                
+              </IconButton>
+            </Grid>
+          </Grid>  
         </Card>
       </div>
     </AdminLayout>

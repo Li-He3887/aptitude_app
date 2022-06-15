@@ -118,7 +118,7 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-        <Link href='/' color='inherit'>
+        <Link href='/admin/setting' color='inherit'>
           <ListItem button>
             <ListItemIcon>
               <SettingsIcon />
