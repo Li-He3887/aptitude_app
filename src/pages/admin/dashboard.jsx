@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import { alpha, makeStyles } from '@material-ui/core/styles'
-import { Toolbar, TextField, InputAdornment } from '@material-ui/core'
+import {
+  TextField,
+  InputAdornment,
+  MenuItem,
+  FormControl,
+  Select,
+  InputLabel
+} from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
 import Table from '../../components/table/result'
-import Select from '../../components/select'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -76,71 +82,113 @@ const useStyles = makeStyles(theme => ({
   },
   filter: {
     marginRight: '0.8rem'
+  },
+  overviewContainer: {
+    maxWidth: '100%',
+    overflowX: 'hidden',
+    width: '100%',
+    marginBottom: '4rem'
+  },
+  container: {
+    display: 'flex',
+    // overflowX: 'hidden',
+    flexDirection: 'column',
+    maxWidth: '100%'
+  },
+  selectContainer: {
+    minWidth: '20%',
+    marginRight: '0.8rem'
   }
 }))
 
 function Dashboard() {
   const classes = useStyles()
+  const [filters, setFilters] = useState({
+    startDate: null,
+    endDate: null,
+    search: null,
+    status: null
+  })
 
-  const [status, setStatus] = useState('All')
+  const handleFilterChange = (value, name) =>
+    setFilters(prev => ({
+      ...prev,
+      [name]: value
+    }))
 
   return (
     <AdminLayout>
-      <Toolbar />
-      <h1>Overview</h1>
-      <div className={classes.overviewContainer}>
-        <PieChart />
-      </div>
-      <h3 className={classes.head1}>Applicants</h3>
-      <div className={classes.filterContainer}>
-        <div className={classes.filters}>
-          <TextField
-            label='Start Date'
-            variant='outlined'
-            className={classes.filter}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <CalendarTodayIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-          <TextField
-            label='End Date'
-            variant='outlined'
-            className={classes.filter}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <CalendarTodayIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-
-          <Select
-            variant='outlined'
-            label='Status'
-            value={status}
-            setValue={setStatus}
-          />
-
-          <TextField
-            label='Search'
-            variant='outlined'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-          />
+      <div className={classes.container}>
+        <h1 className={classes.head1}>Overview</h1>
+        <div className={classes.overviewContainer}>
+          {/* FIXME: Styling issues for pie charts container */}
+          <PieChart />
         </div>
-      </div>
+        <h3 className={classes.head1}>Applicants</h3>
+        <div className={classes.filterContainer}>
+          <div className={classes.filters}>
+            <TextField
+              label='Start Date'
+              size='small'
+              variant='outlined'
+              className={classes.filter}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <CalendarTodayIcon fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
+            />
+            <TextField
+              label='End Date'
+              variant='outlined'
+              size='small'
+              className={classes.filter}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <CalendarTodayIcon fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
+            />
 
-      <Table />
+            <FormControl
+              variant='outlined'
+              className={classes.selectContainer}
+              size='small'
+            >
+              <InputLabel id='status-select-label'>Status</InputLabel>
+              <Select
+                labelId='status-select-label'
+                id='status-select'
+                className={classes.select}
+                value={filters.status}
+                onChange={e => handleFilterChange(e.target.value, 'status')}
+              >
+                <MenuItem value='pass'>Pass</MenuItem>
+                <MenuItem value='fail'>Fail</MenuItem>
+              </Select>
+            </FormControl>
+
+            <TextField
+              label='Search'
+              variant='outlined'
+              size='small'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <SearchIcon fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
+            />
+          </div>
+        </div>
+
+        <Table />
+      </div>
     </AdminLayout>
   )
 }

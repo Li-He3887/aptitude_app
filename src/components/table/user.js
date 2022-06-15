@@ -44,13 +44,7 @@ const rows = [
     'Forward School',
     'Admin'
   ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'Dell',
-    'Super'
-  ),
+  createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Super'),
   createData(
     'Some dude',
     'some@dude.com',
@@ -58,20 +52,8 @@ const rows = [
     'Forward School',
     'Super'
   ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'Dell',
-    'Admin'
-  ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'Dell',
-    'Admin'
-  )
+  createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin'),
+  createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin')
 ]
 
 const useStyles = makeStyles(theme => ({

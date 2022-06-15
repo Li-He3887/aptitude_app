@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   AppBar,
@@ -8,9 +8,15 @@ import {
   Hidden,
   CssBaseline,
   Link,
+  List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  Typography
 } from '@material-ui/core'
 
 import PeopleIcon from '@mui/icons-material/People'
@@ -68,11 +74,35 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '0.8rem'
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    paddingTop: '1rem'
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3)
+  },
+  list: {
+    height: '100%',
+    marginTop: '1.4rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  link: {
+    width: '100%',
+
+    '&:hover': {
+      textDecoration: 'none'
+    }
+  },
+  lastLink: {
+    width: '100%',
+    marginTop: 'auto',
+
+    '&:hover': {
+      textDecoration: 'none'
+    }
   }
 }))
 
@@ -80,14 +110,22 @@ function Sidebar(props) {
   const { window } = props
   const classes = useStyles()
   const theme = useTheme()
-  const [mobileOpen, setMobileOpen] = React.useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [anchorElUser, setAnchorElUser] = useState(null)
+  const handleOpenUserMenu = event => {
+    setAnchorElUser(event.currentTarget)
+  }
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+  }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
   }
 
   const drawer = (
-    <div>
+    <>
       <div className={classes.toolbar}>
         <ResponsiveImage
           noWrap
@@ -98,9 +136,9 @@ function Sidebar(props) {
           src={require('../../../public/forward-school-logo-blue.png')}
         />
       </div>
-      <h3 className={classes.navbarTitle}>Main</h3>
-      <div>
-        <Link href='/admin/dashboard' color='inherit'>
+      {/* <h3 className={classes.navbarTitle}>Main</h3> */}
+      <List className={classes.list}>
+        <Link href='/admin/dashboard' color='inherit' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <OtherHousesIcon />
@@ -109,7 +147,7 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-        <Link href='/admin/users' color='inherit'>
+        <Link href='/admin/users' color='inherit' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <PeopleIcon />
@@ -118,16 +156,20 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-        <Link href='/admin/setting' color='inherit'>
+        <Link
+          href='/admin/settings'
+          color='inherit'
+          className={classes.lastLink}
+        >
           <ListItem button>
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary='Setting' />
+            <ListItemText primary='Settings' />
           </ListItem>
         </Link>
-      </div>
-    </div>
+      </List>
+    </>
   )
 
   const container =
@@ -138,14 +180,45 @@ function Sidebar(props) {
       <CssBaseline />
       <AppBar position='fixed' className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            aria-label='open drawer'
-            edge='start'
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
+          <Box sx={{ flexGrow: 1 }}>
+            <IconButton
+              aria-label='open drawer'
+              edge='start'
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
+
+          {/* TODO: Clean this up & get data from current user */}
+          {/* TODO: Can probably try and add user name */}
+          <Box sx={{ flexGrow: 0 }}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt='Kher Nee' src='' />
+            </IconButton>
+            <Menu
+              sx={{ mt: '45px' }}
+              id='menu-appbar'
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left'
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {/* TODO: Handle onLogout */}
+              <MenuItem onClick={() => {}}>
+                <Typography textAlign='center'>Logout</Typography>
+              </MenuItem>
+            </Menu>
+          </Box>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label='mailbox folders'>

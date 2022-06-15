@@ -15,12 +15,11 @@ import {
 import BrushIcon from '@mui/icons-material/Brush'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 
-
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
     background: '#e8f0f7',
-    margin: '10px',
+    margin: '10px'
   },
   container: {
     marginTop: '4rem'

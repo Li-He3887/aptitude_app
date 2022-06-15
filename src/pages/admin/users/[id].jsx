@@ -10,12 +10,11 @@ import {
 } from '@material-ui/core'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
     background: '#e8f0f7',
-    margin: '10px',
+    margin: '10px'
   },
   container: {
     marginTop: '4rem'

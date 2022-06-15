@@ -42,9 +42,15 @@ const SignIn = () => {
     password: ''
   })
 
+  const handleOnChange = (value, name) =>
+    setCredentials(prev => ({
+      ...prev,
+      [name]: value
+    }))
+
   return (
     <div className={classes.container}>
-      <Paper className={classes.paperContainer}>
+      <Paper elevation={0} className={classes.paperContainer}>
         <ResponsiveImage
           width='200px'
           margin='10px'
@@ -58,15 +64,10 @@ const SignIn = () => {
             required
             margin='normal'
             variant='outlined'
+            onChange={e => handleOnChange(e.target.value, 'email')}
             id='outlined-required'
             label='Email'
             value={credentials.email}
-            onChange={e =>
-              setCredentials(prev => ({
-                ...prev,
-                email: e.target.value
-              }))
-            }
             placeholder='Your@email.com'
           />
 
@@ -77,14 +78,9 @@ const SignIn = () => {
             variant='outlined'
             id='outlined-password-input'
             label='Password'
+            onChange={e => handleOnChange(e.target.value, 'password')}
             type='password'
             value={credentials.password}
-            onChange={e =>
-              setCredentials(prev => ({
-                ...prev,
-                password: e.target.value
-              }))
-            }
             autoComplete='current-password'
           />
 

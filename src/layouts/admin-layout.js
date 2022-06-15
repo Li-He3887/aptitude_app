@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Toolbar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import Sidebar from '../components/sidebar'
@@ -18,9 +19,11 @@ const AdminLayout = ({ children }) => {
   return (
     <div>
       <Sidebar />
-      <div>
-        <main className={classes.content}>{children}</main>
-      </div>
+      <main className={classes.content}>
+        {' '}
+        <Toolbar />
+        {children}
+      </main>
     </div>
   )
 }
