@@ -169,6 +169,7 @@ function Dashboard() {
               >
                 <MenuItem value='pass'>Pass</MenuItem>
                 <MenuItem value='fail'>Fail</MenuItem>
+                <MenuItem value='excellent'>Excellent</MenuItem>
               </Select>
             </FormControl>
 

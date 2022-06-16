@@ -1,8 +1,9 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import {
     Card,
     CardContent,
+    CardActions,
     IconButton,
     Button,
     TextField,
@@ -11,7 +12,7 @@ import {
   } from '@material-ui/core'
 
 import BrushIcon from '@mui/icons-material/Brush'
-import CloseIcon from '@mui/icons-material/Close'
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const useStyles = makeStyles({
@@ -36,113 +37,144 @@ function EditSetting() {
             {
                 editing ?
                     <form>
-                        <div>
-                            <TextField 
-                                fullWidth
-                                required
-                                margin='normal'
-                                label="Name" 
-                                defaultValue="Chris Evans" 
-                            />
+                        <Card className={classes.root}>
+                            <CardContent className={classes.card}>
+                                <Grid container spacing={3} direction='row' justifyContent='center' alignItems='center'>
+                                    <Grid item xs={12} align="right">
+                                        <IconButton aria-label="edit"  size="medium" className={classes.btn}>
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                    </Grid>
 
-                            <TextField 
-                                fullWidth
-                                required
-                                margin='normal'
-                                label="Email" 
-                                defaultValue="chris@email.com" 
-                            />
+                                    <Grid item xs={5} sm={4} justifyContent='center' alignItems='center'>
+                                        <TextField 
+                                            fullWidth
+                                            required
+                                            margin='normal'
+                                            label="Name" 
+                                            defaultValue="Chris Evans" 
+                                        />
+                                    </Grid>
 
-                            <TextField 
-                                fullWidth
-                                required
-                                margin='normal'
-                                label="Phone Number" 
-                                defaultValue="016-5635286" 
-                            />
-
-                            <TextField 
-                                fullWidth
-                                required
-                                margin='normal'
-                                label="Organisation" 
-                                defaultValue="Forward School" 
-                            />
+                                    <Grid item xs={5} sm={4}>
+                                        <Typography align="center" variant="h5" component="h2">
+                                            Role: 
+                                        </Typography>
+                                        <Typography align="center" variant="h5" component="h2">
+                                            Admin
+                                        </Typography>                      
+                                    </Grid>
                             
-                            <TextField
-                                fullWidth
-                                margin='normal'
-                                label="Password"
-                                type="password"
-                                autoComplete="current-password"
-                            />
-                        </div>
-                        <Button variant="contained" color="primary">
-                            UPDATE
-                        </Button>
+                                    <Grid item xs={12}>                        
+                                        <TextField 
+                                            fullWidth
+                                            required
+                                            margin='normal'
+                                            label="Email" 
+                                            defaultValue="chris@email.com" 
+                                        />              
+                                    </Grid>
+
+                                    <Grid item  sm={12}>                       
+                                        <TextField 
+                                            fullWidth
+                                            required
+                                            margin='normal'
+                                            label="Phone Number" 
+                                            defaultValue="016-5635286" 
+                                        />              
+                                    </Grid>
+
+                                    <Grid item xs={12} >                       
+                                        <TextField 
+                                            fullWidth
+                                            required
+                                            margin='normal'
+                                            label="Organisation" 
+                                            defaultValue="Forward School" 
+                                        />            
+                                    </Grid>
+
+                                    <Grid item xs={12} >              
+                                        <TextField
+                                            fullWidth
+                                            margin='normal'
+                                            label="Password"
+                                            type="password"
+                                            autoComplete="current-password"
+                                        />
+                                    </Grid>
+                                </Grid>  
+                            </CardContent>
+
+                            <CardActions>
+                                <Button variant="contained" color="primary">
+                                    UPDATE
+                                </Button>
+                            </CardActions>
+                        </Card>
+                        
                     </form>
                 : 
                     <Card className={classes.root}>
                         <CardContent className={classes.card}>
-                            <Grid container direction='row' justifyContent='center' alignItems='center'>
-                                <Grid item xs={4} sm={4}>
-                                    <Typography variant="h6" component="h2">
+                            <Grid container spacing={2} direction='row' justifyContent='center' alignItems='center'>
+                                <Grid item xs={12} align="right">
+                                    <IconButton aria-label="edit"  size="medium" className={classes.btn}>
+                                        <BrushIcon fontSize="inherit" />
+                                    </IconButton>
+                                </Grid>
+
+                                <Grid item xs={5} sm={5} justifyContent='center' alignItems='center'>
+                                    <Typography align="center" variant="h5" component="h2">
                                         Name: 
                                     </Typography>
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         Chris Evans
                                     </Typography>
                                 </Grid>
 
-                                <Grid item xs={4} sm={4}>
-                                    <Typography variant="h6" component="h2">
+                                <Grid item xs={5} sm={5}>
+                                    <Typography align="center" variant="h5" component="h2">
                                         Role: 
                                     </Typography>
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         Admin
                                     </Typography>                      
                                 </Grid>
 
-                                <Grid item xs={4} sm={4}>
-                                    <IconButton aria-label="edit" size="medium">
-                                        {
-                                            editing? <CloseIcon fontSize="inherit" /> : <BrushIcon fontSize="inherit" />
-                                        }
-                                    </IconButton>
-                                </Grid>
-                        
-                                <Grid item xs={12} >                        
-                                    <Typography variant="h6" component="h2">
+                                <Grid item xs={12}>                        
+                                    <Typography align="center" variant="h5" component="h2">
                                         Email: 
                                     </Typography>
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         chris@avengers.com
                                     </Typography>                
                                 </Grid>
 
                                 <Grid item  sm={12}>                       
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         Phone Number: 
                                     </Typography>
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         016-432 7864
                                     </Typography>                
                                 </Grid>
 
                                 <Grid item xs={12} >                       
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         Organisation: 
                                     </Typography>
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         Forward School
                                     </Typography>             
                                 </Grid>
 
                                 <Grid item xs={12} >              
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         Password: 
                                     </Typography>
-                                    <Typography variant="h6" component="h2">
+                                    <Typography align="center" variant="h5" component="h2">
                                         Forward School
                                     </Typography>  
                                 </Grid>
