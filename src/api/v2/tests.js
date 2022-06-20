@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const TESTS_API = (baseURL = process.env.FSAT_API_V1_URL) => {
+const TESTS_API = (baseURL = process.env.FSAT_API_V2_URL) => {
   const api = axios.create({
     baseURL,
     headers: {

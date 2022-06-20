@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import {
   TextField,
@@ -10,6 +10,9 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+
+import TESTS_API from '../../api/v2/tests'
+import * as Sentry from '@sentry/browser'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
@@ -103,6 +106,7 @@ const useStyles = makeStyles(theme => ({
 
 function Dashboard() {
   const classes = useStyles()
+  const [data, setData] = useState({})
   const [filters, setFilters] = useState({
     startDate: null,
     endDate: null,
@@ -115,6 +119,30 @@ function Dashboard() {
       ...prev,
       [name]: value
     }))
+
+  useEffect(() => {
+
+    TESTS_API()
+      .getAllTests()
+      .then(response => {
+        setData(response.data)
+      })
+      .catch(error => {
+        Sentry.captureException(error)
+
+        const errorMessage = getErrorMessage(error)
+
+        enqueueSnackbar(errorMessage.message, {
+          variant: errorMessage.type,
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left'
+          }
+        })
+        
+      })
+
+  }, [])
 
   return (
     <AdminLayout>
