@@ -104,6 +104,29 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+// const [data, setData] = useState({})
+
+// useEffect(() => {
+//   TESTS_API()
+//     .getAllTests()
+//     .then(response => {
+//       setData(response.data)
+//     })
+//     .catch(error => {
+//       Sentry.captureException(error)
+
+//       const errorMessage = getErrorMessage(error)
+
+//       enqueueSnackbar(errorMessage.message, {
+//         variant: errorMessage.type,
+//         anchorOrigin: {
+//           vertical: 'bottom',
+//           horizontal: 'left'
+//         }
+//       })   
+//     })
+// }, [])
+
 function Dashboard() {
   const classes = useStyles()
   const [data, setData] = useState({})

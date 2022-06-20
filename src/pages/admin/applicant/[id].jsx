@@ -5,15 +5,12 @@ import {
   Card,
   CardActions,
   CardContent,
-  TextField,
-  MenuItem,
   Button,
-  IconButton,
   Typography,
   Grid,
 } from '@material-ui/core'
-import BrushIcon from '@mui/icons-material/Brush'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import EditApplicant from '../../../components/function/EditApplicant'
 
 const useStyles = makeStyles({
   root: {
@@ -45,33 +42,6 @@ const useStyles = makeStyles({
 const SingleApplicant = () => {
   const classes = useStyles()
 
-  const [editing, setEditing] = useState(false)
-
-  const programList = [
-    {
-      value: 'ND',
-      label: 'NitroDegree'
-    },
-    {
-      value: 'DS',
-      label: 'Data Science'
-    },
-    {
-      value: 'BEW',
-      label: 'Web Development'
-    },
-    {
-      value: 'MOB',
-      label: 'Mobile Development'
-    }
-  ]
-
-  const [program, setProgram] = useState('ND')
-
-  const programOnChange = event => {
-    setProgram(event.target.value)
-  }
-
   return(
     <AdminLayout>
       <div className={classes.container}>
@@ -94,32 +64,9 @@ const SingleApplicant = () => {
                   Result : 18/20
                 </Typography>
 
-                {
-                  editing ?
-                    <form>
-                      <div>
-                        <TextField 
-                          fullWidth
-                          required
-                          select
-                          margin='normal'
-                          label='Programmens'
-                          value={program}
-                          onChange={programOnChange}
-                        >
-                          {programList.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </div>
-                    </form>
-                  :
-                    <Typography variant="h6" component="h2" gutterBottom>
-                      Programme : DS
-                    </Typography>
-                }
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Programme : DS
+                </Typography>
                 
                 <Typography variant="h6" component="h2" gutterBottom>
                   Phone No : 010-1111111
@@ -128,16 +75,12 @@ const SingleApplicant = () => {
             </Grid>
 
             <Grid item xs={1}>
-              <IconButton aria-label="edit" size="medium">
-                {
-                  editing? <CloseIcon fontSize="inherit" /> : <BrushIcon fontSize="inherit" />
-                }
-              </IconButton>
+              <EditApplicant />
             </Grid>
           </Grid>
 
           <CardActions className={classes.actions}>
-            <Button size="medium" variant="contained" color="primary" href='tests//report'>
+            <Button size="medium" variant="contained" color="primary" href='tests/${id}/report'>
               View Report
               <ArrowForwardIosIcon />
             </Button>
