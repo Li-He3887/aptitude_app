@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import {
   TextField,
@@ -100,6 +100,29 @@ const useStyles = makeStyles(theme => ({
     marginRight: '0.8rem'
   }
 }))
+
+// const [data, setData] = useState({})
+
+// useEffect(() => {
+//   TESTS_API()
+//     .getAllTests()
+//     .then(response => {
+//       setData(response.data)
+//     })
+//     .catch(error => {
+//       Sentry.captureException(error)
+
+//       const errorMessage = getErrorMessage(error)
+
+//       enqueueSnackbar(errorMessage.message, {
+//         variant: errorMessage.type,
+//         anchorOrigin: {
+//           vertical: 'bottom',
+//           horizontal: 'left'
+//         }
+//       })   
+//     })
+// }, [])
 
 function Dashboard() {
   const classes = useStyles()

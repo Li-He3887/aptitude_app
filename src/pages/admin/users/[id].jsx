@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import AdminLayout from '../../../layouts/admin-layout'
+import EditUsers from '../../../components/function/EditUsers'
 import { makeStyles } from '@material-ui/styles'
 import {
   Card,
@@ -44,7 +45,7 @@ const SingleUser = () => {
 
         <Card className={classes.root}>
           <Grid container spacing={3}>
-            <Grid item xs={11}>
+            <Grid item xs={10}>
               <CardContent className={classes.card}>
                 <Typography variant="h6" component="h2" gutterBottom>
                   Name: Chris Evans
@@ -65,11 +66,14 @@ const SingleUser = () => {
             </Grid>
 
             <Grid item xs={1}>
+                <EditUsers />
+            </Grid>
+
+            <Grid item xs={1}>
               <IconButton aria-label="delete" size="medium">
                 {
                   editing? <CloseIcon fontSize="inherit" /> : <DeleteIcon fontSize="inherit" />
                 }
-                
               </IconButton>
             </Grid>
           </Grid>  

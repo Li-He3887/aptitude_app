@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react';
 import { makeStyles } from '@material-ui/styles'
 import {
     Typography,
     TextField,
     Button,
+    IconButton,
     Box,
     Modal
   } from '@mui/material'
+import BrushIcon from '@mui/icons-material/Brush'
 
-const style = {
+
+  const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -30,16 +33,19 @@ const useStyles = makeStyles({
     }
   })
 
-function EditSetting() {
+function EditUser() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const classes = useStyles()
 
-    return (
+    return(
         <div>
-            <Button onClick={handleOpen} variant="contained">Change Passsword</Button>
+            <IconButton aria-label="delete" onClick={handleOpen} size="medium">
+                <BrushIcon />
+            </IconButton>
+            {/* <Button onClick={handleOpen} variant="contained">Change Passsword</Button> */}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -48,28 +54,53 @@ function EditSetting() {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Change Passsword
+                        Edit Users
                     </Typography>
 
                     <div>
                         <TextField 
-                            id="new_password" 
-                            label="New Password" 
+                            id="name" 
+                            label="Name" 
                             variant="outlined"
                             fullWidth
                             margin="normal"
-                            type="password"
-                            autoComplete="current-password" 
+                            defaultValue="Chris Evans"
                         />
 
                         <TextField 
-                            id="confirm_password" 
-                            label="Confirm Password" 
+                            id="email" 
+                            label="Email" 
                             variant="outlined"
                             fullWidth
                             margin="normal"
-                            type="password"
-                            autoComplete="current-password" 
+                            defaultValue="chris@avengers.com"
+                        />
+
+                        <TextField 
+                            id="phone" 
+                            label="Phone Number" 
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            defaultValue="010-1111111"
+                        />
+
+                        <TextField 
+                            id="organisation" 
+                            label="Organisation" 
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            defaultValue="Forward School"
+                        />
+
+                        <TextField 
+                            id="role" 
+                            label="Role" 
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            defaultValue="Admin"
                         />
                     </div>
 
@@ -82,4 +113,4 @@ function EditSetting() {
     )
 }
 
-export default EditSetting
+export default EditUser
