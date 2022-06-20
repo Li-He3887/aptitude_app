@@ -6,10 +6,12 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TablePagination,
   TableHead,
   TableRow,
   Paper
 } from '@material-ui/core'
+
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 
 const StyledTableCell = withStyles(theme => ({
@@ -81,7 +83,16 @@ const rows = [
     '14/20',
     '5m 45s',
     'Fail'
-  )
+  ),
+  createData(
+    'Some dude',
+    'some@dude.com',
+    '012-345 6789',
+    'FEW',
+    '14/20',
+    '5m 45s',
+    'Fail'
+  ),
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -106,7 +117,7 @@ const Result = () => {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
         <MuiTable className={classes.table} aria-label='customized table'>
           <TableHead>
             <TableRow>
@@ -143,6 +154,7 @@ const Result = () => {
           </TableBody>
         </MuiTable>
       </TableContainer>
+
     </>
   )
 }

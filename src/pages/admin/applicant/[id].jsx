@@ -137,7 +137,7 @@ const SingleApplicant = () => {
           </Grid>
 
           <CardActions className={classes.actions}>
-            <Button size="medium" variant="contained" color="primary" href='tests//report'>
+            <Button size="medium" variant="contained" color="primary" href='tests/${id}/report'>
               View Report
               <ArrowForwardIosIcon />
             </Button>
