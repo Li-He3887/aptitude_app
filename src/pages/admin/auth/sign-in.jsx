@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import { Link, Box, TextField, Button, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import ResponsiveImage from '../../../components/responsive-image'
+import * as Sentry from '@sentry/browser'
+
+import ADMIN_API from '../../../api/v2/admins'
 
 const useStyles = makeStyles({
   container: {
@@ -37,6 +41,7 @@ const useStyles = makeStyles({
 
 const SignIn = () => {
   const classes = useStyles()
+  const router = useRouter()
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
@@ -47,6 +52,35 @@ const SignIn = () => {
       ...prev,
       [name]: value
     }))
+
+  const loginHandler = () => {
+    ADMIN_API()
+      .logIn({
+        email: credentials.email,
+        password : credentials.password
+      })
+      .then(response => {
+        localStorage.setItem("admin", JSON.stringify(response.data.admin))
+        localStorage.setItem("token", JSON.stringify(response.data.token))
+        router.replace('../dashboard')
+      })
+      .catch(error => {
+        Sentry.captureException(error)
+
+        console.log(error)
+
+        // const errorMessage = getErrorMessage(error)
+
+        // enqueueSnackbar(errorMessage.message, {
+        //   variant: errorMessage.type,
+        //   anchorOrigin: {
+        //     vertical: 'bottom',
+        //     horizontal: 'left'
+        //   }
+        // })
+      })
+  }
+
 
   return (
     <div className={classes.container}>
@@ -90,6 +124,7 @@ const SignIn = () => {
               size='large'
               color='primary'
               className={classes.btn}
+              onClick={() => loginHandler()}
             >
               Login
             </Button>

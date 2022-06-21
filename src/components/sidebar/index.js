@@ -124,6 +124,15 @@ function Sidebar(props) {
     setMobileOpen(!mobileOpen)
   }
 
+  const isSuperAdmin = () => {
+    if(!admin.token) {
+      return false
+    } else {
+      const role = admin.admin.role
+      role !== 'SUPER_ADMIN' ? false : true
+    }
+  }
+
   const drawer = (
     <>
       <div className={classes.toolbar}>
@@ -155,7 +164,7 @@ function Sidebar(props) {
             <ListItemText primary='Admins' />
           </ListItem>
         </Link>
-
+        
         <Link
           href='/admin/settings'
           color='inherit'

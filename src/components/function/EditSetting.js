@@ -37,9 +37,14 @@ function EditSetting() {
 
     const classes = useStyles()
 
+    const onSubmitHandler = () => {
+        
+    }
+
     return (
         <div>
-            <Button onClick={handleOpen} variant="contained">Change Passsword</Button>
+            <Button onClick={handleOpen} variant="contained">Change Password</Button>
+
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -48,7 +53,7 @@ function EditSetting() {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Change Passsword
+                        Change Password
                     </Typography>
 
                     <div>
@@ -74,7 +79,7 @@ function EditSetting() {
                     </div>
 
                     <div className={classes.save_btn}>
-                        <Button variant="contained" size="medium">Save</Button>
+                        <Button variant="contained" size="medium" onClick={() => onSubmitHandler()}>Save</Button>
                     </div>
                 </Box>
             </Modal>

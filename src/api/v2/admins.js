@@ -15,13 +15,21 @@ const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
         password,
         role,
         organisations
-    }) => api.post(`/admins`)
-<<<<<<< HEAD
+    }) => api.post(`/admins`,{
+        name,
+        email,
+        password,
+        role,
+        organisations
+    })
         
     const logIn = ({
         email,
         password
-    }) => api.post('/admins/login')
+    }) => api.post('/admins/login', {
+        email,
+        password
+    })
 
     const changePass = ({
         email,
@@ -44,11 +52,6 @@ const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
         createAdmin,
         logIn,
         changePass
-=======
-
-    return {
-        createAdmin
->>>>>>> 58ea37e3dd4cfdd4f2d89c6ff63a231313a7c41d
     }
 }
 

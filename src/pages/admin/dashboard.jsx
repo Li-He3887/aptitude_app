@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import {
   TextField,
@@ -104,145 +105,128 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// const [data, setData] = useState({})
+  function Dashboard() {
+    const router = useRouter()
+    const classes = useStyles()
+    const [admin, setAdmin] = useState({})
+    const [data, setData] = useState({})
+    const [filters, setFilters] = useState({
+      startDate: null,
+      endDate: null,
+      search: null,
+      status: null
+    })
 
-// useEffect(() => {
-//   TESTS_API()
-//     .getAllTests()
-//     .then(response => {
-//       setData(response.data)
-//     })
-//     .catch(error => {
-//       Sentry.captureException(error)
-
-//       const errorMessage = getErrorMessage(error)
-
-//       enqueueSnackbar(errorMessage.message, {
-//         variant: errorMessage.type,
-//         anchorOrigin: {
-//           vertical: 'bottom',
-//           horizontal: 'left'
-//         }
-//       })   
-//     })
-// }, [])
-
-function Dashboard() {
-  const classes = useStyles()
-  const [data, setData] = useState({})
-  const [filters, setFilters] = useState({
-    startDate: null,
-    endDate: null,
-    search: null,
-    status: null
-  })
-
-  const handleFilterChange = (value, name) =>
-    setFilters(prev => ({
+    const handleFilterChange = (value, name) => setFilters(prev => ({
       ...prev,
       [name]: value
     }))
 
-  useEffect(() => {
-
-    TESTS_API()
-      .getAllTests()
-      .then(response => {
-        setData(response.data)
-      })
-      .catch(error => {
-        Sentry.captureException(error)
-
-        const errorMessage = getErrorMessage(error)
-
-        enqueueSnackbar(errorMessage.message, {
-          variant: errorMessage.type,
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left'
-          }
+    useEffect(() => {
+      if (!localStorage.getItem('token')) {
+        router.replace('./auth/sign-in')
+      } else {
+        setAdmin({
+          admin: localStorage.getItem('admin'),
+          token: localStorage.getItem('token')
         })
-        
-      })
+      }
 
-  }, [])
+      TESTS_API()
+        .getAllTests()
+        .then(response => {
+          setData(response.data)
+        })
+        .catch(error => {
+          Sentry.captureException(error)
 
-  return (
-    <AdminLayout>
-      <div className={classes.container}>
-        <h1 className={classes.head1}>Overview</h1>
-        <div className={classes.overviewContainer}>
-          {/* FIXME: Styling issues for pie charts container */}
-          <PieChart />
-        </div>
-        <h3 className={classes.head1}>Applicants</h3>
-        <div className={classes.filterContainer}>
-          <div className={classes.filters}>
-            <TextField
-              label='Start Date'
-              size='small'
-              variant='outlined'
-              className={classes.filter}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <CalendarTodayIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
-            <TextField
-              label='End Date'
-              variant='outlined'
-              size='small'
-              className={classes.filter}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <CalendarTodayIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
+          const errorMessage = getErrorMessage(error)
 
-            <FormControl
-              variant='outlined'
-              className={classes.selectContainer}
-              size='small'
-            >
-              <InputLabel id='status-select-label'>Status</InputLabel>
-              <Select
-                labelId='status-select-label'
-                id='status-select'
-                className={classes.select}
-                value={filters.status}
-                onChange={e => handleFilterChange(e.target.value, 'status')}
-              >
-                <MenuItem value='pass'>Pass</MenuItem>
-                <MenuItem value='fail'>Fail</MenuItem>
-                <MenuItem value='excellent'>Excellent</MenuItem>
-              </Select>
-            </FormControl>
+          enqueueSnackbar(errorMessage.message, {
+            variant: errorMessage.type,
+            anchorOrigin: {
+              vertical: 'bottom',
+              horizontal: 'left'
+            }
+          })
 
-            <TextField
-              label='Search'
-              variant='outlined'
-              size='small'
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <SearchIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
+        })
+
+    }, [])
+
+    return (
+      <AdminLayout>
+        <div className={classes.container}>
+          <h1 className={classes.head1}>Overview</h1>
+          <div className={classes.overviewContainer}>
+            {/* FIXME: Styling issues for pie charts container */}
+            <PieChart />
           </div>
+          <h3 className={classes.head1}>Applicants</h3>
+          <div className={classes.filterContainer}>
+            <div className={classes.filters}>
+              <TextField
+                label='Start Date'
+                size='small'
+                variant='outlined'
+                className={classes.filter}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <CalendarTodayIcon fontSize='small' />
+                    </InputAdornment>
+                  )
+                }} />
+              <TextField
+                label='End Date'
+                variant='outlined'
+                size='small'
+                className={classes.filter}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <CalendarTodayIcon fontSize='small' />
+                    </InputAdornment>
+                  )
+                }} />
+
+              <FormControl
+                variant='outlined'
+                className={classes.selectContainer}
+                size='small'
+              >
+                <InputLabel id='status-select-label'>Status</InputLabel>
+                <Select
+                  labelId='status-select-label'
+                  id='status-select'
+                  className={classes.select}
+                  value={filters.status}
+                  onChange={e => handleFilterChange(e.target.value, 'status')}
+                >
+                  <MenuItem value='pass'>Pass</MenuItem>
+                  <MenuItem value='fail'>Fail</MenuItem>
+                  <MenuItem value='excellent'>Excellent</MenuItem>
+                </Select>
+              </FormControl>
+
+              <TextField
+                label='Search'
+                variant='outlined'
+                size='small'
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <SearchIcon fontSize='small' />
+                    </InputAdornment>
+                  )
+                }} />
+            </div>
+          </div>
+
+          <Table />
         </div>
+      </AdminLayout>
+    )
+  }
 
-        <Table />
-      </div>
-    </AdminLayout>
-  )
-}
-
-export default Dashboard
+  export default Dashboard
