@@ -1,11 +1,12 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import {
   Table as MuiTable,
   TableBody,
   TableCell,
   TableContainer,
+  // TablePagination,
   TableHead,
   TableRow,
   Paper
@@ -32,29 +33,29 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow)
 
-function createData(name, email, phone, organisation, role) {
-  return { name, email, phone, organisation, role }
-}
+// function createData(name, email, phone, organisation, role) {
+//   return { name, email, phone, organisation, role }
+// }
 
-const rows = [
-  createData(
-    'Chris Evans',
-    'chris@avengers.com',
-    '016-432 7864',
-    'Forward School',
-    'Admin'
-  ),
-  createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Super'),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'Forward School',
-    'Super'
-  ),
-  createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin'),
-  createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin')
-]
+// const rows = [
+//   createData(
+//     'Chris Evans',
+//     'chris@avengers.com',
+//     '016-432 7864',
+//     'Forward School',
+//     'Admin'
+//   ),
+//   createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Super'),
+//   createData(
+//     'Some dude',
+//     'some@dude.com',
+//     '012-345 6789',
+//     'Forward School',
+//     'Super'
+//   ),
+//   createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin'),
+//   createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin')
+// ]
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -69,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // Pass dynamic props into it
-const User = () => {
+const UsersTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
@@ -90,7 +91,7 @@ const User = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
+            {rows?.map(row => (
               <StyledTableRow
                 key={row.name}
                 onClick={() => handleOnRowClick(row.name)}
@@ -107,18 +108,15 @@ const User = () => {
               </StyledTableRow>
             ))}
           </TableBody>
+          {/* <TablePagination /> */}
         </MuiTable>
       </TableContainer>
     </>
   )
 }
 
-// Table.propTypes = {
-//   headers: PropTypes.arrayOf({
-//     name: PropTypes.string,
-//     align: PropTypes.string
-//   }),
-//   rows: PropTypes.any
-// }
+UsersTable.propTypes = {
+  rows: PropTypes.any
+}
 
-export default User
+export default UsersTable

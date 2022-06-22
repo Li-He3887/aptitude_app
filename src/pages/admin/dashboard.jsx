@@ -11,13 +11,18 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import { useSnackbar } from 'notistack'
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 
 import TESTS_API from '../../api/v2/tests'
 import * as Sentry from '@sentry/browser'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
-import Table from '../../components/table/result'
+import ApplicantsTable from '../../components/tables/result'
+import { useQuery } from 'react-query'
+import { getAllTests } from '../../api/v2/tests'
+import Loader from '../../components/loader'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -105,97 +110,127 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-  function Dashboard() {
-    const router = useRouter()
-    const classes = useStyles()
-    const [admin, setAdmin] = useState({})
-    const [data, setData] = useState({})
-    const [filters, setFilters] = useState({
-      startDate: null,
-      endDate: null,
-      search: null,
-      status: null
-    })
+function Dashboard() {
+  const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
+  const { isLoading, error, data } = useQuery('tests', getAllTests)
+  const [admin, setAdmin] = useState({})
+  const router = useRouter()
 
-    const handleFilterChange = (value, name) => setFilters(prev => ({
-      ...prev,
-      [name]: value
-    }))
+  const [filters, setFilters] = useState({
+    startDate: null,
+    endDate: null,
+    search: null,
+    status: null
+  })
 
-    useEffect(() => {
-      if (!localStorage.getItem('token')) {
-        router.replace('./auth/sign-in')
-      } else {
-        setAdmin({
-          admin: localStorage.getItem('admin'),
-          token: localStorage.getItem('token')
-        })
-      }
+  const handleFilterChange = (value, name) =>
+  setFilters(prev => ({
+    ...prev,
+    [name]: value
+  }))
 
-      TESTS_API()
-        .getAllTests()
-        .then(response => {
-          setData(response.data)
-        })
-        .catch(error => {
-          Sentry.captureException(error)
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.replace('./auth/sign-in')
+    } else {
+      setAdmin({
+        admin: localStorage.getItem('admin'),
+        token: localStorage.getItem('token')
+      })
+    }
+  }, [])
 
-          const errorMessage = getErrorMessage(error)
-
-          enqueueSnackbar(errorMessage.message, {
-            variant: errorMessage.type,
-            anchorOrigin: {
-              vertical: 'bottom',
-              horizontal: 'left'
-            }
-          })
-
-        })
-
-    }, [])
-
+  if (isLoading) {
     return (
       <AdminLayout>
-        <div className={classes.container}>
-          <h1 className={classes.head1}>Overview</h1>
-          <div className={classes.overviewContainer}>
-            {/* FIXME: Styling issues for pie charts container */}
-            <PieChart />
-          </div>
-          <h3 className={classes.head1}>Applicants</h3>
-          <div className={classes.filterContainer}>
-            <div className={classes.filters}>
-              <TextField
-                label='Start Date'
-                size='small'
-                variant='outlined'
-                className={classes.filter}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <CalendarTodayIcon fontSize='small' />
-                    </InputAdornment>
-                  )
-                }} />
-              <TextField
-                label='End Date'
-                variant='outlined'
-                size='small'
-                className={classes.filter}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <CalendarTodayIcon fontSize='small' />
-                    </InputAdornment>
-                  )
-                }} />
+        <Loader loading={isLoading} />
+      </AdminLayout>
+    )
+  }
 
-              <FormControl
-                variant='outlined'
-                className={classes.selectContainer}
-                size='small'
-              >
-                <InputLabel id='status-select-label'>Status</InputLabel>
+  if (error) {
+    enqueueSnackbar('Could not fetch data', {
+      variant: 'error',
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'right'
+      }
+    })
+  }
+
+  console.log(data)
+
+  return (
+    <AdminLayout>
+      <div className={classes.container}>
+        <h1 className={classes.head1}>Overview</h1>
+        <div className={classes.overviewContainer}>
+          {/* FIXME: Styling issues for pie charts container */}
+          <PieChart />
+        </div>
+        <h3 className={classes.head1}>Applicants</h3>
+        <div className={classes.filterContainer}>
+          <div className={classes.filters}>
+            <MobileDatePicker
+              label='Start Date'
+              inputFormat='MM/dd/yyyy'
+              value={filters.startDate}
+              onChange={val =>
+                setFilters(prev => ({
+                  ...prev,
+                  startDate: val
+                }))
+              }
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  size='small'
+                  variant='outlined'
+                  className={classes.filter}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CalendarTodayIcon fontSize='small' />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              )}
+            />
+            <MobileDatePicker
+              label='End Date'
+              inputFormat='MM/dd/yyyy'
+              value={filters.endDate}
+              onChange={val =>
+                setFilters(prev => ({
+                  ...prev,
+                  endDate: val
+                }))
+              }
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  size='small'
+                  variant='outlined'
+                  className={classes.filter}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CalendarTodayIcon fontSize='small' />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              )}
+            />
+
+            <FormControl
+              variant='outlined'
+              className={classes.selectContainer}
+              size='small'
+            >
+              <InputLabel id='status-select-label'>Status</InputLabel>
                 <Select
                   labelId='status-select-label'
                   id='status-select'
@@ -223,10 +258,10 @@ const useStyles = makeStyles(theme => ({
             </div>
           </div>
 
-          <Table />
-        </div>
-      </AdminLayout>
-    )
-  }
+        <ApplicantsTable rows={data || []} />
+      </div>
+    </AdminLayout>
+  )
+}
 
   export default Dashboard

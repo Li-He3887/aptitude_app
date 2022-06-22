@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 import React, { useState } from 'react'
 import {
   Button,
@@ -12,7 +13,8 @@ import { makeStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/Search'
 
 import AdminLayout from '../../../layouts/admin-layout'
-import Table from '../../../components/table/user'
+import Table from '../../../components/tables/user'
+import NewUser from '../../../components/dialogs/new-user'
 import { USER_ROLES } from '../../../constants'
 
 const useStyles = makeStyles({
@@ -55,8 +57,13 @@ const useStyles = makeStyles({
 const Admins = () => {
   const classes = useStyles()
 
-  const [organisation, setOrganisation] = useState('')
-  const [role, setRole] = useState('')
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const [filters, setFilters] = useState({
+    organisation: '',
+    role: '',
+    search: ''
+  })
 
   // TODO: Make API call here, listen for query params - pagination, filters
 
@@ -69,11 +76,13 @@ const Admins = () => {
             variant='contained'
             color='primary'
             size='large'
-            href='/admin/users/new'
+            onClick={() => setModalOpen(true)}
           >
             Create Admin
           </Button>
         </div>
+
+        <NewUser open={modalOpen} onClose={() => setModalOpen(false)} />
 
         <div className={classes.tableContainer}>
           <div className={classes.filters}>
@@ -87,8 +96,13 @@ const Admins = () => {
                 labelId='role-select-label'
                 id='role-select-filled'
                 className={classes.select}
-                value={role}
-                onChange={e => setRole(e.target.value)}
+                value={filters.role}
+                onChange={e =>
+                  setFilters(prev => ({
+                    ...prev,
+                    role: e.target.value
+                  }))
+                }
               >
                 <MenuItem value=''>
                   <em>None</em>
@@ -110,8 +124,13 @@ const Admins = () => {
                 labelId='organisation-select-label'
                 id='organisation-select-filled'
                 className={classes.select}
-                value={organisation}
-                onChange={e => setOrganisation(e.target.value)}
+                value={filters.organisation}
+                onChange={e =>
+                  setFilters(prev => ({
+                    ...prev,
+                    organisation: e.target.value
+                  }))
+                }
               >
                 <MenuItem value=''>
                   <em>None</em>
@@ -128,6 +147,13 @@ const Admins = () => {
               label='Search'
               variant='outlined'
               size='small'
+              value={filters.search}
+              onChange={e =>
+                setFilters(prev => ({
+                  ...prev,
+                  search: e.target.value
+                }))
+              }
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>

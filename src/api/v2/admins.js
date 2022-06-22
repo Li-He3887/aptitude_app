@@ -1,15 +1,14 @@
 import axios from 'axios'
 
-const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
-    const api = axios.create({
-        baseURL,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+const api = axios.create({
+  baseURL: process.env.FSAT_API_V2_URL || 'http://localhost:3000/v2',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
 
     //create admin
-    const createAdmin = ({
+    export const createAdmin = ({
         name,
         email,
         password,
@@ -23,7 +22,7 @@ const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
         organisations
     })
         
-    const logIn = ({
+    export const logIn = ({
         email,
         password
     }) => api.post('/admins/login', {
@@ -31,7 +30,7 @@ const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
         password
     })
 
-    const changePass = ({
+    export const changePass = ({
         email,
         password,
         confirmPassword
@@ -46,21 +45,11 @@ const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
         }
     )
 
-    const deleteAdmin = ({
+    export const deleteAdmin = ({
         id
     }) => api.post('/admins/delete', {
         id: id
     })
 
-    const getAdmins = () => axios.get('/admins')
+    export const getAdmins = () => axios.get('/admins')
 
-    return {
-        createAdmin,
-        logIn,
-        changePass,
-        deleteAdmin,
-        getAdmins
-    }
-}
-
-export default ADMIN_API
