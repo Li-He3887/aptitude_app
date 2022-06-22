@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
 import React, { useState } from 'react'
+import { useQuery } from 'react-query'
 import {
   Button,
   FormControl,
@@ -12,10 +13,13 @@ import {
 import { makeStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/Search'
 
+import { getAdmins } from '../../../api/v2/admins'
+
 import AdminLayout from '../../../layouts/admin-layout'
 import Table from '../../../components/tables/user'
 import NewUser from '../../../components/dialogs/new-user'
 import { USER_ROLES } from '../../../constants'
+import Loader from '../../../components/loader'
 
 const useStyles = makeStyles({
   container: {
@@ -56,6 +60,7 @@ const useStyles = makeStyles({
 
 const Admins = () => {
   const classes = useStyles()
+  const { isLoading, error, data } = useQuery('admins', getAdmins)
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -64,6 +69,26 @@ const Admins = () => {
     role: '',
     search: ''
   })
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <Loader loading={isLoading} />
+      </AdminLayout>
+    )
+  }
+
+  if (error) {
+    enqueueSnackbar('Could not fetch data', {
+      variant: 'error',
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'right'
+      }
+    })
+  }
+
+  const data2 = data.data
 
   // TODO: Make API call here, listen for query params - pagination, filters
 
@@ -164,7 +189,7 @@ const Admins = () => {
             />
           </div>
           {/* TODO: Pass in custom table data */}
-          <Table />
+          <Table rows={data2 || []} />
         </div>
       </div>
     </AdminLayout>

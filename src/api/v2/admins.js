@@ -11,15 +11,16 @@ const api = axios.create({
     export const createAdmin = ({
         name,
         email,
-        password,
+        phone,
         role,
-        organisations
+        organisation
     }) => api.post(`/admins`,{
         name,
         email,
-        password,
+        phone,
+        password: Math.floor(100000 + Math.random() * 900000).toString(),
         role,
-        organisations
+        organisation
     })
         
     export const logIn = ({
@@ -51,5 +52,5 @@ const api = axios.create({
         id: id
     })
 
-    export const getAdmins = () => axios.get('/admins')
+    export const getAdmins = () => api.get('/admins')
 

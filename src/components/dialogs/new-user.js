@@ -45,7 +45,7 @@ const NewUser = ({ open, onClose }) => {
   const mutation = useMutation(data => createAdmin(data))
 
   const [form, setForm] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     organisation: '',
@@ -73,6 +73,8 @@ const NewUser = ({ open, onClose }) => {
     })
   }
 
+  console.log(form)
+
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
@@ -85,9 +87,9 @@ const NewUser = ({ open, onClose }) => {
             label='Full Name'
             variant='outlined'
             size='large'
-            value={form.fullName}
+            value={form.name}
             className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'fullName')}
+            onChange={e => onChangeHandler(e.target.value, 'name')}
           />
 
           <TextField
@@ -121,7 +123,7 @@ const NewUser = ({ open, onClose }) => {
             variant='contained'
             color='primary'
             size='large'
-            onClick={onSubmitHandler}
+            onClick={() => onSubmitHandler()}
           >
             {mutation.isLoading ? 'Saving...' : 'Save'}
           </Button>
