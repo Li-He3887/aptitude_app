@@ -111,7 +111,7 @@ function Dashboard() {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const { isLoading, error, data } = useQuery('tests', getAllTests)
-  const [admin, setAdmin] = useState({})
+  const [me, setMe] = useState({})
   const router = useRouter()
 
   const [filters, setFilters] = useState({
@@ -131,10 +131,7 @@ function Dashboard() {
     if (!localStorage.getItem('token')) {
       router.replace('./auth/sign-in')
     } else {
-      setAdmin({
-        admin: localStorage.getItem('admin'),
-        token: localStorage.getItem('token')
-      })
+      setMe(JSON.parse(localStorage.getItem('admin')))
     }
   }, [])
 
@@ -159,7 +156,7 @@ function Dashboard() {
   // console.log(data)
 
   return (
-    <AdminLayout>
+    <AdminLayout admin={me}>
       <div className={classes.container}>
         <h1 className={classes.head1}>Overview</h1>
         <div className={classes.overviewContainer}>

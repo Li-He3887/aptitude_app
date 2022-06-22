@@ -132,8 +132,6 @@ const ApplicantsTable = ({ rows }) => {
           </TableHead>
           <TableBody>
             {rows?.map(row => {
-              console.log(row)
-              
               return(
               <StyledTableRow
                 key={row.user.name}

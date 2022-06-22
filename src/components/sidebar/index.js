@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import {
   AppBar,
@@ -107,11 +108,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function Sidebar(props) {
-  const { window } = props
+  const { window, admin } = props
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [anchorElUser, setAnchorElUser] = useState(null)
+  const router = useRouter()
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget)
   }
@@ -124,13 +126,23 @@ function Sidebar(props) {
     setMobileOpen(!mobileOpen)
   }
 
-  const isSuperAdmin = () => {
-    if(!admin.token) {
+  const isSuperAdmin = (admin) => {
+    if(!admin) {
       return false
     } else {
-      const role = admin.admin.role
-      role !== 'SUPER_ADMIN' ? false : true
+      const role = admin.role
+      if(role != 'SUPER_ADMIN') {
+        return false
+      } else {
+        return true
+      }
     }
+  }
+
+  const logOut = () => {
+    localStorage.removeItem('admin')
+    localStorage.removeItem('token')
+    router.replace('auth/sign-in')
   }
 
   const drawer = (
@@ -156,14 +168,19 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-        <Link href='/admin/users' color='inherit' className={classes.link}>
-          <ListItem button>
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary='Admins' />
-          </ListItem>
-        </Link>
+        {
+          isSuperAdmin(admin) ? 
+            <Link href='/admin/users' color='inherit' className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary='Admins' />
+              </ListItem>
+            </Link>
+          :
+            <></>
+        }
         
         <Link
           href='/admin/settings'
@@ -223,7 +240,7 @@ function Sidebar(props) {
               onClose={handleCloseUserMenu}
             >
               {/* TODO: Handle onLogout */}
-              <MenuItem onClick={() => {}}>
+              <MenuItem onClick={() => logOut()}>
                 <Typography textAlign='center'>Logout</Typography>
               </MenuItem>
             </Menu>

@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-curly-newline */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import {
   Button,
@@ -60,6 +61,14 @@ const useStyles = makeStyles({
 
 const Admins = () => {
   const classes = useStyles()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.replace('auth/sign-in')
+    }
+  }, [])
+
   const { isLoading, error, data } = useQuery('admins', getAdmins)
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -89,11 +98,12 @@ const Admins = () => {
   }
 
   const data2 = data.data
+  const me = JSON.parse(localStorage.getItem('admin'))
 
   // TODO: Make API call here, listen for query params - pagination, filters
 
   return (
-    <AdminLayout>
+    <AdminLayout admin={me}>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
           <h1 className={classes.head1}>Admins</h1>

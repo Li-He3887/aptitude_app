@@ -42,7 +42,23 @@ const NewUser = ({ open, onClose }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutation = useMutation(data => createAdmin(data))
+  const mutation = useMutation(data => 
+    createAdmin(data),
+    {
+      onSuccess: data2 => {
+
+        const message =  "Email: "+data2.data.admin.email+", \nPassword: "+data2.data.password 
+
+        enqueueSnackbar(message, {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center'
+          },
+          autoHideDuration: 10000
+        })
+      }
+  })
 
   const [form, setForm] = useState({
     name: '',
@@ -72,8 +88,6 @@ const NewUser = ({ open, onClose }) => {
       }
     })
   }
-
-  console.log(form)
 
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
