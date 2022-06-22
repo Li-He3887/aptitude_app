@@ -8,6 +8,9 @@ import {
     Modal
   } from '@mui/material'
 
+import adminHandler from '../../api/v2/admins'
+import { PasswordRounded } from '@mui/icons-material'
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -32,13 +35,37 @@ const useStyles = makeStyles({
 
 function EditSetting() {
     const [open, setOpen] = React.useState(false);
+    const [password, setPassword] = React.useState({});
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const classes = useStyles()
 
+    const onChangeHandler = (e) => {
+        let id = e.target.id
+        let value = e.target.value
+        setPassword({
+            ...password,
+            [id]: value
+        })
+    }
+
+    console.log(password)
+
     const onSubmitHandler = () => {
-        
+        adminHandler()
+            .changePass({
+                email: JSON.parse(localStorage.getItem('admin')).email,
+                password: password.new_password,
+                confirmPassword: password.confirm_password
+            }, JSON.parse(localStorage.getItem('admin'))._id)
+            .then(response => {
+                console.log(response)
+                handleClose()
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     return (
@@ -62,6 +89,7 @@ function EditSetting() {
                             label="New Password" 
                             variant="outlined"
                             fullWidth
+                            onChange={(e) => onChangeHandler(e)}
                             margin="normal"
                             type="password"
                             autoComplete="current-password" 
@@ -72,6 +100,7 @@ function EditSetting() {
                             label="Confirm Password" 
                             variant="outlined"
                             fullWidth
+                            onChange={(e) => onChangeHandler(e)}
                             margin="normal"
                             type="password"
                             autoComplete="current-password" 

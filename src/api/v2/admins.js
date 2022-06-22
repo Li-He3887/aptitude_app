@@ -33,25 +33,33 @@ const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
 
     const changePass = ({
         email,
-        password
+        password,
+        confirmPassword
     }, id) => axios.post(
-        'admins/changePass', 
+        baseURL+'/admins/changePass', 
         {
             email, 
-            password
-        }, 
-        axios.create({
-            baseURL,
+            password,
+            confirmPassword
+        },{
             headers: {'Content-Type': 'application/json', 'x_auth_token': id}
-        })
+        }
     )
 
-    const deleteAdmin = ({})
+    const deleteAdmin = ({
+        id
+    }) => api.post('/admins/delete', {
+        id: id
+    })
+
+    const getAdmins = () => axios.get('/admins')
 
     return {
         createAdmin,
         logIn,
-        changePass
+        changePass,
+        deleteAdmin,
+        getAdmins
     }
 }
 
