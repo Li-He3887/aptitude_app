@@ -1,12 +1,12 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import {
   Table as MuiTable,
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination,
+  // TablePagination,
   TableHead,
   TableRow,
   Paper
@@ -34,66 +34,66 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow)
 
-function createData(name, email, phone, programmes, score, time, status) {
-  return { name, email, phone, programmes, score, time, status }
-}
+// function createData(name, email, phone, programmes, score, time, status) {
+//   return { name, email, phone, programmes, score, time, status }
+// }
 
-const rows = [
-  createData(
-    'John Smith',
-    'johnsmith@gmail.com',
-    '010-1111111',
-    'DS',
-    '18/20',
-    '15m 3s',
-    'Pass'
-  ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'FEW',
-    '14/20',
-    '5m 45s',
-    'Fail'
-  ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'ND',
-    '18/20',
-    '15m 3s',
-    'Pass'
-  ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'FEW',
-    '14/20',
-    '5m 45s',
-    'Fail'
-  ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'FEW',
-    '14/20',
-    '5m 45s',
-    'Fail'
-  ),
-  createData(
-    'Some dude',
-    'some@dude.com',
-    '012-345 6789',
-    'FEW',
-    '14/20',
-    '5m 45s',
-    'Fail'
-  ),
-]
+// const rows = [
+//   createData(
+//     'John Smith',
+//     'johnsmith@gmail.com',
+//     '010-1111111',
+//     'DS',
+//     '18/20',
+//     '15m 3s',
+//     'Pass'
+//   ),
+//   createData(
+//     'Some dude',
+//     'some@dude.com',
+//     '012-345 6789',
+//     'FEW',
+//     '14/20',
+//     '5m 45s',
+//     'Fail'
+//   ),
+//   createData(
+//     'Some dude',
+//     'some@dude.com',
+//     '012-345 6789',
+//     'ND',
+//     '18/20',
+//     '15m 3s',
+//     'Pass'
+//   ),
+//   createData(
+//     'Some dude',
+//     'some@dude.com',
+//     '012-345 6789',
+//     'FEW',
+//     '14/20',
+//     '5m 45s',
+//     'Fail'
+//   ),
+//   createData(
+//     'Some dude',
+//     'some@dude.com',
+//     '012-345 6789',
+//     'FEW',
+//     '14/20',
+//     '5m 45s',
+//     'Fail'
+//   ),
+//   createData(
+//     'Some dude',
+//     'some@dude.com',
+//     '012-345 6789',
+//     'FEW',
+//     '14/20',
+//     '5m 45s',
+//     'Fail'
+//   )
+// ]
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -108,7 +108,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // Pass dynamic props into it
-const Result = () => {
+const ApplicantsTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
@@ -131,7 +131,7 @@ const Result = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
+            {rows?.map(row => (
               <StyledTableRow
                 key={row.name}
                 onClick={() => handleOnRowClick(row.name)}
@@ -152,19 +152,15 @@ const Result = () => {
               </StyledTableRow>
             ))}
           </TableBody>
+          {/* <TablePagination /> */}
         </MuiTable>
       </TableContainer>
-
     </>
   )
 }
 
-// Table.propTypes = {
-//   headers: PropTypes.arrayOf({
-//     name: PropTypes.string,
-//     align: PropTypes.string
-//   }),
-//   rows: PropTypes.any
-// }
+ApplicantsTable.propTypes = {
+  rows: PropTypes.any
+}
 
-export default Result
+export default ApplicantsTable

@@ -1,25 +1,19 @@
 import axios from 'axios'
 
-const ADMIN_API = (baseURL = process.env.FSAT_API_V2_URL) => {
-    const api = axios.create({
-        baseURL,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+const api = axios.create({
+  baseURL: process.env.FSAT_API_V2_URL || 'http://localhost:3000/v2',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
 
-    //create admin
-    const createAdmin = ({
-        name,
-        email,
-        password,
-        role,
-        organisations
-    }) => api.post(`/admins`)
-
-    return {
-        createAdmin
+// Create admin
+export const createAdmin = ({ name, email, password, role }) =>
+  api.post('/admins', {
+    data: {
+      name,
+      email,
+      password: '123456',
+      role
     }
-}
-
-export default ADMIN_API
+  })

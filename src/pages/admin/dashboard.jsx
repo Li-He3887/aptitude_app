@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable react/jsx-curly-newline */
+import React, { useState } from 'react'
 import { alpha, makeStyles } from '@material-ui/core/styles'
 import {
   TextField,
@@ -10,10 +11,15 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import { useSnackbar } from 'notistack'
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
-import Table from '../../components/table/result'
+import ApplicantsTable from '../../components/tables/result'
+import { useQuery } from 'react-query'
+import { getAllTests } from '../../api/v2/tests'
+import Loader from '../../components/loader'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -101,31 +107,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// const [data, setData] = useState({})
-
-// useEffect(() => {
-//   TESTS_API()
-//     .getAllTests()
-//     .then(response => {
-//       setData(response.data)
-//     })
-//     .catch(error => {
-//       Sentry.captureException(error)
-
-//       const errorMessage = getErrorMessage(error)
-
-//       enqueueSnackbar(errorMessage.message, {
-//         variant: errorMessage.type,
-//         anchorOrigin: {
-//           vertical: 'bottom',
-//           horizontal: 'left'
-//         }
-//       })   
-//     })
-// }, [])
-
 function Dashboard() {
   const classes = useStyles()
+  const { enqueueSnackbar } = useSnackbar()
+  const { isLoading, error, data } = useQuery('tests', getAllTests)
+
   const [filters, setFilters] = useState({
     startDate: null,
     endDate: null,
@@ -139,6 +125,26 @@ function Dashboard() {
       [name]: value
     }))
 
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <Loader loading={isLoading} />
+      </AdminLayout>
+    )
+  }
+
+  if (error) {
+    enqueueSnackbar('Could not fetch data', {
+      variant: 'error',
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'right'
+      }
+    })
+  }
+
+  console.log(data)
+
   return (
     <AdminLayout>
       <div className={classes.container}>
@@ -150,31 +156,57 @@ function Dashboard() {
         <h3 className={classes.head1}>Applicants</h3>
         <div className={classes.filterContainer}>
           <div className={classes.filters}>
-            <TextField
+            <MobileDatePicker
               label='Start Date'
-              size='small'
-              variant='outlined'
-              className={classes.filter}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <CalendarTodayIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
+              inputFormat='MM/dd/yyyy'
+              value={filters.startDate}
+              onChange={val =>
+                setFilters(prev => ({
+                  ...prev,
+                  startDate: val
+                }))
+              }
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  size='small'
+                  variant='outlined'
+                  className={classes.filter}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CalendarTodayIcon fontSize='small' />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              )}
             />
-            <TextField
+            <MobileDatePicker
               label='End Date'
-              variant='outlined'
-              size='small'
-              className={classes.filter}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <CalendarTodayIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
+              inputFormat='MM/dd/yyyy'
+              value={filters.endDate}
+              onChange={val =>
+                setFilters(prev => ({
+                  ...prev,
+                  endDate: val
+                }))
+              }
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  size='small'
+                  variant='outlined'
+                  className={classes.filter}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CalendarTodayIcon fontSize='small' />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              )}
             />
 
             <FormControl
@@ -211,7 +243,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <Table />
+        <ApplicantsTable rows={data || []} />
       </div>
     </AdminLayout>
   )
