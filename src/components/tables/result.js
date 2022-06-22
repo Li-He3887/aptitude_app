@@ -112,8 +112,11 @@ const ApplicantsTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
+<<<<<<< HEAD
   // console.log(rows)
 
+=======
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   // Make this dynamic
   const handleOnRowClick = id => router.push(`/admin/applicant/${id}`)
 
@@ -134,8 +137,11 @@ const ApplicantsTable = ({ rows }) => {
           </TableHead>
           <TableBody>
             {rows?.map(row => {
+<<<<<<< HEAD
               // console.log(row)
               
+=======
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
               return(
               <StyledTableRow
                 key={row.user.name}
@@ -168,4 +174,8 @@ ApplicantsTable.propTypes = {
   rows: PropTypes.any
 }
 
+<<<<<<< HEAD
 export default ApplicantsTable
+=======
+export default ApplicantsTable
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94

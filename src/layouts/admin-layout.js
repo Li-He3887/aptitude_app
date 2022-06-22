@@ -13,12 +13,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = ({ children, admin }) => {
   const classes = useStyles()
 
   return (
     <div>
-      <Sidebar />
+      <Sidebar admin={admin} />
       <main className={classes.content}>
         {' '}
         <Toolbar />

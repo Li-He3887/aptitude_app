@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {useRouter} from 'next/router'
 import AdminLayout from '../../../layouts/admin-layout'
 import EditUsers from '../../../components/function/EditUsers'
 import { makeStyles } from '@material-ui/styles'
@@ -34,10 +35,20 @@ const useStyles = makeStyles({
 
 const SingleUser = () => {
   const classes = useStyles()
+  const router = useRouter()
+  const [me, setme] = useState({})
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.replace('./auth/sign-in')
+    } else {
+      setMe(JSON.parse(localStorage.getItem('admin')))
+    }
+  }, [])
 
   const [editing, setEditing] = useState(false)
   return(
-    <AdminLayout>
+    <AdminLayout admin={me}>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
           <h1>Admins Detail</h1>

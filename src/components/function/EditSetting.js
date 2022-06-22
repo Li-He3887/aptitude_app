@@ -2,7 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Typography, TextField, Button, Box, Modal } from '@mui/material'
 
+<<<<<<< HEAD
 import adminHandler from '../../api/v2/admins'
+=======
+import { changePass } from '../../api/v2/admins'
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 import { PasswordRounded } from '@mui/icons-material'
 
 const style = {
@@ -27,7 +31,11 @@ const useStyles = makeStyles({
   }
 })
 
+<<<<<<< HEAD
 function EditSetting() {
+=======
+function EditSetting({admin}) {
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   const [open, setOpen] = React.useState(false);
   const [password, setPassword] = React.useState({});
   const handleOpen = () => setOpen(true);
@@ -45,6 +53,7 @@ const classes = useStyles()
   }
 
   const onSubmitHandler = () => {
+<<<<<<< HEAD
     adminHandler()
         .changePass({
             email: JSON.parse(localStorage.getItem('admin')).email,
@@ -58,6 +67,20 @@ const classes = useStyles()
         .catch(err => {
             console.log(err)
         })
+=======
+    changePass({
+        email: admin.email,
+        password: password.new_password,
+        confirmPassword: password.confirm_password
+    }, admin._id)
+    .then(response => {
+        console.log(response)
+        handleClose()
+    })
+    .catch(err => {
+        console.log(err)
+    })
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   }
 
   return (
@@ -88,6 +111,7 @@ const classes = useStyles()
                   />
 
                   <TextField 
+<<<<<<< HEAD
                     id="confirm_password" 
                     label="Confirm Password" 
                     variant="outlined"
@@ -96,11 +120,25 @@ const classes = useStyles()
                     margin="normal"
                     type="password"
                     autoComplete="current-password" 
+=======
+                      id="confirm_password" 
+                      label="Confirm Password" 
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => onChangeHandler(e)}
+                      margin="normal"
+                      type="password"
+                      autoComplete="current-password" 
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
                   />
               </div>
 
               <div className={classes.save_btn}>
+<<<<<<< HEAD
                 <Button variant="contained" size="medium" onClick={() => onSubmitHandler()}>Save</Button>
+=======
+                  <Button variant="contained" size="medium" onClick={() => onSubmitHandler()}>Save</Button>
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
               </div>
           </Box>
       </Modal>

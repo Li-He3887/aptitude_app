@@ -6,6 +6,8 @@ import { Card, CardContent, Button, Typography, Grid } from '@material-ui/core'
 import AdminLayout from '../../../layouts/admin-layout'
 import EditApplicant from '../../../components/function/EditApplicant'
 
+import { getUserById } from '../../../api/v2/applicants'
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -77,7 +79,11 @@ const SingleApplicant = ({
             <Grid item xs={11}>
               <CardContent className={classes.card}>
                 <Typography variant='h6' component='h2' gutterBottom>
+<<<<<<< HEAD
                   Name: John Smith
+=======
+                  Name: 
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
                 </Typography>
                 <Typography variant='h6' component='h2' gutterBottom>
                   Email : johnsmith@gmail.com
@@ -118,4 +124,8 @@ SingleApplicant.propTypes = {
   programme: PropTypes.string,
   phone: PropTypes.string,
   reportId: PropTypes.string
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94

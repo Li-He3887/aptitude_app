@@ -1,5 +1,11 @@
 /* eslint-disable react/jsx-curly-newline */
+<<<<<<< HEAD
 import React, { useState } from 'react'
+=======
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 import {
   Button,
   FormControl,
@@ -12,10 +18,13 @@ import {
 import { makeStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/Search'
 
+import { getAdmins } from '../../../api/v2/admins'
+
 import AdminLayout from '../../../layouts/admin-layout'
 import Table from '../../../components/tables/user'
 import NewUser from '../../../components/dialogs/new-user'
 import { USER_ROLES } from '../../../constants'
+import Loader from '../../../components/loader'
 
 const useStyles = makeStyles({
   container: {
@@ -56,7 +65,19 @@ const useStyles = makeStyles({
 
 const Admins = () => {
   const classes = useStyles()
+  const router = useRouter()
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.replace('auth/sign-in')
+    }
+  }, [])
+
+  const { isLoading, error, data } = useQuery('admins', getAdmins)
+
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   const [modalOpen, setModalOpen] = useState(false)
 
   const [filters, setFilters] = useState({
@@ -64,11 +85,35 @@ const Admins = () => {
     role: '',
     search: ''
   })
+<<<<<<< HEAD
+=======
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <Loader loading={isLoading} />
+      </AdminLayout>
+    )
+  }
+
+  if (error) {
+    enqueueSnackbar('Could not fetch data', {
+      variant: 'error',
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'right'
+      }
+    })
+  }
+
+  const data2 = data.data
+  const me = JSON.parse(localStorage.getItem('admin'))
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 
   // TODO: Make API call here, listen for query params - pagination, filters
 
   return (
-    <AdminLayout>
+    <AdminLayout admin={me}>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
           <h1 className={classes.head1}>Admins</h1>
@@ -96,11 +141,19 @@ const Admins = () => {
                 labelId='organisation-select-label'
                 id='organisation-select-filled'
                 className={classes.select}
+<<<<<<< HEAD
                 value={filters.organisation}
                 onChange={e =>
                   setFilters(prev => ({
                     ...prev,
                     organisation: e.target.value
+=======
+                value={filters.role}
+                onChange={e =>
+                  setFilters(prev => ({
+                    ...prev,
+                    role: e.target.value
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
                   }))
                 }
               >
@@ -124,11 +177,19 @@ const Admins = () => {
                 labelId='role-select-label'
                 id='role-select-filled'
                 className={classes.select}
+<<<<<<< HEAD
                 value={filters.role}
                 onChange={e =>
                   setFilters(prev => ({
                     ...prev,
                     role: e.target.value
+=======
+                value={filters.organisation}
+                onChange={e =>
+                  setFilters(prev => ({
+                    ...prev,
+                    organisation: e.target.value
+>>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
                   }))
                 }
               >
@@ -164,7 +225,7 @@ const Admins = () => {
             />
           </div>
           {/* TODO: Pass in custom table data */}
-          <Table />
+          <Table rows={data2 || []} />
         </div>
       </div>
     </AdminLayout>
