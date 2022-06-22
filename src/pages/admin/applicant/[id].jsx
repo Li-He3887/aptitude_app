@@ -1,15 +1,9 @@
-import React,{useState} from 'react'
-import AdminLayout from '../../../layouts/admin-layout'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-} from '@material-ui/core'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import { Card, CardContent, Button, Typography, Grid } from '@material-ui/core'
+
+import AdminLayout from '../../../layouts/admin-layout'
 import EditApplicant from '../../../components/function/EditApplicant'
 
 const useStyles = makeStyles({
@@ -21,71 +15,94 @@ const useStyles = makeStyles({
   container: {
     marginTop: '4rem'
   },
+  head1: {
+    fontSize: '1.4rem',
+    color: '#1853A0'
+  },
   headerContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  card:{
+  card: {
     marginLeft: '20px',
-    marginRight: '20px',
+    marginRight: '20px'
   },
-  actions: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'right',
-    alignItems: 'center'
+  viewReportBtn: {
+    marginRight: '0.8rem'
   }
 })
 
-const SingleApplicant = () => {
+const SingleApplicant = ({
+  fullName,
+  email,
+  result,
+  programme,
+  phone,
+  reportId
+}) => {
   const classes = useStyles()
 
-  return(
+  const [openEdit, setOpenEdit] = useState(false)
+
+  return (
     <AdminLayout>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
-          <h1>Applicants Detail</h1>
+          <h1 className={classes.head1}>Applicant Details</h1>
+          <div>
+            <Button
+              variant='contained'
+              color='primary'
+              size='large'
+              className={classes.viewReportBtn}
+              href={`tests/${reportId}/report`}
+            >
+              View Report
+            </Button>
+            <Button
+              variant='contained'
+              color='primary'
+              size='large'
+              onClick={() => setOpenEdit(true)}
+            >
+              Edit Details
+            </Button>
+          </div>
         </div>
 
         <Card className={classes.root}>
-
           <Grid container spacing={1}>
             <Grid item xs={11}>
               <CardContent className={classes.card}>
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Typography variant='h6' component='h2' gutterBottom>
                   Name: John Smith
                 </Typography>
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Typography variant='h6' component='h2' gutterBottom>
                   Email : johnsmith@gmail.com
                 </Typography>
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Typography variant='h6' component='h2' gutterBottom>
                   Result : 18/20
                 </Typography>
 
-                <Typography variant="h6" component="h2" gutterBottom>
+                <Typography variant='h6' component='h2' gutterBottom>
                   Programme : DS
                 </Typography>
-                
-                <Typography variant="h6" component="h2" gutterBottom>
+
+                <Typography variant='h6' component='h2' gutterBottom>
                   Phone No : 010-1111111
                 </Typography>
               </CardContent>
             </Grid>
 
             <Grid item xs={1}>
-              <EditApplicant />
+              <EditApplicant
+                open={openEdit}
+                handleClose={() => setOpenEdit(false)}
+              />
             </Grid>
           </Grid>
-
-          <CardActions className={classes.actions}>
-            <Button size="medium" variant="contained" color="primary" href='tests/${id}/report'>
-              View Report
-              <ArrowForwardIosIcon />
-            </Button>
-          </CardActions>
-
         </Card>
       </div>
     </AdminLayout>
@@ -93,3 +110,12 @@ const SingleApplicant = () => {
 }
 
 export default SingleApplicant
+
+SingleApplicant.propTypes = {
+  fullName: PropTypes.string,
+  email: PropTypes.string,
+  result: PropTypes.number,
+  programme: PropTypes.string,
+  phone: PropTypes.string,
+  reportId: PropTypes.string
+}

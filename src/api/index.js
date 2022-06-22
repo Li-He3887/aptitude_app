@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const FSAT_API = (baseURL = process.env.FSAT_API_V1_URL) => {
+const FSAT_API = (baseURL = 'http://localhost:3000/v1') => {
   const api = axios.create({
     baseURL,
     headers: {

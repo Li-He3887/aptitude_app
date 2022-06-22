@@ -59,12 +59,6 @@ const rows = [
 const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 600
-  },
-  statusCell: {
-    borderRadius: '6px',
-    backgroundColor: 'green',
-    color: '#fff',
-    padding: '0.4rem 0.2rem'
   }
 }))
 
