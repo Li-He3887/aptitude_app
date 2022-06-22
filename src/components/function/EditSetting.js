@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/styles'
 import { Typography, TextField, Button, Box, Modal } from '@mui/material'
 
-import adminHandler from '../../api/v2/admins'
+import { changePass } from '../../api/v2/admins'
 import { PasswordRounded } from '@mui/icons-material'
 
 const style = {
@@ -45,19 +45,18 @@ const classes = useStyles()
   }
 
   const onSubmitHandler = () => {
-    adminHandler()
-        .changePass({
-            email: JSON.parse(localStorage.getItem('admin')).email,
-            password: password.new_password,
-            confirmPassword: password.confirm_password
-        }, JSON.parse(localStorage.getItem('admin'))._id)
-        .then(response => {
-            console.log(response)
-            handleClose()
-        })
-        .catch(err => {
-            console.log(err)
-        })
+    changePass({
+        email: JSON.parse(localStorage.getItem('admin')).email,
+        password: password.new_password,
+        confirmPassword: password.confirm_password
+    }, JSON.parse(localStorage.getItem('admin'))._id)
+    .then(response => {
+        console.log(response)
+        handleClose()
+    })
+    .catch(err => {
+        console.log(err)
+    })
   }
 
   return (

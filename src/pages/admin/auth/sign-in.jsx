@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles'
 import ResponsiveImage from '../../../components/responsive-image'
 import * as Sentry from '@sentry/browser'
 
-import ADMIN_API from '../../../api/v2/admins'
+import { logIn } from '../../../api/v2/admins'
 
 const useStyles = makeStyles({
   container: {
@@ -54,31 +54,30 @@ const SignIn = () => {
     }))
 
   const loginHandler = () => {
-    ADMIN_API()
-      .logIn({
-        email: credentials.email,
-        password : credentials.password
-      })
-      .then(response => {
-        localStorage.setItem("admin", JSON.stringify(response.data.admin))
-        localStorage.setItem("token", JSON.stringify(response.data.token))
-        router.replace('../dashboard')
-      })
-      .catch(error => {
-        Sentry.captureException(error)
+    logIn({
+      email: credentials.email,
+      password : credentials.password
+    })
+    .then(response => {
+      localStorage.setItem("admin", JSON.stringify(response.data.admin))
+      localStorage.setItem("token", JSON.stringify(response.data.token))
+      router.replace('../dashboard')
+    })
+    .catch(error => {
+      Sentry.captureException(error)
 
-        console.log(error)
+      console.log(error)
 
-        // const errorMessage = getErrorMessage(error)
+      // const errorMessage = getErrorMessage(error)
 
-        // enqueueSnackbar(errorMessage.message, {
-        //   variant: errorMessage.type,
-        //   anchorOrigin: {
-        //     vertical: 'bottom',
-        //     horizontal: 'left'
-        //   }
-        // })
-      })
+      // enqueueSnackbar(errorMessage.message, {
+      //   variant: errorMessage.type,
+      //   anchorOrigin: {
+      //     vertical: 'bottom',
+      //     horizontal: 'left'
+      //   }
+      // })
+    })
   }
 
 

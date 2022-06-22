@@ -14,9 +14,6 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import { useSnackbar } from 'notistack'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 
-import TESTS_API from '../../api/v2/tests'
-import * as Sentry from '@sentry/browser'
-
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
 import ApplicantsTable from '../../components/tables/result'
