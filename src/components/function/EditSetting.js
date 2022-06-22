@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   }
 })
 
-function EditSetting() {
+function EditSetting({admin}) {
   const [open, setOpen] = React.useState(false);
   const [password, setPassword] = React.useState({});
   const handleOpen = () => setOpen(true);
@@ -46,10 +46,10 @@ const classes = useStyles()
 
   const onSubmitHandler = () => {
     changePass({
-        email: JSON.parse(localStorage.getItem('admin')).email,
+        email: admin.email,
         password: password.new_password,
         confirmPassword: password.confirm_password
-    }, JSON.parse(localStorage.getItem('admin'))._id)
+    }, admin._id)
     .then(response => {
         console.log(response)
         handleClose()

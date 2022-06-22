@@ -37,7 +37,7 @@ const api = axios.create({
         password,
         confirmPassword
     }, id) => axios.post(
-        baseURL+'/admins/changePass', 
+        process.env.FSAT_API_V2_URL+'/admins/changePass', 
         {
             email, 
             password,

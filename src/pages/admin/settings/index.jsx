@@ -25,7 +25,7 @@ function Settings() {
     <AdminLayout admin={me}>
       <h1 className={classes.head1}>Settings</h1>
 
-      <EditSetting />
+      <EditSetting admin={me}/>
     </AdminLayout>
   )
 }
