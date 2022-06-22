@@ -131,26 +131,29 @@ const ApplicantsTable = ({ rows }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.map(row => (
+            {rows?.map(row => {
+              console.log(row)
+              
+              return(
               <StyledTableRow
-                key={row.name}
-                onClick={() => handleOnRowClick(row.name)}
+                key={row.user.name}
+                onClick={() => handleOnRowClick(row.user.name)}
               >
                 <StyledTableCell component='th' scope='row'>
-                  {row.name}
+                  {row.user.name}
                 </StyledTableCell>
-                <StyledTableCell align='center'>{row.email}</StyledTableCell>
-                <StyledTableCell align='center'>{row.phone}</StyledTableCell>
+                <StyledTableCell align='center'>{row.user.email}</StyledTableCell>
+                <StyledTableCell align='center'>{row.user.phone.number}</StyledTableCell>
                 <StyledTableCell align='center'>
-                  {row.programmes}
+                  {row.user.programme}
                 </StyledTableCell>
                 <StyledTableCell align='center'>{row.score}</StyledTableCell>
-                <StyledTableCell align='center'>{row.time}</StyledTableCell>
+                <StyledTableCell align='center'>{row.timeTaken}</StyledTableCell>
                 <StyledTableCell align='center'>
-                  <div className={classes.statusCell}>{row.status}</div>
+                  <div className={classes.statusCell}>{row.score<15 ? "FAIL" : "PASS" }</div>
                 </StyledTableCell>
               </StyledTableRow>
-            ))}
+            )})}
           </TableBody>
           {/* <TablePagination /> */}
         </MuiTable>

@@ -156,7 +156,7 @@ function Dashboard() {
     })
   }
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <AdminLayout>
