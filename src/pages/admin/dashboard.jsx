@@ -114,17 +114,20 @@ const useStyles = makeStyles(theme => ({
 function Dashboard() {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
-  const { isLoading, error, data } = useQuery('tests', getAllTests)
+  // const { isLoading, error, data } = useQuery('tests', getAllTests(filters))
   const [, setAdmin] = useState({})
   const [me, setMe] = useState({})
   const router = useRouter()
+  const [now, setNow] = useState(Date.now())
 
   const [filters, setFilters] = useState({
-    startDate: null,
-    endDate: null,
-    search: null,
-    status: null
+    startDate: Date.parse("10 Jan 2000"),
+    endDate: now,
+    search: "ALL",
+    status: "ALL"
   })
+
+  const { isLoading, error, data } = useQuery(['tests'], getAllTests(filters))
 
   const handleFilterChange = (value, name) =>
     setFilters(prev => ({
@@ -182,7 +185,7 @@ function Dashboard() {
               onChange={val =>
                 setFilters(prev => ({
                   ...prev,
-                  startDate: val
+                  startDate: Date.parse(val)
                 }))
               }
               renderInput={params => (
@@ -208,7 +211,7 @@ function Dashboard() {
               onChange={val =>
                 setFilters(prev => ({
                   ...prev,
-                  endDate: val
+                  endDate: Date.parse(val)
                 }))
               }
               renderInput={params => (
@@ -241,9 +244,9 @@ function Dashboard() {
                 value={filters.status}
                 onChange={e => handleFilterChange(e.target.value, 'status')}
               >
-                <MenuItem value='pass'>Pass</MenuItem>
-                <MenuItem value='fail'>Fail</MenuItem>
-                <MenuItem value='excellent'>Excellent</MenuItem>
+                <MenuItem value='PASS'>Pass</MenuItem>
+                <MenuItem value='FAIL'>Fail</MenuItem>
+                <MenuItem value='EXCELLENT'>Excellent</MenuItem>
               </Select>
             </FormControl>
 
@@ -251,6 +254,9 @@ function Dashboard() {
               label='Search'
               variant='outlined'
               size='small'
+              onChange={
+                (e) => handleFilterChange(e.target.value, 'search') 
+              }
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>

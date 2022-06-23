@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import AdminLayout from '../../../layouts/admin-layout'
 import EditUsers from '../../../components/function/EditUsers'
@@ -36,7 +36,7 @@ const useStyles = makeStyles({
 const SingleUser = () => {
   const classes = useStyles()
   const router = useRouter()
-  const [me, setme] = useState({})
+  const [me, setMe] = useState({})
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {

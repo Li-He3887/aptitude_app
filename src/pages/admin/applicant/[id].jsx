@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import { Card, CardContent, Button, Typography, Grid } from '@material-ui/core'
@@ -45,11 +45,24 @@ const SingleApplicant = ({
   reportId
 }) => {
   const classes = useStyles()
+  const [me, setMe] = useState({})
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.replace('./auth/sign-in')
+    } else {
+      setAdmin({
+        admin: localStorage.getItem('admin'),
+        token: localStorage.getItem('token')
+      })
+      setMe(JSON.parse(localStorage.getItem('admin')))
+    }
+  }, [])
 
   const [openEdit, setOpenEdit] = useState(false)
 
   return (
-    <AdminLayout>
+    <AdminLayout admin={me}>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
           <h1 className={classes.head1}>Applicant Details</h1>
@@ -79,11 +92,7 @@ const SingleApplicant = ({
             <Grid item xs={11}>
               <CardContent className={classes.card}>
                 <Typography variant='h6' component='h2' gutterBottom>
-<<<<<<< HEAD
-                  Name: John Smith
-=======
                   Name: 
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
                 </Typography>
                 <Typography variant='h6' component='h2' gutterBottom>
                   Email : johnsmith@gmail.com
@@ -124,8 +133,4 @@ SingleApplicant.propTypes = {
   programme: PropTypes.string,
   phone: PropTypes.string,
   reportId: PropTypes.string
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
