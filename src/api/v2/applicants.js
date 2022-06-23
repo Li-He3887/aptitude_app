@@ -8,8 +8,8 @@ const api = axios.create({
     }
   })
 
-export const getUserById = (Id) => {
-    return api.get(`/admin/applicant/${Id}`).then(res => {
+  export const getUserById = (Id) => {
+    return api.get(`/users/${Id}`).then(res => {
         return res.data
     })
 }

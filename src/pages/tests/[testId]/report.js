@@ -350,7 +350,6 @@ TestReport.getInitialProps = async ({ req, res, query }) => {
       return { data: null, error: error.response.data }
     }
   }
-
   return { data: null, error: null }
 }
 
