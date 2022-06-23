@@ -50,13 +50,8 @@ const SingleApplicant = ({
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       router.replace('./auth/sign-in')
-    } else {
-      setAdmin({
-        admin: localStorage.getItem('admin'),
-        token: localStorage.getItem('token')
-      })
-      setMe(JSON.parse(localStorage.getItem('admin')))
     }
+    setMe(JSON.parse(localStorage.getItem('admin')))
   }, [])
 
   const [openEdit, setOpenEdit] = useState(false)
@@ -92,7 +87,7 @@ const SingleApplicant = ({
             <Grid item xs={11}>
               <CardContent className={classes.card}>
                 <Typography variant='h6' component='h2' gutterBottom>
-                  Name: 
+                  Name: John Smith
                 </Typography>
                 <Typography variant='h6' component='h2' gutterBottom>
                   Email : johnsmith@gmail.com

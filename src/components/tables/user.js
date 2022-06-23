@@ -74,9 +74,15 @@ const UsersTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
-  // Make this dynamic
-  const handleOnRowClick = id => router.push(`/admin/users/${id}`)
+  // console.log(rows)
 
+  // Make this dynamic
+  // const handleOnRowClick = id => router.push(`/admin/users/${id}`)
+
+  const handleOnRowClick = id => {
+    router.push(`/admin/users/${id}`)
+  }
+  
   return (
     <>
       <TableContainer component={Paper}>

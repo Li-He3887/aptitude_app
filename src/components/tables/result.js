@@ -115,7 +115,9 @@ const ApplicantsTable = ({ rows }) => {
   // console.log(rows)
 
   // Make this dynamic
-  const handleOnRowClick = id => router.push(`/admin/applicant/${id}`)
+  const handleOnRowClick = id => {
+    router.push(`/admin/applicant/${id}`)
+  }
 
   return (
     <>
@@ -139,7 +141,7 @@ const ApplicantsTable = ({ rows }) => {
               return (
                 <StyledTableRow
                   key={row.user.name}
-                  onClick={() => handleOnRowClick(row.user.name)}
+                  onClick={() => handleOnRowClick(row.user._id)}
                 >
                   <StyledTableCell component='th' scope='row'>
                     {row.user.name}

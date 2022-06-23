@@ -37,7 +37,6 @@ export const getAllTests = ({ startDate, endDate, search, status }) => {
     return api
       .get(`/tests/filter/${params.length ? `${params.join('-')}` : ''}`)
       .then(res => {
-        console.log(res.data.test)
         return res.data.test
       } )
   }
