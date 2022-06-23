@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import PropTypes from 'prop-types'
@@ -42,14 +43,14 @@ const useStyles = makeStyles({
   },
   selectContainer: {
     width: '100%',
-     marginRight: '0.8rem',
-     marginBottom: '1rem'
-   },
-   select: {
-     '& .MuiInputBase-input': {
-       borderColor: '#1853A0'
-     }
-   }
+    marginRight: '0.8rem',
+    marginBottom: '1rem'
+  },
+  select: {
+    '& .MuiInputBase-input': {
+      borderColor: '#1853A0'
+    }
+  }
 })
 
 const NewUser = ({ open, onClose }) => {
@@ -57,19 +58,17 @@ const NewUser = ({ open, onClose }) => {
   const { enqueueSnackbar } = useSnackbar()
 
   const mutation = useMutation(data => createAdmin(data), {
-    onSuccess:
-      data => {
+    onSuccess: data => {
+      const message = 'Password: ' + data.data.password
 
-        const message = "Password: "+data.data.password
-
-        enqueueSnackbar(message, {
-          variant: 'success',
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center'
-          },
-        })
-      }
+      enqueueSnackbar(message, {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'center'
+        }
+      })
+    }
   })
 
   const [form, setForm] = useState({
@@ -102,9 +101,8 @@ const NewUser = ({ open, onClose }) => {
   }
 
   const [filters, setFilters] = useState({
-    organisation: '',
+    organisation: ''
   })
-
 
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
@@ -141,30 +139,30 @@ const NewUser = ({ open, onClose }) => {
             onChange={e => onChangeHandler(e.target.value, 'phone')}
           />
 
-            <FormControl
-              variant='outlined'
-              className={classes.selectContainer}
-              size='large'
+          <FormControl
+            variant='outlined'
+            className={classes.selectContainer}
+            size='large'
+          >
+            <InputLabel id='organisation-select-label'>Organisation</InputLabel>
+            <Select
+              labelId='organisation-select-label'
+              id='organisation-select-filled'
+              className={classes.select}
+              value={filters.organisation}
+              onChange={e =>
+                setFilters(prev => ({
+                  ...prev,
+                  organisation: e.target.value
+                }))
+              }
             >
-              <InputLabel id='organisation-select-label'>Organisation</InputLabel>
-              <Select
-                labelId='organisation-select-label'
-                id='organisation-select-filled'
-                className={classes.select}
-                value={filters.organisation}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    organisation: e.target.value
-                  }))
-                }
-              >
-                {/* TODO: This list will be fetched from API */}
-                <MenuItem value={10}>Forward School</MenuItem>
-                <MenuItem value={20}>Dell</MenuItem>
-                <MenuItem value={30}>Experion</MenuItem>
-              </Select>
-            </FormControl>
+              {/* TODO: This list will be fetched from API */}
+              <MenuItem value={10}>Forward School</MenuItem>
+              <MenuItem value={20}>Dell</MenuItem>
+              <MenuItem value={30}>Experion</MenuItem>
+            </Select>
+          </FormControl>
           <Button
             disabled={mutation.isLoading}
             variant='contained'
