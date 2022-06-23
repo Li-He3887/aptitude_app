@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { alpha, makeStyles } from '@material-ui/core/styles'
@@ -13,6 +14,9 @@ import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import { useSnackbar } from 'notistack'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
+
+// import getTest from '../../api/v2/tests'
+// import * as Sentry from '@sentry/browser'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
@@ -111,6 +115,7 @@ function Dashboard() {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const { isLoading, error, data } = useQuery('tests', getAllTests)
+  const [, setAdmin] = useState({})
   const [me, setMe] = useState({})
   const router = useRouter()
 
@@ -122,10 +127,10 @@ function Dashboard() {
   })
 
   const handleFilterChange = (value, name) =>
-  setFilters(prev => ({
-    ...prev,
-    [name]: value
-  }))
+    setFilters(prev => ({
+      ...prev,
+      [name]: value
+    }))
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -135,6 +140,7 @@ function Dashboard() {
         admin: localStorage.getItem('admin'),
         token: localStorage.getItem('token')
       })
+      setMe(JSON.parse(localStorage.getItem('admin')))
     }
   }, [])
 
@@ -228,32 +234,33 @@ function Dashboard() {
               size='small'
             >
               <InputLabel id='status-select-label'>Status</InputLabel>
-                <Select
-                  labelId='status-select-label'
-                  id='status-select'
-                  className={classes.select}
-                  value={filters.status}
-                  onChange={e => handleFilterChange(e.target.value, 'status')}
-                >
-                  <MenuItem value='pass'>Pass</MenuItem>
-                  <MenuItem value='fail'>Fail</MenuItem>
-                  <MenuItem value='excellent'>Excellent</MenuItem>
-                </Select>
-              </FormControl>
+              <Select
+                labelId='status-select-label'
+                id='status-select'
+                className={classes.select}
+                value={filters.status}
+                onChange={e => handleFilterChange(e.target.value, 'status')}
+              >
+                <MenuItem value='pass'>Pass</MenuItem>
+                <MenuItem value='fail'>Fail</MenuItem>
+                <MenuItem value='excellent'>Excellent</MenuItem>
+              </Select>
+            </FormControl>
 
-              <TextField
-                label='Search'
-                variant='outlined'
-                size='small'
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <SearchIcon fontSize='small' />
-                    </InputAdornment>
-                  )
-                }} />
-            </div>
+            <TextField
+              label='Search'
+              variant='outlined'
+              size='small'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <SearchIcon fontSize='small' />
+                  </InputAdornment>
+                )
+              }}
+            />
           </div>
+        </div>
 
         <ApplicantsTable rows={data || []} />
       </div>
@@ -261,4 +268,4 @@ function Dashboard() {
   )
 }
 
-  export default Dashboard
+export default Dashboard

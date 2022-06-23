@@ -6,11 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel
+  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
@@ -56,26 +52,10 @@ const NewUser = ({ open, onClose }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutation = useMutation(data => 
-    createAdmin(data),
-    {
-      onSuccess: data2 => {
-
-        const message =  "Email: "+data2.data.admin.email+", \nPassword: "+data2.data.password 
-
-        enqueueSnackbar(message, {
-          variant: 'success',
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center'
-          },
-          autoHideDuration: 10000
-        })
-      }
-  })
+  const mutation = useMutation(data => createAdmin(data))
 
   const [form, setForm] = useState({
-    name: '',
+    fullName: '',
     email: '',
     phone: '',
     organisation: '',
@@ -103,10 +83,6 @@ const NewUser = ({ open, onClose }) => {
     })
   }
 
-  const [filters, setFilters] = useState({
-    organisation: '',
-  })
-
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
@@ -119,9 +95,9 @@ const NewUser = ({ open, onClose }) => {
             label='Full Name'
             variant='outlined'
             size='large'
-            value={form.name}
+            value={form.fullName}
             className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'name')}
+            onChange={e => onChangeHandler(e.target.value, 'fullName')}
           />
 
           <TextField
@@ -174,7 +150,7 @@ const NewUser = ({ open, onClose }) => {
             variant='contained'
             color='primary'
             size='large'
-            onClick={() => onSubmitHandler()}
+            onClick={onSubmitHandler}
           >
             {mutation.isLoading ? 'Saving...' : 'Save'}
           </Button>

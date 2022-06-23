@@ -60,15 +60,12 @@ const StyledTableRow = withStyles(theme => ({
 const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 600
-<<<<<<< HEAD
   },
   statusCell: {
     borderRadius: '6px',
     backgroundColor: 'green',
     color: '#fff',
     padding: '0.4rem 0.2rem'
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   }
 }))
 
@@ -77,11 +74,8 @@ const UsersTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
-<<<<<<< HEAD
   console.log(rows)
 
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   // Make this dynamic
   const handleOnRowClick = id => router.push(`/admin/users/${id}`)
 
@@ -123,10 +117,6 @@ const UsersTable = ({ rows }) => {
   )
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 UsersTable.propTypes = {
   rows: PropTypes.any
 }

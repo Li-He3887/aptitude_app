@@ -53,16 +53,16 @@ const SignIn = () => {
       [name]: value
     }))
 
-<<<<<<< HEAD
-  const loginHandler = () => { 
-      logIn({
-        email: credentials.email,
-        password : credentials.password
-      })
+  const loginHandler = () => {
+    logIn({
+      email: credentials.email,
+      password: credentials.password
+    })
       .then(response => {
-        localStorage.setItem("admin", JSON.stringify(response.data.admin))
-        localStorage.setItem("token", JSON.stringify(response.data.token))
+        localStorage.setItem('admin', JSON.stringify(response.data.admin))
+        localStorage.setItem('token', JSON.stringify(response.data.token))
         router.replace('../dashboard')
+        return response
       })
       .catch(error => {
         Sentry.captureException(error)
@@ -79,35 +79,7 @@ const SignIn = () => {
         //   }
         // })
       })
-=======
-  const loginHandler = () => {
-    logIn({
-      email: credentials.email,
-      password : credentials.password
-    })
-    .then(response => {
-      localStorage.setItem("admin", JSON.stringify(response.data.admin))
-      localStorage.setItem("token", JSON.stringify(response.data.token))
-      router.replace('../dashboard')
-    })
-    .catch(error => {
-      Sentry.captureException(error)
-
-      console.log(error)
-
-      // const errorMessage = getErrorMessage(error)
-
-      // enqueueSnackbar(errorMessage.message, {
-      //   variant: errorMessage.type,
-      //   anchorOrigin: {
-      //     vertical: 'bottom',
-      //     horizontal: 'left'
-      //   }
-      // })
-    })
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   }
-
 
   return (
     <div className={classes.container}>

@@ -112,11 +112,8 @@ const ApplicantsTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
-<<<<<<< HEAD
   // console.log(rows)
 
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   // Make this dynamic
   const handleOnRowClick = id => router.push(`/admin/applicant/${id}`)
 
@@ -137,31 +134,37 @@ const ApplicantsTable = ({ rows }) => {
           </TableHead>
           <TableBody>
             {rows?.map(row => {
-<<<<<<< HEAD
               // console.log(row)
-              
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
-              return(
-              <StyledTableRow
-                key={row.user.name}
-                onClick={() => handleOnRowClick(row.user.name)}
-              >
-                <StyledTableCell component='th' scope='row'>
-                  {row.user.name}
-                </StyledTableCell>
-                <StyledTableCell align='center'>{row.user.email}</StyledTableCell>
-                <StyledTableCell align='center'>{row.user.phone.number}</StyledTableCell>
-                <StyledTableCell align='center'>
-                  {row.user.programme}
-                </StyledTableCell>
-                <StyledTableCell align='center'>{row.score}</StyledTableCell>
-                <StyledTableCell align='center'>{row.timeTaken}</StyledTableCell>
-                <StyledTableCell align='center'>
-                  <div className={classes.statusCell}>{row.score<15 ? "FAIL" : "PASS" }</div>
-                </StyledTableCell>
-              </StyledTableRow>
-            )})}
+
+              return (
+                <StyledTableRow
+                  key={row.user.name}
+                  onClick={() => handleOnRowClick(row.user.name)}
+                >
+                  <StyledTableCell component='th' scope='row'>
+                    {row.user.name}
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>
+                    {row.user.email}
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>
+                    {row.user.phone.number}
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>
+                    {row.user.programme}
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>{row.score}</StyledTableCell>
+                  <StyledTableCell align='center'>
+                    {row.timeTaken}
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>
+                    <div className={classes.statusCell}>
+                      {row.score < 15 ? 'FAIL' : 'PASS'}
+                    </div>
+                  </StyledTableCell>
+                </StyledTableRow>
+              )
+            })}
           </TableBody>
           {/* <TablePagination /> */}
         </MuiTable>
@@ -174,8 +177,4 @@ ApplicantsTable.propTypes = {
   rows: PropTypes.any
 }
 
-<<<<<<< HEAD
 export default ApplicantsTable
-=======
-export default ApplicantsTable
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
