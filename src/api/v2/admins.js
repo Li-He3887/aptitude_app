@@ -44,3 +44,15 @@ export const deleteAdmin = ({ id }) =>
   })
 
 export const getAdmins = () => api.get('/admins')
+
+export const getAdminsId = (Id = '62b1a109e6dcd14178f0bb0a') => {
+  console.log(Id)
+  // if(Id === undefined) {
+  //   return
+  // }
+
+ return api.get(`/admins/62b1a109e6dcd14178f0bb0a`).then(res => {
+  console.log(res.data)
+  return res.data
+ })
+}

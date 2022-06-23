@@ -6,7 +6,11 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Button
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
@@ -83,6 +87,11 @@ const NewUser = ({ open, onClose }) => {
     })
   }
 
+  const [filters, setFilters] = useState({
+    organisation: '',
+  })
+
+
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
@@ -136,9 +145,6 @@ const NewUser = ({ open, onClose }) => {
                   }))
                 }
               >
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
                 {/* TODO: This list will be fetched from API */}
                 <MenuItem value={10}>Forward School</MenuItem>
                 <MenuItem value={20}>Dell</MenuItem>

@@ -74,11 +74,15 @@ const UsersTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
-  console.log(rows)
+  // console.log(rows)
 
   // Make this dynamic
-  const handleOnRowClick = id => router.push(`/admin/users/${id}`)
+  // const handleOnRowClick = id => router.push(`/admin/users/${id}`)
 
+  const handleOnRowClick = id => {
+    router.push(`/admin/users/${id}`)
+  }
+  
   return (
     <>
       <TableContainer component={Paper}>
@@ -96,7 +100,7 @@ const UsersTable = ({ rows }) => {
             {rows?.map(row => (
               <StyledTableRow
                 key={row.name}
-                onClick={() => handleOnRowClick(row.name)}
+                onClick={() => handleOnRowClick(row._id)}
               >
                 <StyledTableCell component='th' scope='row'>
                   {row.name}

@@ -1,8 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import AdminLayout from '../../../layouts/admin-layout'
 import EditUsers from '../../../components/function/EditUsers'
 import { makeStyles } from '@material-ui/styles'
+import { getAdminsId } from '../../../api/v2/admins'
+import { useQuery } from 'react-query'
 import {
   Card,
   CardContent,
@@ -11,6 +13,7 @@ import {
   Grid
 } from '@material-ui/core'
 import DeleteIcon from '@mui/icons-material/Delete'
+import Loader from '../../../components/loader'
 
 const useStyles = makeStyles({
   root: {
@@ -36,7 +39,7 @@ const useStyles = makeStyles({
 const SingleUser = () => {
   const classes = useStyles()
   const router = useRouter()
-  const [me, setme] = useState({})
+  const [me, setMe] = useState({})
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -44,9 +47,30 @@ const SingleUser = () => {
     } else {
       setMe(JSON.parse(localStorage.getItem('admin')))
     }
+
+    
   }, [])
 
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState(false)  
+  
+  console.log(router.query.id)
+  const {isLoading, error, data} = useQuery("admins", getAdminsId)
+  console.log(data)
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <Loader loading={isLoading} />
+      </AdminLayout>
+    )
+  }
+
+  const BeautifyOrg = (org) => {
+    if(org == "FORWARDSCHOOL") {
+      return "Forward School"
+    }
+  }
+
   return(
     <AdminLayout admin={me}>
       <div className={classes.container}>
@@ -59,19 +83,19 @@ const SingleUser = () => {
             <Grid item xs={10}>
               <CardContent className={classes.card}>
                 <Typography variant="h6" component="h2" gutterBottom>
-                  Name: Chris Evans
+                  Name: {data.admins.name}
                 </Typography>
                 <Typography variant="h6" component="h2" gutterBottom>
-                  Email : chris@avengers.com
+                  Email : {data.admins.email}
                 </Typography>
                 <Typography variant="h6" component="h2" gutterBottom>
-                  Phone No : 010-1111111
+                  Phone No : {data.admins.phone}
                 </Typography>
                 <Typography variant="h6" component="h2" gutterBottom>
-                  Organisation : Forward School
+                  Organisation : {BeautifyOrg(data.admins.organisation)}
                 </Typography>
                 <Typography variant="h6" component="h2" gutterBottom>
-                  Role : Admin
+                  Role : {data.admins.role}
                 </Typography>
               </CardContent>
             </Grid>
