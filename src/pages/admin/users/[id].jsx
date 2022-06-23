@@ -153,11 +153,7 @@ export default SingleUser
 
 export async function getServerSideProps(context) {
   const id = context.query.id
-<<<<<<< HEAD
-  return{
-=======
   return {
->>>>>>> 1084820174b7e21745ff38dfb26f521a1cd95c09
     props: {id}
   }
 }
