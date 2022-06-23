@@ -13,12 +13,6 @@ import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import { useSnackbar } from 'notistack'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
-<<<<<<< HEAD
-
-// import getTest from '../../api/v2/tests'
-// import * as Sentry from '@sentry/browser'
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
@@ -117,11 +111,7 @@ function Dashboard() {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
   const { isLoading, error, data } = useQuery('tests', getAllTests)
-<<<<<<< HEAD
-  const [admin, setAdmin] = useState({})
-=======
   const [me, setMe] = useState({})
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   const router = useRouter()
 
   const [filters, setFilters] = useState({
@@ -141,14 +131,10 @@ function Dashboard() {
     if (!localStorage.getItem('token')) {
       router.replace('./auth/sign-in')
     } else {
-<<<<<<< HEAD
       setAdmin({
         admin: localStorage.getItem('admin'),
         token: localStorage.getItem('token')
       })
-=======
-      setMe(JSON.parse(localStorage.getItem('admin')))
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
     }
   }, [])
 

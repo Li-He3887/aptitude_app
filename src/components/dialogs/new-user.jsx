@@ -39,7 +39,6 @@ const useStyles = makeStyles({
   },
   input: {
     marginBottom: '1rem'
-<<<<<<< HEAD
   },
   selectContainer: {
    width: '100%',
@@ -50,8 +49,6 @@ const useStyles = makeStyles({
     '& .MuiInputBase-input': {
       borderColor: '#1853A0'
     }
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   }
 })
 
@@ -90,13 +87,10 @@ const NewUser = ({ open, onClose }) => {
     })
   }
 
-<<<<<<< HEAD
   const [filters, setFilters] = useState({
     organisation: '',
   })
 
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
@@ -132,7 +126,6 @@ const NewUser = ({ open, onClose }) => {
             onChange={e => onChangeHandler(e.target.value, 'phone')}
           />
 
-<<<<<<< HEAD
             <FormControl
               variant='outlined'
               className={classes.selectContainer}
@@ -161,16 +154,6 @@ const NewUser = ({ open, onClose }) => {
               </Select>
             </FormControl>
           
-=======
-          <TextField
-            label='Organisation'
-            variant='outlined'
-            size='large'
-            value={form.organisation}
-            className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'organisation')}
-          />
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
           <Button
             disabled={mutation.isLoading}
             variant='contained'
