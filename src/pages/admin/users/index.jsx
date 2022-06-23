@@ -1,11 +1,7 @@
 /* eslint-disable react/jsx-curly-newline */
-<<<<<<< HEAD
-import React, { useState } from 'react'
-=======
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 import {
   Button,
   FormControl,
@@ -17,6 +13,7 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/Search'
+import { useSnackbar } from 'notistack'
 
 import { getAdmins } from '../../../api/v2/admins'
 
@@ -66,9 +63,8 @@ const useStyles = makeStyles({
 const Admins = () => {
   const classes = useStyles()
   const router = useRouter()
+  const { enqueueSnackbar } = useSnackbar()
 
-<<<<<<< HEAD
-=======
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       router.replace('auth/sign-in')
@@ -77,7 +73,6 @@ const Admins = () => {
 
   const { isLoading, error, data } = useQuery('admins', getAdmins)
 
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   const [modalOpen, setModalOpen] = useState(false)
 
   const [filters, setFilters] = useState({
@@ -85,8 +80,6 @@ const Admins = () => {
     role: '',
     search: ''
   })
-<<<<<<< HEAD
-=======
 
   if (isLoading) {
     return (
@@ -108,7 +101,6 @@ const Admins = () => {
 
   const data2 = data.data
   const me = JSON.parse(localStorage.getItem('admin'))
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 
   // TODO: Make API call here, listen for query params - pagination, filters
 
@@ -136,24 +128,18 @@ const Admins = () => {
               className={classes.selectContainer}
               size='small'
             >
-              <InputLabel id='organisation-select-label'>Organisation</InputLabel>
+              <InputLabel id='organisation-select-label'>
+                Organisation
+              </InputLabel>
               <Select
                 labelId='organisation-select-label'
                 id='organisation-select-filled'
                 className={classes.select}
-<<<<<<< HEAD
                 value={filters.organisation}
                 onChange={e =>
                   setFilters(prev => ({
                     ...prev,
                     organisation: e.target.value
-=======
-                value={filters.role}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    role: e.target.value
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
                   }))
                 }
               >
@@ -177,19 +163,11 @@ const Admins = () => {
                 labelId='role-select-label'
                 id='role-select-filled'
                 className={classes.select}
-<<<<<<< HEAD
                 value={filters.role}
                 onChange={e =>
                   setFilters(prev => ({
                     ...prev,
                     role: e.target.value
-=======
-                value={filters.organisation}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    organisation: e.target.value
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
                   }))
                 }
               >

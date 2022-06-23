@@ -6,11 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel
+  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
@@ -39,54 +35,17 @@ const useStyles = makeStyles({
   },
   input: {
     marginBottom: '1rem'
-<<<<<<< HEAD
-  },
-  selectContainer: {
-    width: '100%',
-     marginRight: '0.8rem',
-     marginBottom: '1rem'
-   },
-   select: {
-     '& .MuiInputBase-input': {
-       borderColor: '#1853A0'
-     }
-   }
-=======
   }
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
 })
 
 const NewUser = ({ open, onClose }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-<<<<<<< HEAD
   const mutation = useMutation(data => createAdmin(data))
 
   const [form, setForm] = useState({
     fullName: '',
-=======
-  const mutation = useMutation(data => 
-    createAdmin(data),
-    {
-      onSuccess: data2 => {
-
-        const message =  "Email: "+data2.data.admin.email+", \nPassword: "+data2.data.password 
-
-        enqueueSnackbar(message, {
-          variant: 'success',
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'center'
-          },
-          autoHideDuration: 10000
-        })
-      }
-  })
-
-  const [form, setForm] = useState({
-    name: '',
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
     email: '',
     phone: '',
     organisation: '',
@@ -114,13 +73,6 @@ const NewUser = ({ open, onClose }) => {
     })
   }
 
-<<<<<<< HEAD
-  const [filters, setFilters] = useState({
-    organisation: '',
-  })
-
-=======
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
@@ -133,15 +85,9 @@ const NewUser = ({ open, onClose }) => {
             label='Full Name'
             variant='outlined'
             size='large'
-<<<<<<< HEAD
             value={form.fullName}
             className={classes.input}
             onChange={e => onChangeHandler(e.target.value, 'fullName')}
-=======
-            value={form.name}
-            className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'name')}
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
           />
 
           <TextField
@@ -162,35 +108,6 @@ const NewUser = ({ open, onClose }) => {
             onChange={e => onChangeHandler(e.target.value, 'phone')}
           />
 
-<<<<<<< HEAD
-            <FormControl
-              variant='outlined'
-              className={classes.selectContainer}
-              size='large'
-            >
-              <InputLabel id='organisation-select-label'>Organisation</InputLabel>
-              <Select
-                labelId='organisation-select-label'
-                id='organisation-select-filled'
-                className={classes.select}
-                value={filters.organisation}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    organisation: e.target.value
-                  }))
-                }
-              >
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                {/* TODO: This list will be fetched from API */}
-                <MenuItem value={10}>Forward School</MenuItem>
-                <MenuItem value={20}>Dell</MenuItem>
-                <MenuItem value={30}>Experion</MenuItem>
-              </Select>
-            </FormControl>
-=======
           <TextField
             label='Organisation'
             variant='outlined'
@@ -199,17 +116,12 @@ const NewUser = ({ open, onClose }) => {
             className={classes.input}
             onChange={e => onChangeHandler(e.target.value, 'organisation')}
           />
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
           <Button
             disabled={mutation.isLoading}
             variant='contained'
             color='primary'
             size='large'
-<<<<<<< HEAD
             onClick={onSubmitHandler}
-=======
-            onClick={() => onSubmitHandler()}
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
           >
             {mutation.isLoading ? 'Saving...' : 'Save'}
           </Button>

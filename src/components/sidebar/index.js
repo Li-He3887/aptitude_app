@@ -126,23 +126,12 @@ function Sidebar(props) {
     setMobileOpen(!mobileOpen)
   }
 
-<<<<<<< HEAD
-  const isSuperAdmin = () => {
-    if(!admin.token) {
-      return false
-    } else {
-      const role = admin.admin.role
-      role !== 'SUPER_ADMIN' ? false : true
-    }
-  }
-
-=======
-  const isSuperAdmin = (admin) => {
-    if(!admin) {
+  const isSuperAdmin = admin => {
+    if (!admin) {
       return false
     } else {
       const role = admin.role
-      if(role != 'SUPER_ADMIN') {
+      if (role !== 'SUPER_ADMIN') {
         return false
       } else {
         return true
@@ -156,7 +145,6 @@ function Sidebar(props) {
     router.replace('auth/sign-in')
   }
 
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
   const drawer = (
     <>
       <div className={classes.toolbar}>
@@ -180,31 +168,19 @@ function Sidebar(props) {
           </ListItem>
         </Link>
 
-<<<<<<< HEAD
-        <Link href='/admin/users' color='inherit' className={classes.link}>
-          <ListItem button>
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary='Admins' />
-          </ListItem>
-        </Link>
-=======
-        {
-          isSuperAdmin(admin) ? 
-            <Link href='/admin/users' color='inherit' className={classes.link}>
-              <ListItem button>
-                <ListItemIcon>
-                  <PeopleIcon />
-                </ListItemIcon>
-                <ListItemText primary='Admins' />
-              </ListItem>
-            </Link>
-          :
-            <></>
-        }
->>>>>>> a1d0b664d2ea986b3af630a76e5ff356cf1bab94
-        
+        {isSuperAdmin(admin) ? (
+          <Link href='/admin/users' color='inherit' className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary='Admins' />
+            </ListItem>
+          </Link>
+        ) : (
+          <></>
+        )}
+
         <Link
           href='/admin/settings'
           color='inherit'
@@ -306,7 +282,8 @@ function Sidebar(props) {
 }
 
 Sidebar.propTypes = {
-  window: PropTypes.any
+  window: PropTypes.any,
+  admin: PropTypes.any // TODO: Update this
 }
 
 export default Sidebar
