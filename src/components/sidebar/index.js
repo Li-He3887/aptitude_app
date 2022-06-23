@@ -38,10 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   image: {
     flexGrow: 0.1,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block'
-    },
+    display: 'block',
     maxHeight: '100px',
     maxWidth: '150px'
   },
