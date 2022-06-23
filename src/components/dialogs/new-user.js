@@ -56,10 +56,24 @@ const NewUser = ({ open, onClose }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutation = useMutation(data => createAdmin(data))
+  const mutation = useMutation(data => createAdmin(data), {
+    onSuccess:
+      data => {
+
+        const message = "Password: "+data.data.password
+
+        enqueueSnackbar(message, {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'center'
+          },
+        })
+      }
+  })
 
   const [form, setForm] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     organisation: '',
@@ -104,9 +118,9 @@ const NewUser = ({ open, onClose }) => {
             label='Full Name'
             variant='outlined'
             size='large'
-            value={form.fullName}
+            value={form.name}
             className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'fullName')}
+            onChange={e => onChangeHandler(e.target.value, 'name')}
           />
 
           <TextField

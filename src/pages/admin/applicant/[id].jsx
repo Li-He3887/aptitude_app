@@ -43,6 +43,14 @@ const SingleApplicant = (props) => {
   const classes = useStyles()
   const router = useRouter()
   const {id} = props
+  const [me, setMe] = useState({})
+
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.replace('./auth/sign-in')
+    }
+    setMe(JSON.parse(localStorage.getItem('admin')))
+  }, [])
 
   const [openEdit, setOpenEdit] = useState(false)
 
@@ -59,7 +67,7 @@ const SingleApplicant = (props) => {
   }
 
   return (
-    <AdminLayout>
+    <AdminLayout admin={me}>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
           <h1 className={classes.head1}>Applicant Details</h1>

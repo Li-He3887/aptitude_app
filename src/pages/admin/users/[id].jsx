@@ -13,6 +13,8 @@ import {
   Grid
 } from '@material-ui/core'
 import Loader from '../../../components/loader'
+import { getURL } from 'next/dist/next-server/lib/utils'
+import { func } from 'prop-types'
 
 const useStyles = makeStyles({
   root: {
@@ -46,8 +48,8 @@ const useStyles = makeStyles({
 const SingleUser = (props) => {
   const classes = useStyles()
   const router = useRouter()
-  const {id} = props
   const [me, setMe] = useState({})
+  const {id} = props
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -151,7 +153,11 @@ export default SingleUser
 
 export async function getServerSideProps(context) {
   const id = context.query.id
+<<<<<<< HEAD
   return{
+=======
+  return {
+>>>>>>> 1084820174b7e21745ff38dfb26f521a1cd95c09
     props: {id}
   }
 }
