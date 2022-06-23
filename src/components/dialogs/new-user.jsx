@@ -42,14 +42,14 @@ const useStyles = makeStyles({
   },
   selectContainer: {
     width: '100%',
-     marginRight: '0.8rem',
-     marginBottom: '1rem'
-   },
-   select: {
-     '& .MuiInputBase-input': {
-       borderColor: '#1853A0'
-     }
-   }
+    marginRight: '0.8rem',
+    marginBottom: '1rem',
+  },
+  select: {
+    '& .MuiInputBase-input': {
+      borderColor: '#1853A0'
+    }
+  }
 })
 
 const NewUser = ({ open, onClose }) => {

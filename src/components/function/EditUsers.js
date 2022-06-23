@@ -1,14 +1,23 @@
-import React from 'react'
+import React,{ useState } from 'react'
+import {useRouter} from 'next/router'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/styles'
 import {
   Typography,
   TextField,
   Button,
-  IconButton,
+  MenuItem,
   Box,
-  Modal
+  Modal,
+  FormControl,
+  Select,
+  InputLabel
 } from '@mui/material'
-import BrushIcon from '@mui/icons-material/Brush'
+
+import AdminLayout from '../../layouts/admin-layout'
+import { getAdminsId } from '../../api/v2/admins'
+import { useQuery } from 'react-query'
+import Loader from '../../components/loader'
 
 const style = {
   position: 'absolute',
@@ -29,22 +38,30 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: '10px'
-  }
+  },
+  selectContainer: {
+    width: '100%',
+     marginRight: '0.8rem',
+     marginBottom: '1rem',
+     
+   },
+   select: {
+     '& .MuiInputBase-input': {
+       borderColor: '#1853A0'
+     }
+   }
 })
 
-function EditUser() {
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
+function EditUser({ open, handleClose, data }) {
   const classes = useStyles()
+
+  const [filters, setFilters] = useState({
+    organisation: data.organisation,
+    role: data.role,
+  })
 
   return (
     <div>
-      <IconButton aria-label='delete' onClick={handleOpen} size='medium'>
-        <BrushIcon />
-      </IconButton>
-      {/* <Button onClick={handleOpen} variant="contained">Change Passsword</Button> */}
       <Modal
         open={open}
         onClose={handleClose}
@@ -53,7 +70,7 @@ function EditUser() {
       >
         <Box sx={style}>
           <Typography id='modal-modal-title' variant='h6' component='h2'>
-            Edit Users
+            Edit Admins
           </Typography>
 
           <div>
@@ -63,7 +80,7 @@ function EditUser() {
               variant='outlined'
               fullWidth
               margin='normal'
-              defaultValue='Chris Evans'
+              defaultValue={data.name}
             />
 
             <TextField
@@ -72,7 +89,7 @@ function EditUser() {
               variant='outlined'
               fullWidth
               margin='normal'
-              defaultValue='chris@avengers.com'
+              defaultValue={data.email}
             />
 
             <TextField
@@ -81,26 +98,61 @@ function EditUser() {
               variant='outlined'
               fullWidth
               margin='normal'
-              defaultValue='010-1111111'
+              defaultValue={data.phone}
             />
 
-            <TextField
-              id='organisation'
-              label='Organisation'
+            <FormControl
               variant='outlined'
-              fullWidth
+              className={classes.selectContainer}
+              size='large'
               margin='normal'
-              defaultValue='Forward School'
-            />
+            >
+              <InputLabel id='organisation-select-label'>Organisation</InputLabel>
+              <Select
+                labelId='organisation-select-label'
+                id='organisation-select-filled'
+                className={classes.select}
+                value={filters.organisation}
+                defaultValue={data.organisation}
+                onChange={e =>
+                  setFilters(prev => ({
+                    ...prev,
+                    organisation: e.target.value
+                  }))
+                }
+              >
+                {/* TODO: This list will be fetched from API */}
+                <MenuItem value={"FORWARDSCHOOL"}>Forward School</MenuItem>
+                <MenuItem value={"DELL"}>Dell</MenuItem>
+                <MenuItem value={"EXPERIOR"}>Experion</MenuItem>
+              </Select>
+            </FormControl>
 
-            <TextField
-              id='role'
-              label='Role'
+            <FormControl
               variant='outlined'
-              fullWidth
+              className={classes.selectContainer}
+              size='large'
               margin='normal'
-              defaultValue='Admin'
-            />
+            >
+              <InputLabel id='role-select-label'>Role</InputLabel>
+              <Select
+                labelId='role-select-label'
+                id='role-select-filled'
+                className={classes.select}
+                value={filters.role}
+                defaultValue={data.role}
+                onChange={e =>
+                  setFilters(prev => ({
+                    ...prev,
+                    role: e.target.value
+                  }))
+                }
+              >
+                {/* TODO: This list will be fetched from API */}
+                <MenuItem value={"SUPER_ADMIN"}>Super Admin</MenuItem>
+                <MenuItem value={"ADMIN"}>Admin</MenuItem>
+              </Select>
+            </FormControl>
           </div>
 
           <div className={classes.save_btn}>
@@ -115,3 +167,8 @@ function EditUser() {
 }
 
 export default EditUser
+
+EditUser.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func
+}

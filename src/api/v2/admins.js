@@ -43,16 +43,30 @@ export const deleteAdmin = ({ id }) =>
     id: id
   })
 
-export const getAdmins = () => api.get('/admins')
+export const getAdmins = ({ organisation, role ,search }) => {
+  const params = []
+  
+  if(organisation) {
+    params.push(`${organisation}`)
+  }
 
-export const getAdminsId = (Id = '62b1a109e6dcd14178f0bb0a') => {
-  console.log(Id)
-  // if(Id === undefined) {
-  //   return
-  // }
+  if(role) {
+    params.push(`${role}`)
+  }
 
- return api.get(`/admins/62b1a109e6dcd14178f0bb0a`).then(res => {
-  console.log(res.data)
+  if(search) {
+    params.push(`${search}`)
+  }
+
+  return api.get(`/admins/filter/${params.length ? `${params.join("-")}` : ""}`)
+  .then(res => {
+    return res.data
+  })
+  
+}
+
+export const getAdminsId = (Id) => {
+ return api.get(`/admins/${Id}`).then(res => {
   return res.data
  })
 }

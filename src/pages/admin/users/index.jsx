@@ -71,14 +71,14 @@ const Admins = () => {
     }
   }, [])
 
-  const { isLoading, error, data } = useQuery('admins', getAdmins)
+  const { isLoading, error, data } = useQuery('admins',() => getAdmins(filters))
 
   const [modalOpen, setModalOpen] = useState(false)
 
   const [filters, setFilters] = useState({
-    organisation: '',
-    role: '',
-    search: ''
+    organisation: 'ALL',
+    role: 'ALL',
+    search: 'ALL'
   })
 
   if (isLoading) {
@@ -99,7 +99,6 @@ const Admins = () => {
     })
   }
 
-  const data2 = data.data
   const me = JSON.parse(localStorage.getItem('admin'))
 
   // TODO: Make API call here, listen for query params - pagination, filters
@@ -143,13 +142,10 @@ const Admins = () => {
                   }))
                 }
               >
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
                 {/* TODO: This list will be fetched from API */}
-                <MenuItem value={10}>Forward School</MenuItem>
-                <MenuItem value={20}>Dell</MenuItem>
-                <MenuItem value={30}>Experion</MenuItem>
+                <MenuItem value={"FORWARDSCHOOL"}>Forward School</MenuItem>
+                <MenuItem value={"DELL"}>Dell</MenuItem>
+                <MenuItem value={"EXPERION"}>Experion</MenuItem>
               </Select>
             </FormControl>
 
@@ -203,7 +199,7 @@ const Admins = () => {
             />
           </div>
           {/* TODO: Pass in custom table data */}
-          <Table rows={data2 || []} />
+          <Table rows={data || []} />
         </div>
       </div>
     </AdminLayout>

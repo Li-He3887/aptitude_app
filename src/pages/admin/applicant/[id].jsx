@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import {useRouter} from 'next/router'
+import { useQuery } from 'react-query'
 import { makeStyles } from '@material-ui/styles'
 import { Card, CardContent, Button, Typography, Grid } from '@material-ui/core'
 
 import AdminLayout from '../../../layouts/admin-layout'
 import EditApplicant from '../../../components/function/EditApplicant'
+import Loader from '../../../components/loader'
 
 import { getUserById } from '../../../api/v2/applicants'
 
@@ -36,17 +39,24 @@ const useStyles = makeStyles({
   }
 })
 
-const SingleApplicant = ({
-  fullName,
-  email,
-  result,
-  programme,
-  phone,
-  reportId
-}) => {
+const SingleApplicant = (props) => {
   const classes = useStyles()
+  const router = useRouter()
+  const {id} = props
 
   const [openEdit, setOpenEdit] = useState(false)
+
+  console.log(router.query.id)
+  const {isLoading, error, data} = useQuery("applicants",() => getUserById(id))
+  console.log(data)  
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <Loader loading={isLoading} />
+      </AdminLayout>
+    )
+  }
 
   return (
     <AdminLayout>
@@ -59,7 +69,7 @@ const SingleApplicant = ({
               color='primary'
               size='large'
               className={classes.viewReportBtn}
-              href={`tests/${reportId}/report`}
+              // href={`tests/${reportId}/report`}
             >
               View Report
             </Button>
@@ -120,4 +130,11 @@ SingleApplicant.propTypes = {
   programme: PropTypes.string,
   phone: PropTypes.string,
   reportId: PropTypes.string
+}
+
+export async function getServerSideProps(context) {
+  const id = context.query.id
+  return{
+    props: {id}
+  }
 }

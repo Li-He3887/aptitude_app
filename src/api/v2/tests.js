@@ -18,22 +18,29 @@ export const getAllTests = ({ startDate, endDate, search, status }) => {
   const params = []
 
   if (startDate) {
-    params.push(`startDate=${startDate}`)
+    params.push(`${startDate}`)
   }
 
   if (endDate) {
-    params.push(`startDate=${endDate}`)
+    params.push(`${endDate}`)
   }
 
   if (search) {
-    params.push(`startDate=${search}`)
+    params.push(`${search}`)
   }
 
   if (status) {
-    params.push(`startDate=${status}`)
+    params.push(`${status}`)
   }
 
-  return api
-    .get(`/tests${params.length ? `?${params.join('&')}` : ''}`)
-    .then(res => res.data)
+  const response = () => {
+    return api
+      .get(`/tests/filter/${params.length ? `${params.join('-')}` : ''}`)
+      .then(res => {
+        return res.data.test
+      } )
+  }
+
+
+  return response
 }
