@@ -16,8 +16,10 @@ import {
 
 import AdminLayout from '../../layouts/admin-layout'
 import { getAdminsId } from '../../api/v2/admins'
-import { useQuery } from 'react-query'
+import { useMutation } from 'react-query'
 import Loader from '../../components/loader'
+
+import { editAdmin } from '../../api/v2/admins'
 
 const style = {
   position: 'absolute',
@@ -54,11 +56,44 @@ const useStyles = makeStyles({
 
 function EditUser({ open, handleClose, data }) {
   const classes = useStyles()
+  const [form, setForm] = useState({
+    name: data.name,
+    email: data.email,
+    role: data. role,
+    organisation: data.organisation,
+    phone: data.phone,
+    id: data._id
+  })
 
   const [filters, setFilters] = useState({
     organisation: data.organisation,
     role: data.role,
   })
+
+  const mutation = useMutation(form => editAdmin(form))
+
+  const onChangeHandler = e => {
+    const id = e.target.id
+    const value = e.target.value
+    setForm({
+      ...form,
+      [id]: value
+    })
+  }
+
+  const onSubmitHandler = () => {
+    mutation.mutate(form)
+  }
+  
+  if (mutation.error) {
+    enqueueSnackbar('Failed to edit admin', {
+      variant: 'error',
+      anchorOrigin: {
+        vertical: 'top',
+        horizontal: 'right'
+      }
+    })
+  }
 
   return (
     <div>
@@ -72,7 +107,7 @@ function EditUser({ open, handleClose, data }) {
           <Typography id='modal-modal-title' variant='h6' component='h2'>
             Edit Admins
           </Typography>
-
+        
           <div>
             <TextField
               id='name'
@@ -80,6 +115,7 @@ function EditUser({ open, handleClose, data }) {
               variant='outlined'
               fullWidth
               margin='normal'
+              onChange={(e) => onChangeHandler(e)}
               defaultValue={data.name}
             />
 
@@ -89,6 +125,7 @@ function EditUser({ open, handleClose, data }) {
               variant='outlined'
               fullWidth
               margin='normal'
+              onChange={(e) => onChangeHandler(e)}
               defaultValue={data.email}
             />
 
@@ -98,6 +135,7 @@ function EditUser({ open, handleClose, data }) {
               variant='outlined'
               fullWidth
               margin='normal'
+              onChange={(e) => onChangeHandler(e)}
               defaultValue={data.phone}
             />
 
@@ -115,7 +153,7 @@ function EditUser({ open, handleClose, data }) {
                 value={filters.organisation}
                 defaultValue={data.organisation}
                 onChange={e =>
-                  setFilters(prev => ({
+                  setForm(prev => ({
                     ...prev,
                     organisation: e.target.value
                   }))
@@ -124,7 +162,7 @@ function EditUser({ open, handleClose, data }) {
                 {/* TODO: This list will be fetched from API */}
                 <MenuItem value={"FORWARDSCHOOL"}>Forward School</MenuItem>
                 <MenuItem value={"DELL"}>Dell</MenuItem>
-                <MenuItem value={"EXPERIOR"}>Experion</MenuItem>
+                <MenuItem value={"EXPERIOR"}>Experior</MenuItem>
               </Select>
             </FormControl>
 
@@ -142,7 +180,7 @@ function EditUser({ open, handleClose, data }) {
                 value={filters.role}
                 defaultValue={data.role}
                 onChange={e =>
-                  setFilters(prev => ({
+                  setForm(prev => ({
                     ...prev,
                     role: e.target.value
                   }))
@@ -156,7 +194,10 @@ function EditUser({ open, handleClose, data }) {
           </div>
 
           <div className={classes.save_btn}>
-            <Button variant='contained' size='medium'>
+            <Button 
+            onClick={() => onSubmitHandler()}
+            variant='contained' 
+            size='medium'>
               Save
             </Button>
           </div>

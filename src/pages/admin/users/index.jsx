@@ -145,7 +145,7 @@ const Admins = () => {
                 {/* TODO: This list will be fetched from API */}
                 <MenuItem value={"FORWARDSCHOOL"}>Forward School</MenuItem>
                 <MenuItem value={"DELL"}>Dell</MenuItem>
-                <MenuItem value={"EXPERION"}>Experion</MenuItem>
+                <MenuItem value={"EXPERIOR"}>Experior</MenuItem>
               </Select>
             </FormControl>
 

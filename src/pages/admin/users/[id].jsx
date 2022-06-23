@@ -13,6 +13,7 @@ import {
   Grid
 } from '@material-ui/core'
 import Loader from '../../../components/loader'
+import { deleteAdmin } from '../../../api/v2/admins'
 import { getURL } from 'next/dist/next-server/lib/utils'
 import { func } from 'prop-types'
 
@@ -60,10 +61,7 @@ const SingleUser = (props) => {
   }, [])
 
   const [openEdit, setOpenEdit] = useState(false)
-  
-  console.log(router.query.id)
   const {isLoading, error, data} = useQuery("admins",() => getAdminsId(id))
-  console.log(data)  
 
   if (isLoading) {
     return (
@@ -73,14 +71,19 @@ const SingleUser = (props) => {
     )
   }
 
+  const handleDelete = () => {
+    deleteAdmin(id)
+    router.push("./")
+  }
+
   const BeautifyOrg = (org) => {
     switch (org) {
       case 'FORWARDSCHOOL':
         return "Forward School"
       case 'DELL':
         return "Dell"
-      case 'EXPERION':
-        return "Experion"
+      case 'EXPERIOR':
+        return "Experior"
       default:
         return null
     }
@@ -107,6 +110,7 @@ const SingleUser = (props) => {
               color='primary'
               size='large'
               className={classes.deleteBtn}
+              onClick={handleDelete}
             >
               Delete
             </Button>
@@ -153,7 +157,7 @@ export default SingleUser
 
 export async function getServerSideProps(context) {
   const id = context.query.id
-  return {
+  return{
     props: {id}
   }
 }

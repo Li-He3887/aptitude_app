@@ -9,6 +9,7 @@ import {
   Box,
   Modal
 } from '@mui/material'
+import { changeProgramme } from '../../api/v2/applicants'
 
 const style = {
   position: 'absolute',
@@ -32,8 +33,9 @@ const useStyles = makeStyles({
   }
 })
 
-function EditApplicant({ open, handleClose }) {
+function EditApplicant({ open, handleClose, user }) {
   const classes = useStyles()
+  const id = user._id
 
   const programList = [
     {
@@ -58,6 +60,10 @@ function EditApplicant({ open, handleClose }) {
 
   const programOnChange = event => {
     setProgram(event.target.value)
+  }
+
+  const onSubmitHandler = () => {
+    changeProgramme({id, programme: program})
   }
 
   return (
@@ -93,7 +99,10 @@ function EditApplicant({ open, handleClose }) {
           </div>
 
           <div className={classes.save_btn}>
-            <Button variant='contained' size='medium'>
+            <Button 
+            onClick={() => onSubmitHandler()}
+            variant='contained' 
+            size='medium'>
               Save
             </Button>
           </div>

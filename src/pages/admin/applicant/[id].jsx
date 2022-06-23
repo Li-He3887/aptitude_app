@@ -54,9 +54,9 @@ const SingleApplicant = (props) => {
 
   const [openEdit, setOpenEdit] = useState(false)
 
-  console.log(router.query.id)
-  const {isLoading, error, data} = useQuery("applicants",() => getUserById(id))
-  console.log(data)  
+  // console.log(router.query.id)
+  const {isLoading, error, data} = useQuery("applicant",() => getUserById(id))
+  // console.log(data)  
 
   if (isLoading) {
     return (
@@ -77,7 +77,7 @@ const SingleApplicant = (props) => {
               color='primary'
               size='large'
               className={classes.viewReportBtn}
-              // href={`tests/${reportId}/report`}
+              href={`../../tests/${data.testId}/report`}
             >
               View Report
             </Button>
@@ -97,21 +97,21 @@ const SingleApplicant = (props) => {
             <Grid item xs={11}>
               <CardContent className={classes.card}>
                 <Typography variant='h6' component='h2' gutterBottom>
-                  Name: John Smith
+                  Name: {data.user.name}
                 </Typography>
                 <Typography variant='h6' component='h2' gutterBottom>
-                  Email : johnsmith@gmail.com
+                  Email : {data.user.email}
                 </Typography>
                 <Typography variant='h6' component='h2' gutterBottom>
-                  Result : 18/20
-                </Typography>
-
-                <Typography variant='h6' component='h2' gutterBottom>
-                  Programme : DS
+                  Result : {data.score} / 20
                 </Typography>
 
                 <Typography variant='h6' component='h2' gutterBottom>
-                  Phone No : 010-1111111
+                  Programme : {data.user.programme}
+                </Typography>
+
+                <Typography variant='h6' component='h2' gutterBottom>
+                  Phone No : {data.user.phone.number}
                 </Typography>
               </CardContent>
             </Grid>
@@ -120,6 +120,7 @@ const SingleApplicant = (props) => {
               <EditApplicant
                 open={openEdit}
                 handleClose={() => setOpenEdit(false)}
+                user={data.user}
               />
             </Grid>
           </Grid>

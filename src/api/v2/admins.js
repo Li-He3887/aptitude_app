@@ -38,10 +38,9 @@ export const changePass = ({ email, password, confirmPassword }, id) =>
     }
   )
 
-export const deleteAdmin = ({ id }) =>
-  api.post('/admins/delete', {
-    id: id
-  })
+export const deleteAdmin = ( id ) => {
+  return api.post('/admins/delete', { id: id })
+}
 
 export const getAdmins = ({ organisation, role ,search }) => {
   const params = []
@@ -69,4 +68,17 @@ export const getAdminsId = (Id) => {
  return api.get(`/admins/${Id}`).then(res => {
   return res.data
  })
+}
+
+export const editAdmin = ({name, email, role, phone, organisation, id}) => {
+  // console.log(name, email, organisation, role, phone, id)
+  return api.put(`admins/${id}`, {
+    name,
+    email,
+    role,
+    phone,
+    organisation
+  }).then( res => {
+    return res.data
+  })
 }
