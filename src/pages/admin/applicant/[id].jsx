@@ -145,3 +145,9 @@ const SingleApplicant = props => {
 }
 
 export default SingleApplicant
+
+export async function getServerSideProps() {
+  return {
+    props: {}
+  }
+}

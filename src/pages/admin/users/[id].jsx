@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Card, CardContent, Typography, Button, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useSnackbar } from 'notistack'
 
 import AdminLayout from '../../../layouts/admin-layout'
-import EditUsers from '../../../components/function/EditUsers'
+import EditUserDialog from '../../../components/dialogs/edit-user'
 import Loader from '../../../components/loader'
 import { getAdminsId, deleteAdmin } from '../../../api/v2/admins'
 
@@ -42,11 +42,12 @@ const useStyles = makeStyles({
 const SingleUser = props => {
   const classes = useStyles()
   const router = useRouter()
-  const [me, setMe] = useState({})
+  const { enqueueSnackbar } = useSnackbar()
 
   const adminId = router.query.id
 
-  const { enqueueSnackbar } = useSnackbar()
+  const [me, setMe] = useState({})
+  const [openEdit, setOpenEdit] = useState(false)
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -56,10 +57,21 @@ const SingleUser = props => {
     }
   }, [])
 
-  const [openEdit, setOpenEdit] = useState(false)
   const { isLoading, data } = useQuery('admin', () => getAdminsId(adminId), {
     onError: () => {
       enqueueSnackbar('Failed to fetch admin', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right'
+        }
+      })
+    }
+  })
+
+  const { mutate } = useMutation(() => deleteAdmin(adminId), {
+    onError: () => {
+      enqueueSnackbar('Failed to delete admin', {
         variant: 'error',
         anchorOrigin: {
           vertical: 'top',
@@ -78,8 +90,12 @@ const SingleUser = props => {
   }
 
   const handleDelete = () => {
-    deleteAdmin(adminId)
-    router.push('./')
+    const confirmed = confirm('Are you sure you want to delete this admin?')
+
+    if (confirmed) {
+      mutate(adminId)
+      router.push('/admin/users')
+    }
   }
 
   const BeautifyOrg = org => {
@@ -100,6 +116,7 @@ const SingleUser = props => {
       <div className={classes.container}>
         <div className={classes.headerContainer}>
           <h1 className={classes.head1}>Admins Detail</h1>
+
           <div>
             <Button
               variant='contained'
@@ -122,38 +139,37 @@ const SingleUser = props => {
           </div>
         </div>
 
-        {!!data && (
-          <Card className={classes.root}>
-            <Grid container spacing={3}>
-              <Grid item xs={10}>
-                <CardContent className={classes.card}>
-                  <Typography variant='h6' component='h2' gutterBottom>
-                    Name: {data.admins?.name}
-                  </Typography>
-                  <Typography variant='h6' component='h2' gutterBottom>
-                    Email : {data.admins?.email}
-                  </Typography>
-                  <Typography variant='h6' component='h2' gutterBottom>
-                    Phone No : {data.admins?.phone}
-                  </Typography>
-                  <Typography variant='h6' component='h2' gutterBottom>
-                    Organisation : {BeautifyOrg(data.admins?.organisation)}
-                  </Typography>
-                  <Typography variant='h6' component='h2' gutterBottom>
-                    Role : {data.admins?.role}
-                  </Typography>
-                </CardContent>
+        {!!data?.admins && (
+          <>
+            <Card className={classes.root}>
+              <Grid container spacing={3}>
+                <Grid item xs={10}>
+                  <CardContent className={classes.card}>
+                    <Typography variant='h6' component='h2' gutterBottom>
+                      Name: {data.admins?.name}
+                    </Typography>
+                    <Typography variant='h6' component='h2' gutterBottom>
+                      Email : {data.admins?.email}
+                    </Typography>
+                    <Typography variant='h6' component='h2' gutterBottom>
+                      Phone No : {data.admins?.phone}
+                    </Typography>
+                    <Typography variant='h6' component='h2' gutterBottom>
+                      Organisation : {BeautifyOrg(data.admins?.organisation)}
+                    </Typography>
+                    <Typography variant='h6' component='h2' gutterBottom>
+                      Role : {data.admins?.role}
+                    </Typography>
+                  </CardContent>
+                </Grid>
               </Grid>
-
-              <Grid item xs={1}>
-                <EditUsers
-                  data={data.admins}
-                  open={openEdit}
-                  handleClose={() => setOpenEdit(false)}
-                />
-              </Grid>
-            </Grid>
-          </Card>
+            </Card>
+            <EditUserDialog
+              open={openEdit}
+              onClose={() => setOpenEdit(false)}
+              user={data.admins}
+            />
+          </>
         )}
       </div>
     </AdminLayout>
@@ -161,3 +177,9 @@ const SingleUser = props => {
 }
 
 export default SingleUser
+
+export async function getServerSideProps() {
+  return {
+    props: {}
+  }
+}

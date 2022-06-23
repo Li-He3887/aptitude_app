@@ -50,22 +50,39 @@ const useStyles = makeStyles({
     '& .MuiInputBase-input': {
       borderColor: '#1853A0'
     }
+  },
+  password: {
+    fontSize: '1.2rem',
+    color: '#1853A0'
   }
 })
 
-const NewUser = ({ open, onClose }) => {
+const NewUser = ({ open, onClose, refetchAdmins }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
+  const [showPassword, setShowPassword] = useState(null)
+
   const mutation = useMutation(data => createAdmin(data), {
     onSuccess: data => {
-      const message = 'Password: ' + data.data.password
+      setShowPassword(data.data.password)
 
-      enqueueSnackbar(message, {
+      enqueueSnackbar('Admin created successfully', {
         variant: 'success',
         anchorOrigin: {
           vertical: 'top',
-          horizontal: 'center'
+          horizontal: 'right'
+        }
+      })
+
+      refetchAdmins()
+    },
+    onError: () => {
+      enqueueSnackbar('Failed to add admin', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right'
         }
       })
     }
@@ -90,89 +107,86 @@ const NewUser = ({ open, onClose }) => {
     mutation.mutate(form)
   }
 
-  if (mutation.error) {
-    enqueueSnackbar('Failed to add admin', {
-      variant: 'error',
-      anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'right'
-      }
-    })
-  }
-
-  const [filters, setFilters] = useState({
-    organisation: ''
-  })
-
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
-        <h1 className={classes.head1}>Create Admin</h1>
+        <h1 className={classes.head1}>
+          {showPassword ? 'Admin Created' : 'Create Admin'}
+        </h1>
       </DialogTitle>
 
       <DialogContent>
-        <div className={classes.form}>
-          <TextField
-            label='Full Name'
-            variant='outlined'
-            size='large'
-            value={form.name}
-            className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'name')}
-          />
+        {showPassword ? (
+          <div className={classes.passwordDisplay}>
+            <h4>Please copy the generated password</h4>
+            <h3 className={classes.password}>{showPassword}</h3>
+          </div>
+        ) : (
+          <div className={classes.form}>
+            <TextField
+              label='Full Name'
+              variant='outlined'
+              size='large'
+              value={form.name}
+              className={classes.input}
+              onChange={e => onChangeHandler(e.target.value, 'name')}
+            />
 
-          <TextField
-            label='Email'
-            variant='outlined'
-            size='large'
-            value={form.email}
-            className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'email')}
-          />
+            <TextField
+              label='Email'
+              variant='outlined'
+              size='large'
+              value={form.email}
+              className={classes.input}
+              onChange={e => onChangeHandler(e.target.value, 'email')}
+            />
 
-          <TextField
-            label='Phone'
-            variant='outlined'
-            size='large'
-            value={form.phone}
-            className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'phone')}
-          />
+            <TextField
+              label='Phone'
+              variant='outlined'
+              size='large'
+              value={form.phone}
+              className={classes.input}
+              onChange={e => onChangeHandler(e.target.value, 'phone')}
+            />
 
-          <FormControl
-            variant='outlined'
-            className={classes.selectContainer}
-            size='large'
-          >
-            <InputLabel id='organisation-select-label'>Organisation</InputLabel>
-            <Select
-              labelId='organisation-select-label'
-              id='organisation-select-filled'
-              className={classes.select}
-              value={filters.organisation}
-              onChange={e =>
-                setFilters(prev => ({
-                  ...prev,
-                  organisation: e.target.value
-                }))
-              }
+            <FormControl
+              variant='outlined'
+              className={classes.selectContainer}
+              size='large'
             >
-              {/* TODO: This list will be fetched from API */}
-              <MenuItem value={10}>Forward School</MenuItem>
-              <MenuItem value={20}>Dell</MenuItem>
-              <MenuItem value={30}>Experion</MenuItem>
-            </Select>
-          </FormControl>
-          <Button
-            disabled={mutation.isLoading}
-            variant='contained'
-            color='primary'
-            size='large'
-            onClick={onSubmitHandler}
-          >
-            {mutation.isLoading ? 'Saving...' : 'Save'}
-          </Button>
-        </div>
+              <InputLabel id='organisation-select-label'>
+                Organisation
+              </InputLabel>
+              <Select
+                labelId='organisation-select-label'
+                id='organisation-select-filled'
+                className={classes.select}
+                value={form.organisation}
+                onChange={e =>
+                  setForm(prev => ({
+                    ...prev,
+                    organisation: e.target.value
+                  }))
+                }
+              >
+                {/* TODO: This list will be fetched from API */}
+                <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
+                <MenuItem value='DELL'>Dell</MenuItem>
+                <MenuItem value='EXPERION'>Experion</MenuItem>
+              </Select>
+            </FormControl>
+            <Button
+              disabled={mutation.isLoading}
+              variant='contained'
+              color='primary'
+              size='large'
+              onClick={onSubmitHandler}
+            >
+              {mutation.isLoading ? 'Saving...' : 'Create'}
+            </Button>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   )
@@ -180,7 +194,8 @@ const NewUser = ({ open, onClose }) => {
 
 NewUser.propTypes = {
   open: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  refetchAdmins: PropTypes.func
 }
 
 export default NewUser

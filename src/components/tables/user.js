@@ -82,7 +82,7 @@ const UsersTable = ({ rows }) => {
   const handleOnRowClick = id => {
     router.push(`/admin/users/${id}`)
   }
-  
+
   return (
     <>
       <TableContainer component={Paper}>
