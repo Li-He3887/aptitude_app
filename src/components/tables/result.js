@@ -172,10 +172,10 @@ const ApplicantsTable = ({ rows }) => {
                   <StyledTableCell align='center'>
                     <div
                       className={
-                        row.score < 15 ? classes.failedCell : classes.statusCell
+                        row.score < 10 ? classes.failedCell : classes.statusCell
                       }
                     >
-                      {row.score < 15 ? 'FAIL' : 'PASS'}
+                      {row.score < 10 ? 'FAIL' : 'PASS'}
                     </div>
                   </StyledTableCell>
                 </StyledTableRow>
