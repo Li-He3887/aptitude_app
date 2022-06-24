@@ -86,7 +86,7 @@ function Settings() {
 
       <ChangePasswordDialog
         open={open}
-        handleClose={() => setOpen(false)}
+        onClose={() => setOpen(false)}
         email={me.email}
         id={me._id}
       />
