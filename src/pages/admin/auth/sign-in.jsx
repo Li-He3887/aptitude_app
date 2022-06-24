@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Link, Box, TextField, Button, Paper } from '@material-ui/core'
+import { getErrorMessage } from '../../../utils/error'
+import { useSnackbar } from 'notistack'
 import { makeStyles } from '@material-ui/styles'
 import ResponsiveImage from '../../../components/responsive-image'
 import * as Sentry from '@sentry/browser'
@@ -47,6 +49,8 @@ const SignIn = () => {
     password: ''
   })
 
+  const { enqueueSnackbar } = useSnackbar()
+
   const handleOnChange = (value, name) =>
     setCredentials(prev => ({
       ...prev,
@@ -67,17 +71,17 @@ const SignIn = () => {
       .catch(error => {
         Sentry.captureException(error)
 
-        console.log(error)
+        const errorMessage = getErrorMessage(error)
 
-        // const errorMessage = getErrorMessage(error)
+        console.log(errorMessage)
 
-        // enqueueSnackbar(errorMessage.message, {
-        //   variant: errorMessage.type,
-        //   anchorOrigin: {
-        //     vertical: 'bottom',
-        //     horizontal: 'left'
-        //   }
-        // })
+        enqueueSnackbar(errorMessage.message, {
+          variant: errorMessage.type,
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left'
+          }
+        })
       })
   }
 
