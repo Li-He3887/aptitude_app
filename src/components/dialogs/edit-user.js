@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import PropTypes from 'prop-types'
@@ -8,14 +9,14 @@ import {
   DialogTitle,
   Button,
   FormControl,
+  InputLabel,
   Select,
-  MenuItem,
-  InputLabel
+  MenuItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
 
-import { createAdmin } from '../../api/v2/admins'
+import { editAdmin } from '../../api/v2/admins'
 
 const useStyles = makeStyles({
   container: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles({
   selectContainer: {
     width: '100%',
     marginRight: '0.8rem',
-    marginBottom: '1rem',
+    marginBottom: '1rem'
   },
   select: {
     '& .MuiInputBase-input': {
@@ -52,18 +53,31 @@ const useStyles = makeStyles({
   }
 })
 
-const NewUser = ({ open, onClose }) => {
+const EditUser = ({ open, onClose, user }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutation = useMutation(data => createAdmin(data))
+  const mutation = useMutation(data => editAdmin(data), {
+    onSuccess: () => {
+      enqueueSnackbar('Admin edited successfully', {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right'
+        }
+      })
+      onClose()
+    }
+  })
 
   const [form, setForm] = useState({
-    fullName: '',
+    name: '',
     email: '',
     phone: '',
     organisation: '',
-    role: 'ADMIN'
+    role: 'ADMIN',
+    ...user,
+    id: user._id
   })
 
   const onChangeHandler = (val, name) => {
@@ -74,6 +88,7 @@ const NewUser = ({ open, onClose }) => {
   }
 
   const onSubmitHandler = () => {
+    console.log(form)
     mutation.mutate(form)
   }
 
@@ -87,10 +102,6 @@ const NewUser = ({ open, onClose }) => {
     })
   }
 
-  const [filters, setFilters] = useState({
-    organisation: '',
-  })
-
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
@@ -103,9 +114,9 @@ const NewUser = ({ open, onClose }) => {
             label='Full Name'
             variant='outlined'
             size='large'
-            value={form.fullName}
+            value={form.name}
             className={classes.input}
-            onChange={e => onChangeHandler(e.target.value, 'fullName')}
+            onChange={e => onChangeHandler(e.target.value, 'name')}
           />
 
           <TextField
@@ -126,34 +137,30 @@ const NewUser = ({ open, onClose }) => {
             onChange={e => onChangeHandler(e.target.value, 'phone')}
           />
 
-            <FormControl
-              variant='outlined'
-              className={classes.selectContainer}
-              size='large'
+          <FormControl
+            variant='outlined'
+            className={classes.selectContainer}
+            size='large'
+          >
+            <InputLabel id='organisation-select-label'>Organisation</InputLabel>
+            <Select
+              labelId='organisation-select-label'
+              id='organisation-select-filled'
+              className={classes.select}
+              value={form.organisation}
+              onChange={e =>
+                setForm(prev => ({
+                  ...prev,
+                  organisation: e.target.value
+                }))
+              }
             >
-              <InputLabel id='organisation-select-label'>Organisation</InputLabel>
-              <Select
-                labelId='organisation-select-label'
-                id='organisation-select-filled'
-                className={classes.select}
-                value={filters.organisation}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    organisation: e.target.value
-                  }))
-                }
-              >
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                {/* TODO: This list will be fetched from API */}
-                <MenuItem value={10}>Forward School</MenuItem>
-                <MenuItem value={20}>Dell</MenuItem>
-                <MenuItem value={30}>Experion</MenuItem>
-              </Select>
-            </FormControl>
-
+              {/* TODO: This list will be fetched from API */}
+              <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
+              <MenuItem value='DELL'>Dell</MenuItem>
+              <MenuItem value='EXPERION'>Experion</MenuItem>
+            </Select>
+          </FormControl>
           <Button
             disabled={mutation.isLoading}
             variant='contained'
@@ -161,7 +168,7 @@ const NewUser = ({ open, onClose }) => {
             size='large'
             onClick={onSubmitHandler}
           >
-            {mutation.isLoading ? 'Saving...' : 'Save'}
+            {mutation.isLoading ? 'Saving...' : 'Edit'}
           </Button>
         </div>
       </DialogContent>
@@ -169,9 +176,17 @@ const NewUser = ({ open, onClose }) => {
   )
 }
 
-NewUser.propTypes = {
+EditUser.propTypes = {
   open: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  user: {
+    id: PropTypes.string,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    organisation: PropTypes.string,
+    role: PropTypes.string
+  }
 }
 
-export default NewUser
+export default EditUser

@@ -71,7 +71,21 @@ const Admins = () => {
     }
   }, [])
 
-  const { isLoading, error, data } = useQuery('admins',() => getAdmins(filters))
+  const { isLoading, data, refetch } = useQuery(
+    'admins',
+    () => getAdmins(filters),
+    {
+      onError: () => {
+        enqueueSnackbar('Could not fetch data', {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
+          }
+        })
+      }
+    }
+  )
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -87,16 +101,6 @@ const Admins = () => {
         <Loader loading={isLoading} />
       </AdminLayout>
     )
-  }
-
-  if (error) {
-    enqueueSnackbar('Could not fetch data', {
-      variant: 'error',
-      anchorOrigin: {
-        vertical: 'top',
-        horizontal: 'right'
-      }
-    })
   }
 
   const me = JSON.parse(localStorage.getItem('admin'))
@@ -118,7 +122,11 @@ const Admins = () => {
           </Button>
         </div>
 
-        <NewUser open={modalOpen} onClose={() => setModalOpen(false)} />
+        <NewUser
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          refetchAdmins={refetch}
+        />
 
         <div className={classes.tableContainer}>
           <div className={classes.filters}>
@@ -143,9 +151,9 @@ const Admins = () => {
                 }
               >
                 {/* TODO: This list will be fetched from API */}
-                <MenuItem value={"FORWARDSCHOOL"}>Forward School</MenuItem>
-                <MenuItem value={"DELL"}>Dell</MenuItem>
-                <MenuItem value={"EXPERIOR"}>Experior</MenuItem>
+                <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
+                <MenuItem value='DELL'>Dell</MenuItem>
+                <MenuItem value='EXPERIOR'>Experior</MenuItem>
               </Select>
             </FormControl>
 

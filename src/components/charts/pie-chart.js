@@ -1,33 +1,40 @@
 import React from 'react'
 import 'chart.js/auto'
 import { Pie } from 'react-chartjs-2'
-import styled from 'styled-components'
-import { useTheme } from '@material-ui/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { makeStyles } from '@material-ui/styles'
 
-const ChartContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 1rem;
-  position: relative;
-  background-color: rgb(232, 240, 247);
-  border-radius: 12px;
-  width: '100%';
-`
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '2rem 1rem',
+    position: 'relative',
+    backgroundColor: 'rgb(232, 240, 247)',
+    borderRadius: '12px',
+    width: '100%',
 
-const PieContianer = styled.div`
-  width: '50%';
-`
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column'
+    }
+  },
+  pie: {
+    width: '50%',
+
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '2rem',
+      width: '100%'
+    }
+  }
+}))
 
 const PieChart = () => {
-  const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.up('md')) // Change size of chart on smaller screens
+  const classes = useStyles()
 
   return (
-    <ChartContainer matchedSize={matches}>
-      <PieContianer>
+    <div className={classes.container}>
+      <div className={classes.pie}>
         <Pie
           width={600}
           height={300}
@@ -61,8 +68,8 @@ const PieChart = () => {
             ]
           }}
         />
-      </PieContianer>
-      <PieContianer>
+      </div>
+      <div className={classes.pie}>
         <Pie
           width={600}
           height={300}
@@ -96,8 +103,8 @@ const PieChart = () => {
             ]
           }}
         />
-      </PieContianer>
-    </ChartContainer>
+      </div>
+    </div>
   )
 }
 
