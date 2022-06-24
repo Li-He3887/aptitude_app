@@ -14,17 +14,18 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  Avatar,
   Menu,
   MenuItem,
   Typography
 } from '@material-ui/core'
 
 import PeopleIcon from '@mui/icons-material/People'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import OtherHousesIcon from '@mui/icons-material/OtherHouses'
 import SettingsIcon from '@mui/icons-material/Settings'
 import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+
 import ResponsiveImage from '../responsive-image'
 
 const drawerWidth = 240
@@ -38,10 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   image: {
     flexGrow: 0.1,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block'
-    },
+    display: 'block',
     maxHeight: '100px',
     maxWidth: '150px'
   },
@@ -104,6 +102,21 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       textDecoration: 'none'
     }
+  },
+  adminContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'start'
+  },
+  adminName: {
+    color: '#000',
+    fontSize: '1rem',
+    fontWeight: 'bold'
+  },
+  adminRole: {
+    color: '#000',
+    fontSize: '0.8rem'
   }
 }))
 
@@ -216,11 +229,18 @@ function Sidebar(props) {
             </IconButton>
           </Box>
 
-          {/* TODO: Clean this up & get data from current user */}
-          {/* TODO: Can probably try and add user name */}
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ display: 'flex' }}>
+            {!!admin && (
+              <div className={classes.adminContainer}>
+                {/* TODO: Show organisation */}
+                <div className={classes.adminName}>{admin?.name}</div>
+                <div className={classes.adminRole}>
+                  {admin?.role === 'ADMIN' ? 'Admin' : 'Super-admin'}
+                </div>
+              </div>
+            )}
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt='Kher Nee' src='' />
+              <MoreVertIcon />
             </IconButton>
             <Menu
               sx={{ mt: '45px' }}

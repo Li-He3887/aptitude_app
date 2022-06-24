@@ -48,7 +48,7 @@ const ChangePasswordDialog = ({ open, onClose, email, id }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutation = useMutation(data => changePass(data), {
+  const mutation = useMutation(data => changePass(data, id), {
     onSuccess: () => {
       enqueueSnackbar('Password updated successfully', {
         variant: 'success',
@@ -86,8 +86,7 @@ const ChangePasswordDialog = ({ open, onClose, email, id }) => {
     mutation.mutate({
       password: form.newPassword,
       confirmPassword: form.confirmPassword,
-      email,
-      id
+      email
     })
   }
 
