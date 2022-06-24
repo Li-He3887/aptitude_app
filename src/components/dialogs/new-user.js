@@ -68,6 +68,7 @@ const NewUser = ({ open, onClose }) => {
             vertical: 'top',
             horizontal: 'center'
           },
+          autoHideDuration: 8000
         })
       }
   })
