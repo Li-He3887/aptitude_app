@@ -38,49 +38,47 @@ export const changePass = ({ email, password, confirmPassword }, id) =>
     }
   )
 
-export const deleteAdmin = id => {
+export const deleteAdmin = ( id ) => {
   return api.post('/admins/delete', { id: id })
 }
 
-export const getAdmins = ({ organisation, role, search }) => {
+export const getAdmins = ({ organisation, role ,search }) => {
   const params = []
-
-  if (organisation) {
+  
+  if(organisation) {
     params.push(`${organisation}`)
   }
 
-  if (role) {
+  if(role) {
     params.push(`${role}`)
   }
 
-  if (search) {
+  if(search) {
     params.push(`${search}`)
   }
 
-  return api
-    .get(`/admins/filter/${params.length ? `${params.join('-')}` : ''}`)
-    .then(res => {
-      return res.data
-    })
-}
-
-export const getAdminsId = Id => {
-  return api.get(`/admins/${Id}`).then(res => {
+  return api.get(`/admins/filter/${params.length ? `${params.join("-")}` : ""}`)
+  .then(res => {
     return res.data
   })
+  
 }
 
-export const editAdmin = ({ name, email, role, phone, organisation, id }) => {
-  console.log({ name, email, role, phone, organisation, id })
-  return api
-    .put(`admins/${id}`, {
-      name,
-      email,
-      role,
-      phone,
-      organisation
-    })
-    .then(res => {
-      return res.data
-    })
+export const getAdminsId = (Id) => {
+ return api.get(`/admins/${Id}`).then(res => {
+  return res.data
+ })
+}
+
+export const editAdmin = ({name, email, role, phone, organisation, id}) => {
+  // console.log(name, email, organisation, role, phone, id)
+  return api.put(`admins/${id}`, {
+    name,
+    email,
+    role,
+    phone,
+    organisation
+  }).then( res => {
+    return res.data
+  })
 }

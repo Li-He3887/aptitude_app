@@ -9,10 +9,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-
-    [theme.breakpoints.up('md')]: {
-      marginLeft: '250px'
-    }
+    marginLeft: '250px'
   }
 }))
 
@@ -32,8 +29,7 @@ const AdminLayout = ({ children, admin }) => {
 }
 
 AdminLayout.propTypes = {
-  children: PropTypes.any,
-  admin: PropTypes.any
+  children: PropTypes.any
 }
 
 export default AdminLayout
