@@ -48,7 +48,7 @@ const ChangePasswordDialog = ({ open, onClose, email, id }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const mutation = useMutation(data => () => changePass(data, id), {
+  const mutation = useMutation(data => changePass(data, id), {
     onSuccess: () => {
       enqueueSnackbar('Password updated successfully', {
         variant: 'success',
@@ -133,7 +133,7 @@ const ChangePasswordDialog = ({ open, onClose, email, id }) => {
             variant='contained'
             color='primary'
             size='large'
-            onClick={onSubmitHandler}
+            onClick={() => onSubmitHandler()}
           >
             {mutation.isLoading ? 'Saving...' : 'Confirm'}
           </Button>
