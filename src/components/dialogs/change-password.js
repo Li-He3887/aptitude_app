@@ -59,9 +59,7 @@ const ChangePasswordDialog = ({ open, onClose, email, id }) => {
       })
       onClose()
     },
-    onError: (err) => {
-      console.log(err)
-
+    onError: () => {
       enqueueSnackbar('Failed to change password', {
         variant: 'error',
         anchorOrigin: {

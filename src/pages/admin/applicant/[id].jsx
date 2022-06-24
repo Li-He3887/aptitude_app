@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import {useRouter} from 'next/router'
 import { useQuery } from 'react-query'
 import { makeStyles } from '@material-ui/styles'
 import { Card, CardContent, Button, Typography, Grid } from '@material-ui/core'
-import { useSnackbar } from 'notistack'
 
 import AdminLayout from '../../../layouts/admin-layout'
 import EditApplicant from '../../../components/function/EditApplicant'
@@ -39,31 +39,11 @@ const useStyles = makeStyles({
   }
 })
 
-const SingleApplicant = props => {
+const SingleApplicant = (props) => {
   const classes = useStyles()
   const router = useRouter()
-  const { enqueueSnackbar } = useSnackbar()
-
+  const {id} = props
   const [me, setMe] = useState({})
-  const [openEdit, setOpenEdit] = useState(false)
-
-  const applicantId = router.query.id
-
-  const { isLoading, data } = useQuery(
-    'applicant',
-    () => getUserById(applicantId),
-    {
-      onError: () => {
-        enqueueSnackbar('Failed to fetch applicant', {
-          variant: 'error',
-          anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right'
-          }
-        })
-      }
-    }
-  )
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -71,6 +51,12 @@ const SingleApplicant = props => {
     }
     setMe(JSON.parse(localStorage.getItem('admin')))
   }, [])
+
+  const [openEdit, setOpenEdit] = useState(false)
+
+  // console.log(router.query.id)
+  const {isLoading, error, data} = useQuery("applicant",() => getUserById(id))
+  // console.log(data)  
 
   if (isLoading) {
     return (
@@ -146,8 +132,18 @@ const SingleApplicant = props => {
 
 export default SingleApplicant
 
-export async function getServerSideProps() {
-  return {
-    props: {}
+SingleApplicant.propTypes = {
+  fullName: PropTypes.string,
+  email: PropTypes.string,
+  result: PropTypes.number,
+  programme: PropTypes.string,
+  phone: PropTypes.string,
+  reportId: PropTypes.string
+}
+
+export async function getServerSideProps(context) {
+  const id = context.query.id
+  return{
+    props: {id}
   }
 }

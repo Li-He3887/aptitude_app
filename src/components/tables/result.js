@@ -104,29 +104,19 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'green',
     color: '#fff',
     padding: '0.4rem 0.2rem'
-  },
-  failedCell: {
-    backgroundColor: 'red',
-    borderRadius: '6px',
-    color: '#fff',
-    padding: '0.4rem 0.2rem'
   }
 }))
 
+// Pass dynamic props into it
 const ApplicantsTable = ({ rows }) => {
   const classes = useStyles()
   const router = useRouter()
 
   // console.log(rows)
 
+  // Make this dynamic
   const handleOnRowClick = id => {
     router.push(`/admin/applicant/${id}`)
-  }
-
-  const getFormattedTime = (seconds = 0) => {
-    const minutes = parseInt(seconds / 60)
-    const remainingSeconds = seconds - minutes * 60
-    return `${minutes} m ${remainingSeconds >= 0 ? remainingSeconds : 0} s`
   }
 
   return (
@@ -165,17 +155,13 @@ const ApplicantsTable = ({ rows }) => {
                   <StyledTableCell align='center'>
                     {row.user.programme}
                   </StyledTableCell>
-                  <StyledTableCell align='center'>{`${row.score}/20`}</StyledTableCell>
+                  <StyledTableCell align='center'>{row.score}</StyledTableCell>
                   <StyledTableCell align='center'>
-                    {getFormattedTime(row.timeTaken)}
+                    {row.timeTaken}
                   </StyledTableCell>
                   <StyledTableCell align='center'>
-                    <div
-                      className={
-                        row.score < 10 ? classes.failedCell : classes.statusCell
-                      }
-                    >
-                      {row.score < 10 ? 'FAIL' : 'PASS'}
+                    <div className={classes.statusCell}>
+                      {row.score < 15 ? 'FAIL' : 'PASS'}
                     </div>
                   </StyledTableCell>
                 </StyledTableRow>
