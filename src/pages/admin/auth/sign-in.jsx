@@ -127,8 +127,6 @@ const SignIn = () => {
             >
               Login
             </Button>
-
-            <Link href='/'>Forgot Password?</Link>
           </div>
         </Box>
       </Paper>
