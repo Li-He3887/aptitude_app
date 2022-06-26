@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const FSAT_API = (baseURL = 'http://localhost:3000/v1') => {
+const FSAT_API = (baseURL = process.env.FSAT_API_V1_URL || 'http://localhost:3000/v1') => {
   const api = axios.create({
     baseURL,
     headers: {
@@ -9,15 +9,19 @@ const FSAT_API = (baseURL = 'http://localhost:3000/v1') => {
   })
 
   // Create test
-  const createTest = ({ name, email, testCode, phone = null }) =>
-    api.post('/tests', {
+  const createTest = ({ name, email, testCode, phone = null, programme, organisation }) => {
+    console.log(organisation, programme)
+
+    return api.post('/tests', {
       name,
       email,
+      organisation,
+      programme,
       testCode,
       ...(phone && {
         phone
       })
-    })
+    })}
 
   // Get test
   const getTest = ({ testId }) => api.get(`/tests/${testId}`)
