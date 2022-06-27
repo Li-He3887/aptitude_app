@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import {  useRouter } from 'next/router'
 import styled, { createGlobalStyle } from 'styled-components'
 import {
   Typography,
@@ -20,7 +21,7 @@ import * as Sentry from '@sentry/browser'
 import theme from '../config/theme'
 import { getErrorMessage } from '../utils/error'
 import ResponsiveImage from '../components/responsive-image'
-import FSAT_API from '../api'
+import {createTest} from '../api/v2/index'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -47,10 +48,22 @@ const Index = () => {
     touched: {},
     errors: {}
   })
+  const router = useRouter()
+  const [org, setOrg] = useState()
+  const [programme, setProgramme] = useState()
+  const params = router.query
 
   useEffect(() => {
     const errors = {}
     const { name, email, phone, testCode } = formState.values
+
+    setOrg(params.organisation)
+  
+    if(org == "FS") {
+      setProgramme(params.programme || 'ND')
+    } else {
+      setProgramme(null)
+    }
 
     if (!name) {
       errors.name = 'Name is required.'
@@ -82,7 +95,7 @@ const Index = () => {
       isValid: isEmpty(errors),
       errors: errors || {}
     }))
-  }, [formState.values])
+  }, [formState.values, params, org])
 
   const handleInputChange = event => {
     event.persist()
@@ -105,7 +118,6 @@ const Index = () => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    const fsatApi = FSAT_API()
     const { name, email, phone, testCode } = formState.values
 
     setFormState(formState => ({
@@ -113,16 +125,16 @@ const Index = () => {
       isSubmitting: true
     }))
 
-    fsatApi
-      .createTest({
-        name,
-        email,
-        testCode,
-        ...(phone && {
-          phone: `+${phone}`
-        })
+    createTest({
+      name,
+      email,
+      programme,
+      organisation: org,
+      testCode,
+      ...(phone && {
+        phone: `+${phone}`
       })
-      .then(response => {
+    }).then(response => {
         if (response.data.ended) {
           Router.push(`/tests/${response.data.id}/report`)
         } else {
@@ -195,6 +207,43 @@ const Index = () => {
 
   const hasError = field =>
     !!(formState.touched[field] && formState.errors[field])
+
+  const beautifyOrg = (params) => {
+    switch(params) {
+      case("DELL"):
+        return "Dell"
+        break;
+      case("FS"):
+        return "Forward School"
+        break;
+      case("EXPERIOR"):
+        return "Experior"
+        break;
+      default:
+        return "Forward School"
+        break;
+    }
+  }
+
+  const beautifyPro = (params) => {
+    switch(params) {
+      case("FEW"):
+        return "Front End Web"
+        break;
+      case("BEW"):
+        return "Back End Web"
+        break;
+      case("DS"):
+        return "Data Science"
+        break;
+      case("ND"):
+        return "NitroDegree"
+        break;
+      default:
+        return "NitroDegree"
+        break;
+    }
+  }
 
   return (
     <>
@@ -307,23 +356,27 @@ const Index = () => {
                 }}
               />
 
-              <TextField
-                id='outlined-select-currency'
-                select
-                fullWidth
-                required
-                margin='normal'
-                variant='outlined'
-                label='Programmens'
-                value={program}
-                onChange={programOnChange}
-              >
-                {programList.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+              {
+                org == "FS" ?
+                  <TextField
+                  id='outlined-select-currency'
+                  select
+                  fullWidth
+                  required
+                  margin='normal'
+                  variant='outlined'
+                  label='Programmens'
+                  value={program}
+                  onChange={programOnChange}
+                  >
+                    <MenuItem value={programme}>
+                      {beautifyPro(programme)}
+                    </MenuItem>
+                  </TextField>
+                :
+                <></>
+              }
+              
 
               <TextField
                 id='outlined-select-currency'
@@ -336,11 +389,9 @@ const Index = () => {
                 value={organisation}
                 onChange={OrganisationOnChange}
               >
-                {organisationList.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
+                <MenuItem value={org}>
+                  {beautifyOrg(org)}
+                </MenuItem>
               </TextField>
 
               <TextField
