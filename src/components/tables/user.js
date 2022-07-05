@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState} from 'react'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import {
@@ -6,7 +6,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  // TablePagination,
+  TablePagination,
   TableHead,
   TableRow,
   Paper
@@ -83,6 +83,8 @@ const UsersTable = ({ rows }) => {
     router.push(`/admin/users/${id}`)
   }
 
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -114,7 +116,13 @@ const UsersTable = ({ rows }) => {
               </StyledTableRow>
             ))}
           </TableBody>
-          {/* <TablePagination /> */}
+          <TablePagination 
+            // count={rows.length}
+            // rowsPerPage={rowsPerPage}
+            // page={page}
+            // onPageChange={handleChangePage}
+            // onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </MuiTable>
       </TableContainer>
     </>
