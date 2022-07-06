@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // Pass dynamic props into it
-const UsersTable = ({ rows }) => {
+const UsersTable = ({ rows, count, page, setPage }) => {
   const classes = useStyles()
   const router = useRouter()
 
@@ -83,7 +83,9 @@ const UsersTable = ({ rows }) => {
     router.push(`/admin/users/${id}`)
   }
 
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
   return (
     <>
@@ -117,11 +119,12 @@ const UsersTable = ({ rows }) => {
             ))}
           </TableBody>
           <TablePagination 
-            // count={rows.length}
-            // rowsPerPage={rowsPerPage}
-            // page={page}
-            // onPageChange={handleChangePage}
-            // onRowsPerPageChange={handleChangeRowsPerPage}
+            component="div"
+            count={count}
+            page={page}
+            rowsPerPageOptions={[10]}
+            onPageChange={handleChangePage}
+            rowsPerPage={10}
           />
         </MuiTable>
       </TableContainer>

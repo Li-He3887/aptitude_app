@@ -42,7 +42,7 @@ export const deleteAdmin = id => {
   return api.post('/admins/delete', { id: id })
 }
 
-export const getAdmins = ({ organisation, role, search }) => {
+export const getAdmins = ({ organisation, role, search, page }) => {
   const params = []
 
   if (organisation) {
@@ -55,6 +55,12 @@ export const getAdmins = ({ organisation, role, search }) => {
 
   if (search) {
     params.push(`${search}`)
+  }
+
+  if(page) {
+    params.push(`${page}`)
+  }else {
+    params.push(`0`)
   }
 
   return api

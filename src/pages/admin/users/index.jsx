@@ -64,6 +64,7 @@ const Admins = () => {
   const classes = useStyles()
   const router = useRouter()
   const { enqueueSnackbar } = useSnackbar()
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -86,6 +87,8 @@ const Admins = () => {
       }
     }
   )
+
+  // console.log(data)
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -207,7 +210,7 @@ const Admins = () => {
             />
           </div>
           {/* TODO: Pass in custom table data */}
-          <Table rows={data || []} />
+          <Table rows={data.admins || []} page={page} setPage={setPage} count={data.count} />
         </div>
       </div>
     </AdminLayout>

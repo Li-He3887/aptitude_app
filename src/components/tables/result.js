@@ -113,7 +113,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ApplicantsTable = ({ rows }) => {
+const ApplicantsTable = ({ rows, page, setPage, count }) => {
   const classes = useStyles()
   const router = useRouter()
 
@@ -129,7 +129,9 @@ const ApplicantsTable = ({ rows }) => {
     return `${minutes} m ${remainingSeconds >= 0 ? remainingSeconds : 0} s`
   }
 
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
   return (
     <>
@@ -185,13 +187,12 @@ const ApplicantsTable = ({ rows }) => {
             })}
           </TableBody>
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            // count={rows.length}
-            // rowsPerPage={rowsPerPage}
-            // page={page}
-            // onPageChange={handleChangePage}
-            // onRowsPerPageChange={handleChangeRowsPerPage}
+            count={count}
+            page={page}
+            rowsPerPageOptions={[10]}
+            onPageChange={handleChangePage}
+            rowsPerPage={10}
           />
         </MuiTable>
       </TableContainer>

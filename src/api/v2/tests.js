@@ -14,7 +14,7 @@ export const getTest = ({ testId }) => api.get(`/tests/${testId}`)
 export const getTestStats = () => api.get('/tests/stats').then(res => res.data)
 
 // Get tests
-export const getAllTests = ({ startDate, endDate, search, status }) => {
+export const getAllTests = ({ startDate, endDate, search, status, page }) => {
   const params = []
 
   if (startDate) {
@@ -33,11 +33,17 @@ export const getAllTests = ({ startDate, endDate, search, status }) => {
     params.push(`${status}`)
   }
 
+  if(page) {
+    params.push(`${page}`)
+  } else {
+    params.push(`0`)
+  }
+
   const response = () => {
     return api
       .get(`/tests/filter/${params.length ? `${params.join('-')}` : ''}`)
       .then(res => {
-        return res.data.test
+        return res.data
       } )
   }
 

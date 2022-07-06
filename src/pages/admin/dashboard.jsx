@@ -119,6 +119,7 @@ function Dashboard() {
   const [me, setMe] = useState({})
   const router = useRouter()
   const [now, setNow] = useState(Date.now())
+  const [page, setPage] = useState(0)
 
   const [filters, setFilters] = useState({
     startDate: Date.parse("10 Jan 2000"),
@@ -127,13 +128,21 @@ function Dashboard() {
     status: "ALL"
   })
 
-  const { isLoading, error, data } = useQuery(['tests'], getAllTests(filters))
+  const { isLoading, error, data } = useQuery(['tests'], getAllTests({
+    startDate: filters.startDate,
+    endDate: filters.endDate,
+    search: filters.search,
+    status: filters.status,
+    page: page
+  }))
 
   const handleFilterChange = (value, name) =>
     setFilters(prev => ({
       ...prev,
       [name]: value
     }))
+
+    // console.log(data)
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -268,7 +277,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <ApplicantsTable rows={data || []} />
+        <ApplicantsTable rows={data.test || []} page={page} setPage={setPage} count={data.count} />
       </div>
     </AdminLayout>
   )
