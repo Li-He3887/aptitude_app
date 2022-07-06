@@ -66,6 +66,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'green',
     color: '#fff',
     padding: '0.4rem 0.2rem'
+  },
+  pages: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginRight: '1.5rem'
   }
 }))
 
@@ -118,15 +125,17 @@ const UsersTable = ({ rows, count, page, setPage }) => {
               </StyledTableRow>
             ))}
           </TableBody>
-          <TablePagination 
-            component="div"
-            count={count}
-            page={page}
-            rowsPerPageOptions={[10]}
-            onPageChange={handleChangePage}
-            rowsPerPage={10}
-          />
         </MuiTable>
+
+        <TablePagination 
+          component="div"
+          className={classes.pages}
+          count={count}
+          page={page}
+          rowsPerPageOptions={[10]}
+          onPageChange={handleChangePage}
+          rowsPerPage={10}
+        />
       </TableContainer>
     </>
   )
