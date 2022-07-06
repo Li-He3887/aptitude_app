@@ -74,7 +74,12 @@ const Admins = () => {
 
   const { isLoading, data, refetch } = useQuery(
     'admins',
-    () => getAdmins(filters),
+    () => getAdmins({
+      organisation: filters.organisation,
+      role: filters.role,
+      search: filters.search,
+      page: page
+    }),
     {
       onError: () => {
         enqueueSnackbar('Could not fetch data', {
