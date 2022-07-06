@@ -49,15 +49,17 @@ const Index = () => {
     errors: {}
   })
   const router = useRouter()
-  const [org, setOrg] = useState()
-  const [programme, setProgramme] = useState()
+  const [org, setOrg] = useState("FS")
+  const [programme, setProgramme] = useState("ND")
   const params = router.query
 
   useEffect(() => {
     const errors = {}
     const { name, email, phone, testCode } = formState.values
 
-    setOrg(params.organisation)
+    if(params.organisation) {
+      setOrg(params.organisation)
+    }
   
     if(org == "FS") {
       setProgramme(params.programme || 'ND')
@@ -163,46 +165,46 @@ const Index = () => {
       })
   }
 
-  const programList = [
-    {
-      value: 'ND',
-      label: 'NitroDegree'
-    },
-    {
-      value: 'DS',
-      label: 'Data Science'
-    },
-    {
-      value: 'BEW',
-      label: 'Web Development'
-    },
-    {
-      value: 'MOB',
-      label: 'Mobile Development'
-    }
-  ]
+  // const programList = [
+  //   {
+  //     value: 'ND',
+  //     label: 'NitroDegree'
+  //   },
+  //   {
+  //     value: 'DS',
+  //     label: 'Data Science'
+  //   },
+  //   {
+  //     value: 'BEW',
+  //     label: 'Web Development'
+  //   },
+  //   {
+  //     value: 'MOB',
+  //     label: 'Mobile Development'
+  //   }
+  // ]
 
-  const [program, setProgram] = useState('ND')
+  // const [program, setProgram] = useState('ND')
 
   const programOnChange = event => {
-    setProgram(event.target.value)
+    setProgramme(event.target.value)
   }
 
-  const organisationList = [
-    {
-      value: 'FS',
-      label: 'Forward School'
-    },
-    {
-      value: 'Dell',
-      label: 'Dell'
-    }
-  ]
+  // const organisationList = [
+  //   {
+  //     value: 'FS',
+  //     label: 'Forward School'
+  //   },
+  //   {
+  //     value: 'Dell',
+  //     label: 'Dell'
+  //   }
+  // ]
 
-  const [organisation, setOrganisation] = useState('FS')
+  // const [organisation, setOrganisation] = useState('FS')
 
   const OrganisationOnChange = event => {
-    setOrganisation(event.target.value)
+    setOrg(event.target.value)
   }
 
   const hasError = field =>
@@ -366,7 +368,7 @@ const Index = () => {
                   margin='normal'
                   variant='outlined'
                   label='Programmens'
-                  value={program}
+                  value={programme}
                   onChange={programOnChange}
                   >
                     <MenuItem value={programme}>
@@ -386,7 +388,7 @@ const Index = () => {
                 margin='normal'
                 variant='outlined'
                 label='Organisation'
-                value={organisation}
+                value={org}
                 onChange={OrganisationOnChange}
               >
                 <MenuItem value={org}>
