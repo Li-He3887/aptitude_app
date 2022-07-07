@@ -57,9 +57,9 @@ export const getAdmins = ({ organisation, role, search, page }) => {
     params.push(`${search}`)
   }
 
-  if(page) {
+  if (page) {
     params.push(`${page}`)
-  }else {
+  } else {
     params.push(`0`)
   }
 

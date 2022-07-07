@@ -8,17 +8,19 @@ const api = axios.create({
   }
 })
 
-  export const getUserById = (Id) => {
-    return api.get(`/users/${Id}`).then(res => {
-        return res.data
-    }) 
-  }
+export const getUserById = Id => {
+  return api.get(`/users/${Id}`).then(res => {
+    return res.data
+  })
+}
 
-  export const changeProgramme = ({id, programme}) => {
-    return api.post(`/users/programme`, {
+export const changeProgramme = ({ id, programme }) => {
+  return api
+    .post(`/users/programme`, {
       id,
       programme
-    }).then(res => {
+    })
+    .then(res => {
       return res.data
     })
-  }
+}
