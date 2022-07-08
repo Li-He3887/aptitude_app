@@ -71,7 +71,7 @@ const ApplicantsTable = ({ rows, page, setPage, count }) => {
 
   const getFormattedTime = (seconds = 0) => {
     const minutes = parseInt(seconds / 60)
-    const remainingSeconds = seconds - minutes * 60
+    const remainingSeconds = Math.floor(seconds - minutes * 60)
     return `${minutes} m ${remainingSeconds >= 0 ? remainingSeconds : 0} s`
   }
 
