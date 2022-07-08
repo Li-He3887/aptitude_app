@@ -33,30 +33,6 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow)
 
-// function createData(name, email, phone, organisation, role) {
-//   return { name, email, phone, organisation, role }
-// }
-
-// const rows = [
-//   createData(
-//     'Chris Evans',
-//     'chris@avengers.com',
-//     '016-432 7864',
-//     'Forward School',
-//     'Admin'
-//   ),
-//   createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Super'),
-//   createData(
-//     'Some dude',
-//     'some@dude.com',
-//     '012-345 6789',
-//     'Forward School',
-//     'Super'
-//   ),
-//   createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin'),
-//   createData('Some dude', 'some@dude.com', '012-345 6789', 'Dell', 'Admin')
-// ]
-
 const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 600

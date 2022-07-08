@@ -34,67 +34,6 @@ const StyledTableRow = withStyles(theme => ({
   }
 }))(TableRow)
 
-// function createData(name, email, phone, programmes, score, time, status) {
-//   return { name, email, phone, programmes, score, time, status }
-// }
-
-// const rows = [
-//   createData(
-//     'John Smith',
-//     'johnsmith@gmail.com',
-//     '010-1111111',
-//     'DS',
-//     '18/20',
-//     '15m 3s',
-//     'Pass'
-//   ),
-//   createData(
-//     'Some dude',
-//     'some@dude.com',
-//     '012-345 6789',
-//     'FEW',
-//     '14/20',
-//     '5m 45s',
-//     'Fail'
-//   ),
-//   createData(
-//     'Some dude',
-//     'some@dude.com',
-//     '012-345 6789',
-//     'ND',
-//     '18/20',
-//     '15m 3s',
-//     'Pass'
-//   ),
-//   createData(
-//     'Some dude',
-//     'some@dude.com',
-//     '012-345 6789',
-//     'FEW',
-//     '14/20',
-//     '5m 45s',
-//     'Fail'
-//   ),
-//   createData(
-//     'Some dude',
-//     'some@dude.com',
-//     '012-345 6789',
-//     'FEW',
-//     '14/20',
-//     '5m 45s',
-//     'Fail'
-//   ),
-//   createData(
-//     'Some dude',
-//     'some@dude.com',
-//     '012-345 6789',
-//     'FEW',
-//     '14/20',
-//     '5m 45s',
-//     'Fail'
-//   )
-// ]
-
 const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 600

@@ -72,8 +72,14 @@ const Admins = () => {
     }
   }, [])
 
+  const [filters, setFilters] = useState({
+    organisation: 'ALL',
+    role: 'ALL',
+    search: 'ALL'
+  })
+
   const { isLoading, data, refetch } = useQuery(
-    'admins',
+    ['admins', filters, page],
     () => getAdmins({
       organisation: filters.organisation,
       role: filters.role,
@@ -97,11 +103,7 @@ const Admins = () => {
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  const [filters, setFilters] = useState({
-    organisation: 'ALL',
-    role: 'ALL',
-    search: 'ALL'
-  })
+  
 
   if (isLoading) {
     return (

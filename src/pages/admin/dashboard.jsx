@@ -129,7 +129,7 @@ function Dashboard() {
   })
 
   const { isLoading, error, data } = useQuery(
-    ['tests'],
+    ['tests', filters, page],
     getAllTests({
       startDate: filters.startDate,
       endDate: filters.endDate,
@@ -139,11 +139,13 @@ function Dashboard() {
     })
   )
 
-  const handleFilterChange = (value, name) =>
+  const handleFilterChange = (value, name) => {
     setFilters(prev => ({
       ...prev,
       [name]: value
     }))
+  }
+    
 
   // console.log(data)
 
