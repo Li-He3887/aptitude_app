@@ -65,6 +65,7 @@ const Admins = () => {
   const router = useRouter()
   const { enqueueSnackbar } = useSnackbar()
   const [page, setPage] = useState(0)
+  const [search, setSearch] = useState()
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -79,7 +80,7 @@ const Admins = () => {
   })
 
   const { isLoading, data, refetch } = useQuery(
-    ['admins', filters, page],
+    ['admins',filters, page],
     () => getAdmins({
       organisation: filters.organisation,
       role: filters.role,
@@ -102,6 +103,17 @@ const Admins = () => {
   // console.log(data)
 
   const [modalOpen, setModalOpen] = useState(false)
+
+  const onChangeHandler = (value) => {
+    setSearch(value)  
+  }
+
+  const onSubmitHandler = () => {
+    setFilters(prev => ({
+      ...prev,
+      search: search
+    }))
+  }
 
   
 
@@ -196,25 +208,23 @@ const Admins = () => {
               </Select>
             </FormControl>
 
-            <TextField
-              label='Search'
-              variant='outlined'
-              size='small'
-              value={filters.search}
-              onChange={e =>
-                setFilters(prev => ({
-                  ...prev,
-                  search: e.target.value
-                }))
-              }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <SearchIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
+            <form onSubmit={onSubmitHandler}>
+              <TextField
+                label='Search'
+                variant='outlined'
+                size='small'
+                value={search}
+                onChange={e => onChangeHandler(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <SearchIcon fontSize='small' />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </form>
+            
           </div>
           {/* TODO: Pass in custom table data */}
           <Table rows={data.admins || []} page={page} setPage={setPage} count={data.count} />

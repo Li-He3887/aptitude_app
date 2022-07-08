@@ -120,6 +120,7 @@ function Dashboard() {
   const router = useRouter()
   const [now] = useState(Date.now())
   const [page, setPage] = useState(0)
+  const [search, setSearch] = useState()
 
   const [filters, setFilters] = useState({
     startDate: Date.parse('10 Jan 2000'),
@@ -145,6 +146,17 @@ function Dashboard() {
       [name]: value
     }))
   }
+
+  const onChangeHandler = (value) => {
+    setSearch(value)  
+  }
+
+  const onSubmitHandler = () => {
+    setFilters(prev => ({
+      ...prev,
+      search: search
+    }))
+  }
     
 
   // console.log(data)
@@ -160,6 +172,8 @@ function Dashboard() {
       setMe(JSON.parse(localStorage.getItem('admin')))
     }
   }, [])
+
+
 
   if (isLoading) {
     return (
@@ -264,19 +278,22 @@ function Dashboard() {
               </Select>
             </FormControl>
 
-            <TextField
-              label='Search'
-              variant='outlined'
-              size='small'
-              onChange={e => handleFilterChange(e.target.value, 'search')}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <SearchIcon fontSize='small' />
-                  </InputAdornment>
-                )
-              }}
-            />
+            <form onSubmit={onSubmitHandler}>
+              <TextField
+                label='Search'
+                variant='outlined'
+                size='small'
+                onChange={e => onChangeHandler(e.target.value, 'search')}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position='start'>
+                      <SearchIcon fontSize='small' />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </form>
+            
           </div>
         </div>
 
