@@ -22,7 +22,7 @@ import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
 import ApplicantsTable from '../../components/tables/result'
 import { useQuery } from 'react-query'
-import { getAllTests } from '../../api/v2/tests'
+import { getAllTests, getTestAverages } from '../../api/v2/tests'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -145,6 +145,15 @@ function Dashboard() {
   )
 
   // TODO: Add API call here
+  const { isLoading: testLoading , error: testError , data: testData } = useQuery(
+    'tests',
+    () => getTestAverages(),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false
+    }
+  )
 
   // Using dummy data first, API is crashing server
   const testAverages = {
@@ -195,7 +204,7 @@ function Dashboard() {
     }
   }, [])
 
-  if (error) {
+  if (error || testError) {
     enqueueSnackbar('Could not fetch data', {
       variant: 'error',
       anchorOrigin: {
@@ -205,7 +214,7 @@ function Dashboard() {
     })
   }
 
-  // console.log(data)
+  // console.log(testData)
 
   return (
     <AdminLayout admin={me}>
@@ -213,23 +222,10 @@ function Dashboard() {
         <h1 className={classes.head1}>Overview</h1>
         <div className={classes.overviewContainer}>
           <PieChart
-            totalTests={testAverages.totalNumberOfTests}
-            testData={{
-              average: testAverages.scoreData.average,
-              counts: [
-                testAverages.scoreData.totalFail,
-                testAverages.scoreData.totalPass,
-                testAverages.scoreData.totalExcellent
-              ]
-            }}
-            timeData={{
-              average: testAverages.timeData.average,
-              counts: [
-                testAverages.timeData.fifteenOrLess,
-                testAverages.timeData.belowThirty,
-                testAverages.timeData.thirty
-              ]
-            }}
+            totalTests={testData?.totalNumberOfTest || 0}
+            timeData={testData?.timeData || {}}
+            testData={testData?.scoreData || {}}
+            testLoading={testLoading}
           />
         </div>
         <h3 className={classes.head1}>Applicants</h3>
