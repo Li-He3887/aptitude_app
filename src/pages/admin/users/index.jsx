@@ -80,13 +80,14 @@ const Admins = () => {
   })
 
   const { isLoading, data, refetch } = useQuery(
-    ['admins',filters, page],
-    () => getAdmins({
-      organisation: filters.organisation,
-      role: filters.role,
-      search: filters.search,
-      page: page
-    }),
+    ['admins', filters, page],
+    () =>
+      getAdmins({
+        organisation: filters.organisation,
+        role: filters.role,
+        search: filters.search,
+        page: page
+      }),
     {
       onError: () => {
         enqueueSnackbar('Could not fetch data', {
@@ -104,8 +105,8 @@ const Admins = () => {
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  const onChangeHandler = (value) => {
-    setSearch(value)  
+  const onChangeHandler = value => {
+    setSearch(value)
   }
 
   const onSubmitHandler = () => {
@@ -114,8 +115,6 @@ const Admins = () => {
       search: search
     }))
   }
-
-  
 
   if (isLoading) {
     return (
@@ -224,10 +223,14 @@ const Admins = () => {
                 }}
               />
             </form>
-            
           </div>
           {/* TODO: Pass in custom table data */}
-          <Table rows={data.admins || []} page={page} setPage={setPage} count={data.count} />
+          <Table
+            rows={data.admins || []}
+            page={page}
+            setPage={setPage}
+            count={data.count}
+          />
         </div>
       </div>
     </AdminLayout>

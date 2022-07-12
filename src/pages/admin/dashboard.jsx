@@ -140,6 +140,23 @@ function Dashboard() {
     })
   )
 
+  // Calling this API is crashing the server
+  const testAverages = {
+    totalNumberOfTests: 100,
+    scoreData: {
+      average: 10,
+      totalPass: 20,
+      totalExcellent: 30,
+      totalFail: 40
+    },
+    timeData: {
+      average: 10,
+      fifteenOrLess: 40,
+      belowThirty: 20,
+      thirty: 60
+    }
+  }
+
   const handleFilterChange = (value, name) => {
     setFilters(prev => ({
       ...prev,
@@ -147,8 +164,8 @@ function Dashboard() {
     }))
   }
 
-  const onChangeHandler = (value) => {
-    setSearch(value)  
+  const onChangeHandler = value => {
+    setSearch(value)
   }
 
   const onSubmitHandler = () => {
@@ -157,7 +174,6 @@ function Dashboard() {
       search: search
     }))
   }
-    
 
   // console.log(data)
 
@@ -172,8 +188,6 @@ function Dashboard() {
       setMe(JSON.parse(localStorage.getItem('admin')))
     }
   }, [])
-
-
 
   if (isLoading) {
     return (
@@ -200,8 +214,25 @@ function Dashboard() {
       <div className={classes.container}>
         <h1 className={classes.head1}>Overview</h1>
         <div className={classes.overviewContainer}>
-          {/* FIXME: Styling issues for pie charts container */}
-          <PieChart />
+          <PieChart
+            totalTests={testAverages.totalNumberOfTests}
+            testData={{
+              average: testAverages.scoreData.average,
+              counts: [
+                testAverages.scoreData.totalFail,
+                testAverages.scoreData.totalPass,
+                testAverages.scoreData.totalExcellent
+              ]
+            }}
+            timeData={{
+              average: testAverages.timeData.average,
+              counts: [
+                testAverages.timeData.fifteenOrLess,
+                testAverages.timeData.belowThirty,
+                testAverages.timeData.thirty
+              ]
+            }}
+          />
         </div>
         <h3 className={classes.head1}>Applicants</h3>
         <div className={classes.filterContainer}>
@@ -293,15 +324,14 @@ function Dashboard() {
                 }}
               />
             </form>
-            
           </div>
         </div>
 
         <ApplicantsTable
-          rows={data.test || []}
+          rows={data?.test || []}
           page={page}
           setPage={setPage}
-          count={data.count}
+          count={data?.count || 0}
         />
       </div>
     </AdminLayout>

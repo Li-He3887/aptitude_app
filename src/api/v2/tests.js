@@ -11,7 +11,8 @@ const api = axios.create({
 export const getTest = ({ testId }) => api.get(`/tests/${testId}`)
 
 // Get dashboard test statisitics
-export const getTestStats = () => api.get('/tests/stats').then(res => res.data)
+export const getTestAverages = () =>
+  api.get('/tests/average').then(res => res.data())
 
 // Get tests
 export const getAllTests = ({ startDate, endDate, search, status, page }) => {
@@ -33,7 +34,7 @@ export const getAllTests = ({ startDate, endDate, search, status, page }) => {
     params.push(`${status}`)
   }
 
-  if(page) {
+  if (page) {
     params.push(`${page}`)
   } else {
     params.push(`0`)
@@ -44,9 +45,8 @@ export const getAllTests = ({ startDate, endDate, search, status, page }) => {
       .get(`/tests/filter/${params.length ? `${params.join('-')}` : ''}`)
       .then(res => {
         return res.data
-      } )
+      })
   }
-
 
   return response
 }

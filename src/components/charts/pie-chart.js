@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import 'chart.js/auto'
 import { Pie } from 'react-chartjs-2'
 import { makeStyles } from '@material-ui/styles'
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const PieChart = () => {
+const PieChart = ({ testData, timeData, totalTests }) => {
   const classes = useStyles()
 
   return (
@@ -41,9 +42,13 @@ const PieChart = () => {
           options={{
             maintainAspectRatio: false,
             plugins: {
+              subtitle: {
+                display: true,
+                text: `Total tests taken - ${totalTests || 0}`
+              },
               title: {
                 display: true,
-                text: 'Average Score of Students'
+                text: `Average Score of Students - ${testData.average}`
               }
             }
           }}
@@ -52,7 +57,7 @@ const PieChart = () => {
             datasets: [
               {
                 label: '# of Votes',
-                data: [12, 19, 3], // Dummy Data
+                data: testData.counts || [],
                 backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -78,16 +83,16 @@ const PieChart = () => {
             plugins: {
               title: {
                 display: true,
-                text: 'Average Time of Tests'
+                text: `Average Time of Tests (mins) - ${timeData.average}` // Convert to minutes
               }
             }
           }}
           data={{
-            labels: ['Fail', 'Pass', 'Excellent'],
+            labels: ['<= 15', '< 30', '>= 30'],
             datasets: [
               {
                 label: '# of Votes',
-                data: [12, 19, 3], // Dummy Data
+                data: timeData.counts || [],
                 backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -109,3 +114,15 @@ const PieChart = () => {
 }
 
 export default PieChart
+
+PieChart.propTypes = {
+  totalTests: PropTypes.number,
+  testData: PropTypes.objectOf({
+    average: PropTypes.number,
+    counts: PropTypes.array
+  }),
+  timeData: PropTypes.objectOf({
+    average: PropTypes.number,
+    counts: PropTypes.array
+  })
+}
