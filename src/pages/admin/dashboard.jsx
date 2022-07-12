@@ -23,7 +23,6 @@ import PieChart from '../../components/charts/pie-chart'
 import ApplicantsTable from '../../components/tables/result'
 import { useQuery } from 'react-query'
 import { getAllTests } from '../../api/v2/tests'
-import Loader from '../../components/loader'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -137,10 +136,17 @@ function Dashboard() {
       search: filters.search,
       status: filters.status,
       page: page
-    })
+    }),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false
+    }
   )
 
-  // Calling this API is crashing the server
+  // TODO: Add API call here
+
+  // Using dummy data first, API is crashing server
   const testAverages = {
     totalNumberOfTests: 100,
     scoreData: {
@@ -150,7 +156,7 @@ function Dashboard() {
       totalFail: 40
     },
     timeData: {
-      average: 10,
+      average: 10, // Need to convert from seconds to minutes, don't know whats being returned from API
       fifteenOrLess: 40,
       belowThirty: 20,
       thirty: 60
@@ -188,14 +194,6 @@ function Dashboard() {
       setMe(JSON.parse(localStorage.getItem('admin')))
     }
   }, [])
-
-  if (isLoading) {
-    return (
-      <AdminLayout>
-        <Loader loading={isLoading} />
-      </AdminLayout>
-    )
-  }
 
   if (error) {
     enqueueSnackbar('Could not fetch data', {
@@ -332,6 +330,7 @@ function Dashboard() {
           page={page}
           setPage={setPage}
           count={data?.count || 0}
+          isLoading={isLoading}
         />
       </div>
     </AdminLayout>
