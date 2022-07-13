@@ -8,10 +8,12 @@ import {
   MenuItem,
   FormControl,
   Select,
-  InputLabel
+  InputLabel,
+  IconButton
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useSnackbar } from 'notistack'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 
@@ -125,7 +127,7 @@ function Dashboard() {
     startDate: Date.parse('10 Jan 2000'),
     endDate: now,
     search: 'ALL',
-    status: 'ALL'
+    organisation: 'ALL'
   })
 
   const { isLoading, error, data } = useQuery(
@@ -134,7 +136,7 @@ function Dashboard() {
       startDate: filters.startDate,
       endDate: filters.endDate,
       search: filters.search,
-      status: filters.status,
+      organisation: filters.organisation,
       page: page
     }),
     {
@@ -289,17 +291,25 @@ function Dashboard() {
               className={classes.selectContainer}
               size='small'
             >
-              <InputLabel id='status-select-label'>Status</InputLabel>
+              <InputLabel id='organisation-select-label'>
+                Organisation
+              </InputLabel>
               <Select
-                labelId='status-select-label'
-                id='status-select'
+                labelId='organisation-select-label'
+                id='organisation-select-filled'
                 className={classes.select}
-                value={filters.status}
-                onChange={e => handleFilterChange(e.target.value, 'status')}
+                value={filters.organisation}
+                onChange={e =>
+                  setFilters(prev => ({
+                    ...prev,
+                    organisation: e.target.value
+                  }))
+                }
               >
-                <MenuItem value='PASS'>Pass</MenuItem>
-                <MenuItem value='FAIL'>Fail</MenuItem>
-                <MenuItem value='EXCELLENT'>Excellent</MenuItem>
+                {/* TODO: This list will be fetched from API */}
+                <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
+                <MenuItem value='DELL'>Dell</MenuItem>
+                <MenuItem value='EXPERIOR'>Experior</MenuItem>
               </Select>
             </FormControl>
 
@@ -318,6 +328,11 @@ function Dashboard() {
                 }}
               />
             </form>
+
+          <IconButton aria-label="reset">
+            <RestartAltIcon />
+          </IconButton>
+
           </div>
         </div>
 
