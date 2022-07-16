@@ -9,10 +9,12 @@ import {
   InputLabel,
   MenuItem,
   TextField,
-  InputAdornment
+  InputAdornment,
+  IconButton
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/Search'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { useSnackbar } from 'notistack'
 
 import { getAdmins } from '../../../api/v2/admins'
@@ -223,6 +225,11 @@ const Admins = () => {
                 }}
               />
             </form>
+
+            <IconButton aria-label="reset">
+              <RestartAltIcon />
+            </IconButton>
+
           </div>
           {/* TODO: Pass in custom table data */}
           <Table

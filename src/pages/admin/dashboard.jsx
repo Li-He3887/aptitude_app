@@ -136,7 +136,7 @@ function Dashboard() {
       startDate: filters.startDate,
       endDate: filters.endDate,
       search: filters.search,
-      organisation: filters.organisation,
+      status: filters.organisation,
       page: page
     }),
     {
