@@ -16,7 +16,7 @@ export const getTestAverages = () => api.get('/tests/average').then(res => {
 })
 
 // Get tests
-export const getAllTests = ({ startDate, endDate, search, status, page }) => {
+export const getAllTests = ({ startDate, endDate, search, organisation, page }) => {
   const params = []
 
   if (startDate) {
@@ -31,8 +31,8 @@ export const getAllTests = ({ startDate, endDate, search, status, page }) => {
     params.push(`${search}`)
   }
 
-  if (status) {
-    params.push(`${status}`)
+  if(organisation) {
+    params.push(`${organisation}`)
   }
 
   if (page) {

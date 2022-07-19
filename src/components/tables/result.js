@@ -98,6 +98,7 @@ const ApplicantsTable = ({ rows, page, setPage, count, isLoading }) => {
               <StyledTableCell align='center'>Email</StyledTableCell>
               <StyledTableCell align='center'>Phone No.</StyledTableCell>
               <StyledTableCell align='center'>Programmes</StyledTableCell>
+              <StyledTableCell align='center'>Organisation</StyledTableCell>
               <StyledTableCell align='center'>Score</StyledTableCell>
               <StyledTableCell align='center'>Time Taken</StyledTableCell>
               <StyledTableCell align='center'>Status</StyledTableCell>
@@ -111,7 +112,7 @@ const ApplicantsTable = ({ rows, page, setPage, count, isLoading }) => {
           ) : (
             <TableBody>
               {rows?.map(row => {
-                // console.log(row)
+                console.log(row)
 
                 return (
                   <StyledTableRow
@@ -129,6 +130,9 @@ const ApplicantsTable = ({ rows, page, setPage, count, isLoading }) => {
                     </StyledTableCell>
                     <StyledTableCell align='center'>
                       {row.user.programme}
+                    </StyledTableCell>
+                    <StyledTableCell align='center'>
+                      {/* {row.user.organisation.tag} */}
                     </StyledTableCell>
                     <StyledTableCell align='center'>{`${row.score}/20`}</StyledTableCell>
                     <StyledTableCell align='center'>

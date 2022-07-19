@@ -127,6 +127,7 @@ function Dashboard() {
     startDate: Date.parse('10 Jan 2000'),
     endDate: now,
     search: 'ALL',
+    status: 'ALL',
     organisation: 'ALL'
   })
 
@@ -136,7 +137,7 @@ function Dashboard() {
       startDate: filters.startDate,
       endDate: filters.endDate,
       search: filters.search,
-      status: filters.organisation,
+      organisation: filters.organisation,
       page: page
     }),
     {
@@ -158,21 +159,21 @@ function Dashboard() {
   )
 
   // Using dummy data first, API is crashing server
-  const testAverages = {
-    totalNumberOfTests: 100,
-    scoreData: {
-      average: 10,
-      totalPass: 20,
-      totalExcellent: 30,
-      totalFail: 40
-    },
-    timeData: {
-      average: 10, // Need to convert from seconds to minutes, don't know whats being returned from API
-      fifteenOrLess: 40,
-      belowThirty: 20,
-      thirty: 60
-    }
-  }
+  // const testAverages = {
+  //   totalNumberOfTests: 100,
+  //   scoreData: {
+  //     average: 10,
+  //     totalPass: 20,
+  //     totalExcellent: 30,
+  //     totalFail: 40
+  //   },
+  //   timeData: {
+  //     average: 10, // Need to convert from seconds to minutes, don't know whats being returned from API
+  //     fifteenOrLess: 40,
+  //     belowThirty: 20,
+  //     thirty: 60
+  //   }
+  // }
 
   const handleFilterChange = (value, name) => {
     setFilters(prev => ({
@@ -185,7 +186,8 @@ function Dashboard() {
     setSearch(value)
   }
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = (e) => {
+    e.preventDefault()
     setFilters(prev => ({
       ...prev,
       search: search
@@ -206,7 +208,7 @@ function Dashboard() {
     }
   }, [])
 
-  if (error || testError) {
+  if (error) {
     enqueueSnackbar('Could not fetch data', {
       variant: 'error',
       anchorOrigin: {
@@ -299,12 +301,7 @@ function Dashboard() {
                 id='organisation-select-filled'
                 className={classes.select}
                 value={filters.organisation}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    organisation: e.target.value
-                  }))
-                }
+                onChange={e => handleFilterChange(e.target.value, 'organisation')}
               >
                 {/* TODO: This list will be fetched from API */}
                 <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
