@@ -38,18 +38,6 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 600
   },
-  statusCell: {
-    borderRadius: '6px',
-    backgroundColor: 'green',
-    color: '#fff',
-    padding: '0.4rem 0.2rem'
-  },
-  failedCell: {
-    backgroundColor: 'red',
-    borderRadius: '6px',
-    color: '#fff',
-    padding: '0.4rem 0.2rem'
-  },
   pages: {
     display: 'flex',
     flexDirection: 'row',
@@ -68,20 +56,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ApplicantsTable = ({ rows, page, setPage, count, isLoading }) => {
+const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
   const classes = useStyles()
   const router = useRouter()
 
   // console.log(rows)
 
   const handleOnRowClick = id => {
-    router.push(`/admin/applicant/${id}`)
-  }
-
-  const getFormattedTime = (seconds = 0) => {
-    const minutes = parseInt(seconds / 60)
-    const remainingSeconds = Math.floor(seconds - minutes * 60)
-    return `${minutes} m ${remainingSeconds >= 0 ? remainingSeconds : 0} s`
+    // router.push(`/admin/applicant/${id}`)
   }
 
   const handleChangePage = (event, newPage) => {
@@ -94,14 +76,8 @@ const ApplicantsTable = ({ rows, page, setPage, count, isLoading }) => {
         <MuiTable className={classes.table} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Full Name</StyledTableCell>
-              <StyledTableCell align='center'>Email</StyledTableCell>
-              <StyledTableCell align='center'>Phone No.</StyledTableCell>
-              <StyledTableCell align='center'>Programmes</StyledTableCell>
-              <StyledTableCell align='center'>Organisation</StyledTableCell>
-              <StyledTableCell align='center'>Score</StyledTableCell>
-              <StyledTableCell align='center'>Time Taken</StyledTableCell>
-              <StyledTableCell align='center'>Status</StyledTableCell>
+              <StyledTableCell align='center'>Organisation Name</StyledTableCell>
+              <StyledTableCell align='left'>Tag</StyledTableCell>
             </TableRow>
           </TableHead>
           {isLoading ? (
@@ -117,37 +93,13 @@ const ApplicantsTable = ({ rows, page, setPage, count, isLoading }) => {
                 return (
                   <StyledTableRow
                     key={row.user.name}
-                    onClick={() => handleOnRowClick(row.user._id)}
+                    onClick={() => handleOnRowClick(row.organisation._id)}
                   >
                     <StyledTableCell component='th' scope='row'>
-                      {row.user.name}
+                      {row.organisation.name}
                     </StyledTableCell>
-                    <StyledTableCell align='center'>
-                      {row.user.email}
-                    </StyledTableCell>
-                    <StyledTableCell align='center'>
-                      {row.user.phone.number}
-                    </StyledTableCell>
-                    <StyledTableCell align='center'>
-                      {row.user.programme}
-                    </StyledTableCell>
-                    <StyledTableCell align='center'>
-                      {row.user.organisation.tag}
-                    </StyledTableCell>
-                    <StyledTableCell align='center'>{`${row.score}/20`}</StyledTableCell>
-                    <StyledTableCell align='center'>
-                      {getFormattedTime(row.timeTaken)}
-                    </StyledTableCell>
-                    <StyledTableCell align='center'>
-                      <div
-                        className={
-                          row.score < 10
-                            ? classes.failedCell
-                            : classes.statusCell
-                        }
-                      >
-                        {row.score < 10 ? 'FAIL' : 'PASS'}
-                      </div>
+                    <StyledTableCell align='left'>
+                      {row.organisation.tag}
                     </StyledTableCell>
                   </StyledTableRow>
                 )
@@ -170,7 +122,7 @@ const ApplicantsTable = ({ rows, page, setPage, count, isLoading }) => {
   )
 }
 
-ApplicantsTable.propTypes = {
+OrganisationTable.propTypes = {
   rows: PropTypes.any,
   page: PropTypes.number,
   setPage: PropTypes.func,
@@ -178,4 +130,4 @@ ApplicantsTable.propTypes = {
   isLoading: PropTypes.boolean
 }
 
-export default ApplicantsTable
+export default OrganisationTable

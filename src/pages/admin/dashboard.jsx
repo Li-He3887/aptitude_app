@@ -196,6 +196,16 @@ function Dashboard() {
 
   // console.log(data)
 
+  const onResetHandler = () => {
+    setFilters({
+      startDate: Date.parse('10 Jan 2000'),
+      endDate: now,
+      search: 'ALL',
+      status: 'ALL',
+      organisation: 'ALL'
+    })
+  }
+
   useEffect(() => {
     if (!localStorage.getItem('token')) {
       router.replace('./auth/sign-in')
@@ -326,7 +336,10 @@ function Dashboard() {
               />
             </form>
 
-          <IconButton aria-label="reset">
+          <IconButton
+           aria-label="reset"
+           onClick={onResetHandler}
+           >
             <RestartAltIcon />
           </IconButton>
 

@@ -2,17 +2,22 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
+import PropTypes from 'prop-types';
 import {
   Button,
+  Box,
   FormControl,
   Select,
   InputLabel,
   MenuItem,
   TextField,
+  Typography,
   InputAdornment,
-  IconButton
+  IconButton,
+  Tabs,
+  Tab,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles, withStyles } from '@material-ui/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { useSnackbar } from 'notistack'
@@ -20,10 +25,23 @@ import { useSnackbar } from 'notistack'
 import { getAdmins } from '../../../api/v2/admins'
 
 import AdminLayout from '../../../layouts/admin-layout'
-import Table from '../../../components/tables/user'
+import AdminTable from '../../../components/tables/user'
+import OrganisationTable from '../../../components/tables/organisation';
 import NewUser from '../../../components/dialogs/new-user'
 import { USER_ROLES } from '../../../constants'
 import Loader from '../../../components/loader'
+
+const StyledTabs = withStyles(theme => ({
+  head: {
+    textColor: '#1853A0',
+    indicatorColor: '#1853A0',
+    padding: '1.4rem',
+    color: theme.palette.common.white
+  },
+  body: {
+    fontSize: 14,
+  }
+}))(Tab)
 
 const useStyles = makeStyles({
   container: {
@@ -62,12 +80,50 @@ const useStyles = makeStyles({
   }
 })
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
 const Admins = () => {
   const classes = useStyles()
   const router = useRouter()
   const { enqueueSnackbar } = useSnackbar()
   const [page, setPage] = useState(0)
   const [search, setSearch] = useState()
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     if (!localStorage.getItem('token')) {
@@ -111,11 +167,20 @@ const Admins = () => {
     setSearch(value)
   }
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = (e) => {
+    e.preventDefault()
     setFilters(prev => ({
       ...prev,
       search: search
     }))
+  }
+
+  const onResetHandler = () => {
+    setFilters({
+      organisation: 'ALL',
+      role: 'ALL',
+      search: 'ALL'
+    })
   }
 
   if (isLoading) {
@@ -134,7 +199,18 @@ const Admins = () => {
     <AdminLayout admin={me}>
       <div className={classes.container}>
         <div className={classes.headerContainer}>
-          <h1 className={classes.head1}>Admins</h1>
+
+          <Tabs
+            value={value}
+            onChange={handleChange}
+          >
+            <StyledTabs {...a11yProps(0)} label="Admin" />
+            <Tab {...a11yProps(1)} label="Organisation" />
+          </Tabs>
+        </div>
+
+        {/* Admin */}
+        <TabPanel value={value} index={0}>
           <Button
             variant='contained'
             color='primary'
@@ -143,102 +219,161 @@ const Admins = () => {
           >
             Create Admin
           </Button>
-        </div>
 
-        <NewUser
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
-          refetchAdmins={refetch}
-        />
-
-        <div className={classes.tableContainer}>
-          <div className={classes.filters}>
-            <FormControl
-              variant='outlined'
-              className={classes.selectContainer}
-              size='small'
-            >
-              <InputLabel id='organisation-select-label'>
-                Organisation
-              </InputLabel>
-              <Select
-                labelId='organisation-select-label'
-                id='organisation-select-filled'
-                className={classes.select}
-                value={filters.organisation}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    organisation: e.target.value
-                  }))
-                }
-              >
-                {/* TODO: This list will be fetched from API */}
-                <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
-                <MenuItem value='DELL'>Dell</MenuItem>
-                <MenuItem value='EXPERIOR'>Experior</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl
-              variant='outlined'
-              className={classes.selectContainer}
-              size='small'
-            >
-              <InputLabel id='role-select-label'>Role</InputLabel>
-              <Select
-                labelId='role-select-label'
-                id='role-select-filled'
-                className={classes.select}
-                value={filters.role}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    role: e.target.value
-                  }))
-                }
-              >
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                {Object.values(USER_ROLES).map(role => (
-                  <MenuItem key={role} value={role}>
-                    {role}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <form onSubmit={onSubmitHandler}>
-              <TextField
-                label='Search'
-                variant='outlined'
-                size='small'
-                value={search}
-                onChange={e => onChangeHandler(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <SearchIcon fontSize='small' />
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </form>
-
-            <IconButton aria-label="reset">
-              <RestartAltIcon />
-            </IconButton>
-
-          </div>
-          {/* TODO: Pass in custom table data */}
-          <Table
-            rows={data.admins || []}
-            page={page}
-            setPage={setPage}
-            count={data.count}
+          <NewUser
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            refetchAdmins={refetch}
           />
-        </div>
+
+          <div className={classes.tableContainer}>
+            <div className={classes.filters}>
+              <FormControl
+                variant='outlined'
+                className={classes.selectContainer}
+                size='small'
+              >
+                <InputLabel id='organisation-select-label'>
+                  Organisation
+                </InputLabel>
+                <Select
+                  labelId='organisation-select-label'
+                  id='organisation-select-filled'
+                  className={classes.select}
+                  value={filters.organisation}
+                  onChange={e =>
+                    setFilters(prev => ({
+                      ...prev,
+                      organisation: e.target.value
+                    }))
+                  }
+                >
+                  {/* TODO: This list will be fetched from API */}
+                  <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
+                  <MenuItem value='DELL'>Dell</MenuItem>
+                  <MenuItem value='EXPERIOR'>Experior</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl
+                variant='outlined'
+                className={classes.selectContainer}
+                size='small'
+              >
+                <InputLabel id='role-select-label'>Role</InputLabel>
+                <Select
+                  labelId='role-select-label'
+                  id='role-select-filled'
+                  className={classes.select}
+                  value={filters.role}
+                  onChange={e =>
+                    setFilters(prev => ({
+                      ...prev,
+                      role: e.target.value
+                    }))
+                  }
+                >
+                  <MenuItem value=''>
+                    <em>None</em>
+                  </MenuItem>
+                  {Object.values(USER_ROLES).map(role => (
+                    <MenuItem key={role} value={role}>
+                      {role}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <form onSubmit={onSubmitHandler}>
+                <TextField
+                  label='Search'
+                  variant='outlined'
+                  size='small'
+                  value={search}
+                  onChange={e => onChangeHandler(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <SearchIcon fontSize='small' />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </form>
+
+              <IconButton 
+                aria-label="reset"
+                onClick={onResetHandler}
+                >
+                <RestartAltIcon />
+              </IconButton>
+
+            </div>
+            {/* TODO: Pass in custom table data */}
+            <AdminTable
+              rows={data.admins || []}
+              page={page}
+              setPage={setPage}
+              count={data.count}
+            />
+            
+          </div>
+        </TabPanel>
+
+        {/* Organisation */}
+        <TabPanel value={value} index={1}>
+          <Button
+            variant='contained'
+            color='primary'
+            size='large'
+            onClick={() => setModalOpen(true)}
+          >
+            Create Organisation
+          </Button>
+
+          <NewUser
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+            refetchAdmins={refetch}
+          />
+
+          <div className={classes.tableContainer}>
+            <div className={classes.filters}>
+              <form onSubmit={onSubmitHandler}>
+                <TextField
+                  label='Search'
+                  variant='outlined'
+                  size='small'
+                  value={search}
+                  onChange={e => onChangeHandler(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <SearchIcon fontSize='small' />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </form>
+
+              <IconButton 
+                aria-label="reset"
+                onClick={onResetHandler}
+              >
+                <RestartAltIcon />
+              </IconButton>
+
+            </div>
+            {/* TODO: Pass in custom table data */}
+            <OrganisationTable
+              rows={data.organisation || []}
+              page={page}
+              setPage={setPage}
+              count={data.count}
+            />
+            
+          </div>
+        </TabPanel>
       </div>
     </AdminLayout>
   )
