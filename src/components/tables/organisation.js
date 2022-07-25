@@ -56,6 +56,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+// function createData(id, name, tag) {
+//   return {id, name, tag };
+// }
+
+// const rowed = [
+//   createData(1, 'Forward School', 'FS'),
+//   createData(2, "DELL", "DELL"),
+//   createData(3, 'Experior', 'EX'),
+// ];
+
 const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
   const classes = useStyles()
   const router = useRouter()
@@ -63,7 +73,7 @@ const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
   // console.log(rows)
 
   const handleOnRowClick = id => {
-    // router.push(`/admin/applicant/${id}`)
+    router.push(`/admin/organiastion/${id}`)
   }
 
   const handleChangePage = (event, newPage) => {
@@ -93,9 +103,10 @@ const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
                 return (
                   <StyledTableRow
                     key={row.user.name}
-                    onClick={() => handleOnRowClick(row.organisation._id)}
+                    // key={row.name}
+                    onClick={() => handleOnRowClick(rows.organisation._id)}
                   >
-                    <StyledTableCell component='th' scope='row'>
+                    <StyledTableCell component='th' scope='row' align='center'>
                       {row.organisation.name}
                     </StyledTableCell>
                     <StyledTableCell align='left'>

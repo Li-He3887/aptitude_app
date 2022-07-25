@@ -7,15 +7,11 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
 
-import { createAdmin } from '../../api/v2/admins'
+import { createOrganisation } from '../../api/v2/organisation'
 
 const useStyles = makeStyles({
   container: {
@@ -56,28 +52,27 @@ const useStyles = makeStyles({
   }
 })
 
-const NewOrganisation = ({ open, onClose, refetchAdmins }) => {
+const NewOrganisation = ({ open, onClose }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
-  const [showPassword, setShowPassword] = useState(null)
+  const [showUser, setShowUser] = useState(null)
 
-  const mutation = useMutation(data => createAdmin(data), {
+  const mutation = useMutation(data => createOrganisation(data), {
     onSuccess: data => {
-      setShowPassword(data.data.password)
+      setShowUser(data.data.user)
 
-      enqueueSnackbar('Admin created successfully', {
+      enqueueSnackbar('Organisation created successfully', {
         variant: 'success',
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'right'
         }
       })
-
-      refetchAdmins()
+      onClose()
     },
     onError: () => {
-      enqueueSnackbar('Failed to add admin', {
+      enqueueSnackbar('Failed to add organisation', {
         variant: 'error',
         anchorOrigin: {
           vertical: 'top',
@@ -88,11 +83,8 @@ const NewOrganisation = ({ open, onClose, refetchAdmins }) => {
   })
 
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
     organisation: '',
-    role: 'ADMIN'
+    tag: ''
   })
 
   const onChangeHandler = (val, name) => {
@@ -110,20 +102,14 @@ const NewOrganisation = ({ open, onClose, refetchAdmins }) => {
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
         <h1 className={classes.head1}>
-          {showPassword ? 'Admin Created' : 'Create Admin'}
+          {showUser ? 'Organisation Created' : 'Create Organisation'}
         </h1>
       </DialogTitle>
 
       <DialogContent>
-        {showPassword ? (
-          <div className={classes.passwordDisplay}>
-            <h4>Please copy the generated password</h4>
-            <h3 className={classes.password}>{showPassword}</h3>
-          </div>
-        ) : (
           <div className={classes.form}>
             <TextField
-              label='Full Name'
+              label='Organisation Name'
               variant='outlined'
               size='large'
               value={form.name}
@@ -132,49 +118,14 @@ const NewOrganisation = ({ open, onClose, refetchAdmins }) => {
             />
 
             <TextField
-              label='Email'
+              label='Tag'
               variant='outlined'
               size='large'
-              value={form.email}
+              value={form.tag}
               className={classes.input}
-              onChange={e => onChangeHandler(e.target.value, 'email')}
+              onChange={e => onChangeHandler(e.target.value, 'tag')}
             />
 
-            <TextField
-              label='Phone'
-              variant='outlined'
-              size='large'
-              value={form.phone}
-              className={classes.input}
-              onChange={e => onChangeHandler(e.target.value, 'phone')}
-            />
-
-            <FormControl
-              variant='outlined'
-              className={classes.selectContainer}
-              size='large'
-            >
-              <InputLabel id='organisation-select-label'>
-                Organisation
-              </InputLabel>
-              <Select
-                labelId='organisation-select-label'
-                id='organisation-select-filled'
-                className={classes.select}
-                value={form.organisation}
-                onChange={e =>
-                  setForm(prev => ({
-                    ...prev,
-                    organisation: e.target.value
-                  }))
-                }
-              >
-                {/* TODO: This list will be fetched from API */}
-                <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
-                <MenuItem value='DELL'>Dell</MenuItem>
-                <MenuItem value='EXPERIOR'>Experior</MenuItem>
-              </Select>
-            </FormControl>
             <Button
               disabled={mutation.isLoading}
               variant='contained'
@@ -185,7 +136,6 @@ const NewOrganisation = ({ open, onClose, refetchAdmins }) => {
               {mutation.isLoading ? 'Saving...' : 'Create'}
             </Button>
           </div>
-        )}
       </DialogContent>
     </Dialog>
   )

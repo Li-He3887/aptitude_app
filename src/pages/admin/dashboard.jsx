@@ -314,7 +314,7 @@ function Dashboard() {
                 onChange={e => handleFilterChange(e.target.value, 'organisation')}
               >
                 {/* TODO: This list will be fetched from API */}
-                <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
+                <MenuItem value='FS'>Forward School</MenuItem>
                 <MenuItem value='DELL'>Dell</MenuItem>
                 <MenuItem value='EXPERIOR'>Experior</MenuItem>
               </Select>

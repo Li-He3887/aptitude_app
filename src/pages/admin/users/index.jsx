@@ -23,25 +23,25 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { useSnackbar } from 'notistack'
 
 import { getAdmins } from '../../../api/v2/admins'
+import {getOrganisation} from '../../../api/v2/organisation'
 
 import AdminLayout from '../../../layouts/admin-layout'
 import AdminTable from '../../../components/tables/user'
 import OrganisationTable from '../../../components/tables/organisation';
 import NewUser from '../../../components/dialogs/new-user'
+import NewOrganisation from '../../../components/dialogs/new-organisation'
 import { USER_ROLES } from '../../../constants'
 import Loader from '../../../components/loader'
 
 const StyledTabs = withStyles(theme => ({
-  head: {
-    textColor: '#1853A0',
-    indicatorColor: '#1853A0',
-    padding: '1.4rem',
+  indicator: {
+    background: '#1853A0',
     color: theme.palette.common.white
   },
   body: {
     fontSize: 14,
   }
-}))(Tab)
+}))(Tabs)
 
 const useStyles = makeStyles({
   container: {
@@ -55,6 +55,12 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  btn: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
   tableContainer: {
@@ -131,19 +137,29 @@ const Admins = () => {
     }
   }, [])
 
-  const [filters, setFilters] = useState({
+  const [adminFilters, setAdminFilters] = useState({
     organisation: 'ALL',
     role: 'ALL',
     search: 'ALL'
   })
 
+  const [organisationFilters, setOrganisationFilters] = useState({
+    search: 'ALL'
+  })
+
   const { isLoading, data, refetch } = useQuery(
-    ['admins', filters, page],
+    ['admins', adminFilters, page],
     () =>
       getAdmins({
-        organisation: filters.organisation,
-        role: filters.role,
-        search: filters.search,
+        organisation: adminFilters.organisation,
+        role: adminFilters.role,
+        search: adminFilters.search,
+        page: page
+      }),
+    ['organisation', organisationFilters, page],
+    () =>
+      getOrganisation({
+        search: organisationFilters.search,
         page: page
       }),
     {
@@ -158,8 +174,9 @@ const Admins = () => {
       }
     }
   )
+  
 
-  // console.log(data)
+  console.log(data)
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -167,18 +184,32 @@ const Admins = () => {
     setSearch(value)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitAdmin = (e) => {
     e.preventDefault()
-    setFilters(prev => ({
+    setAdminFilters(prev => ({
       ...prev,
       search: search
     }))
   }
 
-  const onResetHandler = () => {
-    setFilters({
+  const onSubmitOrganisation = (e) => {
+    e.preventDefault()
+    setOrganisationFilters(prev => ({
+      ...prev,
+      search: search
+    }))
+  }
+
+  const onResetAdmin = () => {
+    setAdminFilters({
       organisation: 'ALL',
       role: 'ALL',
+      search: 'ALL'
+    })
+  }
+
+  const onResetOrganisation = () => { 
+    setOrganisationFilters({
       search: 'ALL'
     })
   }
@@ -200,18 +231,20 @@ const Admins = () => {
       <div className={classes.container}>
         <div className={classes.headerContainer}>
 
-          <Tabs
+          <StyledTabs
             value={value}
             onChange={handleChange}
+            textColor='primary'
           >
-            <StyledTabs {...a11yProps(0)} label="Admin" />
+            <Tab {...a11yProps(0)} label="Admin" />
             <Tab {...a11yProps(1)} label="Organisation" />
-          </Tabs>
+          </StyledTabs>
         </div>
 
         {/* Admin */}
         <TabPanel value={value} index={0}>
           <Button
+            className={classes.btn}
             variant='contained'
             color='primary'
             size='large'
@@ -240,7 +273,7 @@ const Admins = () => {
                   labelId='organisation-select-label'
                   id='organisation-select-filled'
                   className={classes.select}
-                  value={filters.organisation}
+                  value={adminFilters.organisation}
                   onChange={e =>
                     setFilters(prev => ({
                       ...prev,
@@ -265,7 +298,7 @@ const Admins = () => {
                   labelId='role-select-label'
                   id='role-select-filled'
                   className={classes.select}
-                  value={filters.role}
+                  value={adminFilters.role}
                   onChange={e =>
                     setFilters(prev => ({
                       ...prev,
@@ -284,7 +317,7 @@ const Admins = () => {
                 </Select>
               </FormControl>
 
-              <form onSubmit={onSubmitHandler}>
+              <form onSubmit={onSubmitAdmin}>
                 <TextField
                   label='Search'
                   variant='outlined'
@@ -303,7 +336,7 @@ const Admins = () => {
 
               <IconButton 
                 aria-label="reset"
-                onClick={onResetHandler}
+                onClick={onResetAdmin}
                 >
                 <RestartAltIcon />
               </IconButton>
@@ -323,6 +356,7 @@ const Admins = () => {
         {/* Organisation */}
         <TabPanel value={value} index={1}>
           <Button
+            className={classes.btn}
             variant='contained'
             color='primary'
             size='large'
@@ -331,7 +365,7 @@ const Admins = () => {
             Create Organisation
           </Button>
 
-          <NewUser
+          <NewOrganisation
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             refetchAdmins={refetch}
@@ -339,7 +373,7 @@ const Admins = () => {
 
           <div className={classes.tableContainer}>
             <div className={classes.filters}>
-              <form onSubmit={onSubmitHandler}>
+              <form onSubmit={onSubmitOrganisation}>
                 <TextField
                   label='Search'
                   variant='outlined'
@@ -358,7 +392,7 @@ const Admins = () => {
 
               <IconButton 
                 aria-label="reset"
-                onClick={onResetHandler}
+                onClick={onResetOrganisation}
               >
                 <RestartAltIcon />
               </IconButton>
