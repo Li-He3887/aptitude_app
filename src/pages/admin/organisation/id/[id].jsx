@@ -5,11 +5,11 @@ import { makeStyles } from '@material-ui/styles'
 import { Card, CardContent, Button, Typography, Grid } from '@material-ui/core'
 import { useSnackbar } from 'notistack'
 
-import AdminLayout from '../../../layouts/admin-layout'
-import EditOrganisation from '../../../components/function/EditOrganisation'
-import Loader from '../../../components/loader'
+import AdminLayout from '../../../../layouts/admin-layout'
+import EditOrganisation from '../../../../components/function/EditOrganisation'
+import Loader from '../../../../components/loader'
 
-import { getOrganisationById, deleteOrganisation } from '../../../api/v2/organisation'
+import { getOrganisationById, deleteOrganisation } from '../../../../api/v2/organisation'
 
 const useStyles = makeStyles({
     root: {

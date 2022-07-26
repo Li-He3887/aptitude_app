@@ -6,7 +6,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination,
   TableHead,
   TableRow,
   Paper
@@ -38,13 +37,6 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 600
   },
-  pages: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginRight: '1.5rem'
-  },
   loader: {
     display: 'flex',
     padding: '0.6rem',
@@ -56,28 +48,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// function createData(id, name, tag) {
-//   return {id, name, tag };
-// }
-
-// const rowed = [
-//   createData(1, 'Forward School', 'FS'),
-//   createData(2, "DELL", "DELL"),
-//   createData(3, 'Experior', 'EX'),
-// ];
-
-const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
+const OrganisationTable = ({ rows, isLoading }) => {
   const classes = useStyles()
   const router = useRouter()
 
   // console.log(rows)
 
   const handleOnRowClick = id => {
-    router.push(`/admin/organiastion/${id}`)
-  }
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
+    router.push(`/admin/organiastion/id/${id}`)
   }
 
   return (
@@ -86,7 +64,7 @@ const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
         <MuiTable className={classes.table} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell align='center'>Organisation Name</StyledTableCell>
+              <StyledTableCell>Organisation Name</StyledTableCell>
               <StyledTableCell align='left'>Tag</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -98,19 +76,18 @@ const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
           ) : (
             <TableBody>
               {rows?.map(row => {
-                // console.log(row)
+                console.log(row)
 
                 return (
                   <StyledTableRow
-                    key={row.user.name}
-                    // key={row.name}
-                    onClick={() => handleOnRowClick(rows.organisation._id)}
+                    key={row.name}
+                    onClick={() => handleOnRowClick(rows._id)}
                   >
-                    <StyledTableCell component='th' scope='row' align='center'>
-                      {row.organisation.name}
+                    <StyledTableCell component='th' scope='row'>
+                      {row.name}
                     </StyledTableCell>
                     <StyledTableCell align='left'>
-                      {row.organisation.tag}
+                      {row.tag}
                     </StyledTableCell>
                   </StyledTableRow>
                 )
@@ -118,16 +95,6 @@ const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
             </TableBody>
           )}
         </MuiTable>
-
-        <TablePagination
-          component='div'
-          className={classes.pages}
-          count={count}
-          page={page}
-          rowsPerPageOptions={[10]}
-          onPageChange={handleChangePage}
-          rowsPerPage={10}
-        />
       </TableContainer>
     </>
   )
@@ -135,9 +102,6 @@ const OrganisationTable = ({ rows, page, setPage, count, isLoading }) => {
 
 OrganisationTable.propTypes = {
   rows: PropTypes.any,
-  page: PropTypes.number,
-  setPage: PropTypes.func,
-  count: PropTypes.number,
   isLoading: PropTypes.boolean
 }
 

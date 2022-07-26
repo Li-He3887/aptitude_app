@@ -10,14 +10,15 @@ const api = axios.create({
 
 //create organisation
 export const createOrganisation = ({ name, tag }) =>
-  api.post(`/orgs`, {
+  api.post(`/orgs/add`, {
     name,
     tag
   })
 
 //get organisation by id
-export const getOrganisationById = Id => {
-  return api.get(`/orgs/${Id}`).then(res => {
+export const getOrganisationById = ({id}) => {
+  console.log(id)
+  return api.get(`/orgs/id/${id}`).then(res => {
     return res.data
   })
 }
@@ -26,7 +27,7 @@ export const getOrganisationById = Id => {
 export const editOrganisation = ({ name, tag }) => {
   console.log({ name, tag })
   return api
-    .put(`orgs/${id}`, {
+    .put(`orgs/edit`, {
       name,
       tag
     })
@@ -40,23 +41,10 @@ export const deleteOrganisation = id => {
   return api.post('/orgs/delete', { id: id })
 }
 
-//organisation filter
-export const getOrganisation = ({ search, page }) => {
-  const params = []
-
-  if (search) {
-    params.push(`${search}`)
-  }
-
-  if (page) {
-    params.push(`${page}`)
-  } else {
-    params.push(`0`)
-  }
-
-  return api
-    .get(`/orgs/filter/${params.length ? `${params.join('-')}` : ''}`)
-    .then(res => {
-      return res.data
-    })
+//get organisation
+export const getOrganisation = () => {
+  return api.get('/orgs')
+  .then(res => {
+    return res.data.organisation
+  })
 }

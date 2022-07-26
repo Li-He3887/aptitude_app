@@ -143,10 +143,6 @@ const Admins = () => {
     search: 'ALL'
   })
 
-  const [organisationFilters, setOrganisationFilters] = useState({
-    search: 'ALL'
-  })
-
   const { isLoading, data, refetch } = useQuery(
     ['admins', adminFilters, page],
     () =>
@@ -154,12 +150,6 @@ const Admins = () => {
         organisation: adminFilters.organisation,
         role: adminFilters.role,
         search: adminFilters.search,
-        page: page
-      }),
-    ['organisation', organisationFilters, page],
-    () =>
-      getOrganisation({
-        search: organisationFilters.search,
         page: page
       }),
     {
@@ -174,9 +164,26 @@ const Admins = () => {
       }
     }
   )
-  
 
-  console.log(data)
+  const { isLoading: isLoading2, data: data2, refetch: refetch2 } = useQuery(
+    ['organisation'],
+    () =>
+      getOrganisation(),
+    {
+      onError: () => {
+        enqueueSnackbar('Could not fetch data', {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
+          }
+        })
+      }
+    }
+  )
+  
+  // console.log(data)
+  // console.log(data2)
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -192,14 +199,6 @@ const Admins = () => {
     }))
   }
 
-  const onSubmitOrganisation = (e) => {
-    e.preventDefault()
-    setOrganisationFilters(prev => ({
-      ...prev,
-      search: search
-    }))
-  }
-
   const onResetAdmin = () => {
     setAdminFilters({
       organisation: 'ALL',
@@ -208,13 +207,7 @@ const Admins = () => {
     })
   }
 
-  const onResetOrganisation = () => { 
-    setOrganisationFilters({
-      search: 'ALL'
-    })
-  }
-
-  if (isLoading) {
+  if (isLoading || isLoading2) {
     return (
       <AdminLayout>
         <Loader loading={isLoading} />
@@ -368,44 +361,13 @@ const Admins = () => {
           <NewOrganisation
             open={modalOpen}
             onClose={() => setModalOpen(false)}
-            refetchAdmins={refetch}
+            refetchOrganisation={refetch2}
           />
 
           <div className={classes.tableContainer}>
-            <div className={classes.filters}>
-              <form onSubmit={onSubmitOrganisation}>
-                <TextField
-                  label='Search'
-                  variant='outlined'
-                  size='small'
-                  value={search}
-                  onChange={e => onChangeHandler(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <SearchIcon fontSize='small' />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </form>
-
-              <IconButton 
-                aria-label="reset"
-                onClick={onResetOrganisation}
-              >
-                <RestartAltIcon />
-              </IconButton>
-
-            </div>
-            {/* TODO: Pass in custom table data */}
             <OrganisationTable
-              rows={data.organisation || []}
-              page={page}
-              setPage={setPage}
-              count={data.count}
+              rows={data2 || []}
             />
-            
           </div>
         </TabPanel>
       </div>
