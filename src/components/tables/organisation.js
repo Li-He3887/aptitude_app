@@ -55,7 +55,7 @@ const OrganisationTable = ({ rows, isLoading }) => {
   // console.log(rows)
 
   const handleOnRowClick = id => {
-    router.push(`/admin/organiastion/id/${id}`)
+    router.push(`/admin/organisation/id/${id}`)
   }
 
   return (
@@ -81,7 +81,7 @@ const OrganisationTable = ({ rows, isLoading }) => {
                 return (
                   <StyledTableRow
                     key={row.name}
-                    onClick={() => handleOnRowClick(rows._id)}
+                    onClick={() => handleOnRowClick(row._id)}
                   >
                     <StyledTableCell component='th' scope='row'>
                       {row.name}

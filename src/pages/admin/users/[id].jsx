@@ -155,7 +155,7 @@ const SingleUser = props => {
                       Phone No : {data.admins?.phone}
                     </Typography>
                     <Typography variant='h6' component='h2' gutterBottom>
-                      Organisation : {BeautifyOrg(data.admins?.organisation)}
+                      Organisation : {data.admins?.organisation.name}
                     </Typography>
                     <Typography variant='h6' component='h2' gutterBottom>
                       Role : {data.admins?.role}

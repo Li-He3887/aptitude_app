@@ -57,7 +57,7 @@ const UsersTable = ({ rows, count, page, setPage }) => {
   const classes = useStyles()
   const router = useRouter()
 
-  // console.log(rows)
+  console.log(rows)
 
   // Make this dynamic
   // const handleOnRowClick = id => router.push(`/admin/users/${id}`)
@@ -95,7 +95,7 @@ const UsersTable = ({ rows, count, page, setPage }) => {
                 <StyledTableCell align='center'>{row.email}</StyledTableCell>
                 <StyledTableCell align='center'>{row.phone}</StyledTableCell>
                 <StyledTableCell align='center'>
-                  {row.organisation}
+                  {row.organisation.tag}
                 </StyledTableCell>
                 <StyledTableCell align='center'>{row.role}</StyledTableCell>
               </StyledTableRow>

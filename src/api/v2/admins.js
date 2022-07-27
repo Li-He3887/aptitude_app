@@ -71,7 +71,7 @@ export const getAdmins = ({ organisation, role, search, page }) => {
 }
 
 export const getAdminsId = Id => {
-  return api.get(`/admins/${Id}`).then(res => {
+  return api.get(`/admin/${Id}`).then(res => {
     return res.data
   })
 }

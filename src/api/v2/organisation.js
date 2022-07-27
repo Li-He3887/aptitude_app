@@ -16,20 +16,21 @@ export const createOrganisation = ({ name, tag }) =>
   })
 
 //get organisation by id
-export const getOrganisationById = ({id}) => {
-  console.log(id)
-  return api.get(`/orgs/id/${id}`).then(res => {
+export const getOrganisationById = (organisationId) => {
+  console.log(organisationId)
+  return api.get(`/orgs/id/${organisationId}`).then(res => {
     return res.data
   })
 }
 
 //edit organisation
-export const editOrganisation = ({ name, tag }) => {
-  console.log({ name, tag })
+export const editOrganisation = ({ name, tag, id }) => {
+  console.log({ name, tag, id })
   return api
-    .put(`orgs/edit`, {
+    .post(`orgs/edit`, {
       name,
-      tag
+      tag,
+      id
     })
     .then(res => {
       return res.data

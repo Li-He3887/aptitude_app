@@ -183,7 +183,7 @@ const Admins = () => {
   )
   
   // console.log(data)
-  // console.log(data2)
+  // console.log(isLoading2, data2, refetch2)
 
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -207,7 +207,7 @@ const Admins = () => {
     })
   }
 
-  if (isLoading || isLoading2) {
+  if (isLoading ) {
     return (
       <AdminLayout>
         <Loader loading={isLoading} />
@@ -366,7 +366,7 @@ const Admins = () => {
 
           <div className={classes.tableContainer}>
             <OrganisationTable
-              rows={data2 || []}
+              rows={ data2 || []}
             />
           </div>
         </TabPanel>

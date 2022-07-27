@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import { makeStyles } from '@material-ui/styles'
 import { Card, CardContent, Button, Typography, Grid } from '@material-ui/core'
 import { useSnackbar } from 'notistack'
 
 import AdminLayout from '../../../../layouts/admin-layout'
-import EditOrganisation from '../../../../components/function/EditOrganisation'
+import EditOrganisationDialog from '../../../../components/dialogs/edit-organisation'
 import Loader from '../../../../components/loader'
 
 import { getOrganisationById, deleteOrganisation } from '../../../../api/v2/organisation'
@@ -44,6 +44,7 @@ const useStyles = makeStyles({
     const classes = useStyles()
     const router = useRouter()
     const { enqueueSnackbar } = useSnackbar()
+    
   
     const organisationId = router.query.id
   
@@ -69,6 +70,7 @@ const useStyles = makeStyles({
         })
       }
     })
+    console.log(organisationId)
   
     const { mutate } = useMutation(() => deleteOrganisation(organisationId), {
       onError: () => {
@@ -127,28 +129,29 @@ const useStyles = makeStyles({
           </div>
         </div>
 
-        {!!data?.admins && (
+        {!!data?.organisation && (
           <>
             <Card className={classes.root}>
               <Grid container spacing={3}>
                 <Grid item xs={10}>
                   <CardContent className={classes.card}>
                     <Typography variant='h6' component='h2' gutterBottom>
-                      {/* Name: {data.organisation?.name} */}
-                      Name: Forward School
+                      Name: {data.organisation?.name}
+                      {/* Name: Forward School */}
                     </Typography>
                     <Typography variant='h6' component='h2' gutterBottom>
-                      {/* Tag : {data.organisation?.tag} */}
-                      Tag: FS
+                      Tag : {data.organisation?.tag}
+                      {/* Tag: FS */}
                     </Typography>
                   </CardContent>
                 </Grid>
               </Grid>
             </Card>
-            <EditOrganisation
+            <EditOrganisationDialog
+              organisationId={organisationId}
               open={openEdit}
               onClose={() => setOpenEdit(false)}
-              user={data.organisation}
+              organisation={data.organisation}
             />
           </>
         )}
