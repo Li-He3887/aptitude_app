@@ -6,7 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Button,
+  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
@@ -85,7 +85,8 @@ const NewOrganisation = ({ open, onClose, refetchOrganisation }) => {
 
   const [form, setForm] = useState({
     organisation: '',
-    tag: ''
+    tag: '',
+    testCode: ''
   })
 
   const onChangeHandler = (val, name) => {
@@ -108,35 +109,44 @@ const NewOrganisation = ({ open, onClose, refetchOrganisation }) => {
       </DialogTitle>
 
       <DialogContent>
-          <div className={classes.form}>
-            <TextField
-              label='Organisation Name'
-              variant='outlined'
-              size='large'
-              value={form.name}
-              className={classes.input}
-              onChange={e => onChangeHandler(e.target.value, 'name')}
-            />
+        <div className={classes.form}>
+          <TextField
+            label='Organisation Name'
+            variant='outlined'
+            size='large'
+            value={form.name}
+            className={classes.input}
+            onChange={e => onChangeHandler(e.target.value, 'name')}
+          />
 
-            <TextField
-              label='Tag'
-              variant='outlined'
-              size='large'
-              value={form.tag}
-              className={classes.input}
-              onChange={e => onChangeHandler(e.target.value, 'tag')}
-            />
+          <TextField
+            label='Tag'
+            variant='outlined'
+            size='large'
+            value={form.tag}
+            className={classes.input}
+            onChange={e => onChangeHandler(e.target.value, 'tag')}
+          />
 
-            <Button
-              disabled={mutation.isLoading}
-              variant='contained'
-              color='primary'
-              size='large'
-              onClick={onSubmitHandler}
-            >
-              {mutation.isLoading ? 'Saving...' : 'Create'}
-            </Button>
-          </div>
+          <TextField
+            label='testCode'
+            variant='outlined'
+            size='large'
+            value={form.testCode}
+            className={classes.input}
+            onChange={e => onChangeHandler(e.target.value, 'testCode')}
+          />
+
+          <Button
+            disabled={mutation.isLoading}
+            variant='contained'
+            color='primary'
+            size='large'
+            onClick={onSubmitHandler}
+          >
+            {mutation.isLoading ? 'Saving...' : 'Create'}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )

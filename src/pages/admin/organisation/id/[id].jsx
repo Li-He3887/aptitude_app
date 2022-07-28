@@ -70,7 +70,7 @@ const useStyles = makeStyles({
         })
       }
     })
-    console.log(organisationId)
+    // console.log(organisationId)
   
     const { mutate } = useMutation(() => deleteOrganisation(organisationId), {
       onError: () => {
@@ -137,11 +137,12 @@ const useStyles = makeStyles({
                   <CardContent className={classes.card}>
                     <Typography variant='h6' component='h2' gutterBottom>
                       Name: {data.organisation?.name}
-                      {/* Name: Forward School */}
                     </Typography>
                     <Typography variant='h6' component='h2' gutterBottom>
                       Tag : {data.organisation?.tag}
-                      {/* Tag: FS */}
+                    </Typography>
+                    <Typography variant='h6' component='h2' gutterBottom>
+                      Test Code : {data.organisation?.testCode}
                     </Typography>
                   </CardContent>
                 </Grid>

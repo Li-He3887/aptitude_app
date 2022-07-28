@@ -57,7 +57,7 @@ const UsersTable = ({ rows, count, page, setPage }) => {
   const classes = useStyles()
   const router = useRouter()
 
-  console.log(rows)
+  // console.log(rows)
 
   // Make this dynamic
   // const handleOnRowClick = id => router.push(`/admin/users/${id}`)
