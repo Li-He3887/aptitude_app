@@ -70,9 +70,10 @@ const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
   const [form, setForm] = useState({
     name: '',
     tag: '',
+    testCode: '',
     id: organisationId
   })
-  console.log(form)
+  // console.log(form)
 
   const onChangeHandler = (val, name) => {
     setForm(prev => ({
@@ -82,7 +83,7 @@ const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
   }
 
   const onSubmitHandler = () => {
-    console.log(form)
+    // console.log(form)
     mutation.mutate(form)
   }
 
@@ -120,6 +121,15 @@ const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
             value={form.tag}
             className={classes.input}
             onChange={e => onChangeHandler(e.target.value, 'tag')}
+          />
+
+          <TextField
+            label='Test Code'
+            variant='outlined'
+            size='large'
+            value={form.testCode}
+            className={classes.input}
+            onChange={e => onChangeHandler(e.target.value, 'testCode')}
           />
 
           <Button

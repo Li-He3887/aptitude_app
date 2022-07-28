@@ -64,8 +64,9 @@ const OrganisationTable = ({ rows, isLoading }) => {
         <MuiTable className={classes.table} aria-label='customized table'>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Organisation Name</StyledTableCell>
-              <StyledTableCell align='left'>Tag</StyledTableCell>
+              <StyledTableCell align='center'>Organisation Name</StyledTableCell>
+              <StyledTableCell align='center'>Tag</StyledTableCell>
+              <StyledTableCell align='center'>Test Code</StyledTableCell>
             </TableRow>
           </TableHead>
           {isLoading ? (
@@ -76,18 +77,21 @@ const OrganisationTable = ({ rows, isLoading }) => {
           ) : (
             <TableBody>
               {rows?.map(row => {
-                console.log(row)
+                // console.log(row)
 
                 return (
                   <StyledTableRow
                     key={row.name}
                     onClick={() => handleOnRowClick(row._id)}
                   >
-                    <StyledTableCell component='th' scope='row'>
+                    <StyledTableCell component='th' scope='row' align='center'>
                       {row.name}
                     </StyledTableCell>
-                    <StyledTableCell align='left'>
+                    <StyledTableCell align='center'>
                       {row.tag}
+                    </StyledTableCell>
+                    <StyledTableCell align='center'>
+                      {row.testCode}
                     </StyledTableCell>
                   </StyledTableRow>
                 )

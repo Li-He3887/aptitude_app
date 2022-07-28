@@ -17,8 +17,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useSnackbar } from 'notistack'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 
-// import getTest from '../../api/v2/tests'
-// import * as Sentry from '@sentry/browser'
+import {getOrganisation} from '../../api/v2/organisation'
 
 import AdminLayout from '../../layouts/admin-layout'
 import PieChart from '../../components/charts/pie-chart'
@@ -115,13 +114,16 @@ const useStyles = makeStyles(theme => ({
 function Dashboard() {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
-  // const { isLoading, error, data } = useQuery('tests', getAllTests(filters))
   const [, setAdmin] = useState({})
   const [me, setMe] = useState({})
   const router = useRouter()
   const [now] = useState(Date.now())
   const [page, setPage] = useState(0)
   const [search, setSearch] = useState()
+  const [date1, setDate1] = useState({
+    startDate: null,
+    endDate: null
+  })
 
   const [filters, setFilters] = useState({
     startDate: Date.parse('10 Jan 2000'),
@@ -158,22 +160,15 @@ function Dashboard() {
     }
   )
 
-  // Using dummy data first, API is crashing server
-  // const testAverages = {
-  //   totalNumberOfTests: 100,
-  //   scoreData: {
-  //     average: 10,
-  //     totalPass: 20,
-  //     totalExcellent: 30,
-  //     totalFail: 40
-  //   },
-  //   timeData: {
-  //     average: 10, // Need to convert from seconds to minutes, don't know whats being returned from API
-  //     fifteenOrLess: 40,
-  //     belowThirty: 20,
-  //     thirty: 60
-  //   }
-  // }
+    const {isLoading: orgLoading, error: orgError, data: orgData } = useQuery(
+      'organisation',
+      () => getOrganisation(),
+      {
+        refetchOnMount: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false
+      }
+    )
 
   const handleFilterChange = (value, name) => {
     setFilters(prev => ({
@@ -194,8 +189,6 @@ function Dashboard() {
     }))
   }
 
-  // console.log(data)
-
   const onResetHandler = () => {
     setFilters({
       startDate: Date.parse('10 Jan 2000'),
@@ -204,6 +197,8 @@ function Dashboard() {
       status: 'ALL',
       organisation: 'ALL'
     })
+    setDate1({startDate: null, endDate: null})
+    setSearch("")
   }
 
   useEffect(() => {
@@ -228,8 +223,6 @@ function Dashboard() {
     })
   }
 
-  // console.log(testData)
-
   return (
     <AdminLayout admin={me}>
       <div className={classes.container}>
@@ -248,12 +241,18 @@ function Dashboard() {
             <MobileDatePicker
               label='Start Date'
               inputFormat='MM/dd/yyyy'
-              value={filters.startDate}
-              onChange={val =>
+              value={date1.startDate}
+              onChange={val => {
                 setFilters(prev => ({
                   ...prev,
                   startDate: Date.parse(val)
+                })),
+                setDate1(prev => ({
+                  ...prev,
+                  startDate: Date.parse(val)
                 }))
+              }
+                
               }
               renderInput={params => (
                 <TextField
@@ -274,12 +273,18 @@ function Dashboard() {
             <MobileDatePicker
               label='End Date'
               inputFormat='MM/dd/yyyy'
-              value={filters.endDate}
-              onChange={val =>
+              value={date1.endDate}
+              onChange={val => {
                 setFilters(prev => ({
                   ...prev,
                   endDate: Date.parse(val)
+                })),
+                setDate1(prev => ({
+                  ...prev,
+                  endDate: Date.parse(val)
                 }))
+              }
+                
               }
               renderInput={params => (
                 <TextField
@@ -303,21 +308,31 @@ function Dashboard() {
               className={classes.selectContainer}
               size='small'
             >
-              <InputLabel id='organisation-select-label'>
-                Organisation
-              </InputLabel>
-              <Select
-                labelId='organisation-select-label'
-                id='organisation-select-filled'
-                className={classes.select}
-                value={filters.organisation}
-                onChange={e => handleFilterChange(e.target.value, 'organisation')}
-              >
                 {/* TODO: This list will be fetched from API */}
-                <MenuItem value='FS'>Forward School</MenuItem>
-                <MenuItem value='DELL'>Dell</MenuItem>
-                <MenuItem value='EXPERIOR'>Experior</MenuItem>
-              </Select>
+                { orgLoading ?
+                  <></>
+                  :
+                  <>
+                    <InputLabel id='organisation-select-label'>
+                      Organisation
+                    </InputLabel>
+                    <Select
+                      labelId='organisation-select-label'
+                      id='organisation-select-filled'
+                      className={classes.select}
+                      value={filters.organisation}
+                      onChange={e => handleFilterChange(e.target.value, 'organisation')}
+                    >
+                      {orgData.map(org => {
+                        return(
+                          <MenuItem key={org.id} value={org.tag}>{org.name}</MenuItem>
+                        )
+                      })}
+                    </Select>
+                    
+                  </>
+                  
+                }
             </FormControl>
 
             <form onSubmit={onSubmitHandler}>
@@ -325,7 +340,11 @@ function Dashboard() {
                 label='Search'
                 variant='outlined'
                 size='small'
-                onChange={e => onChangeHandler(e.target.value, 'search')}
+                value={search}
+                onChange={e => {
+                  onChangeHandler(e.target.value, 'search')
+                  setSearch(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>

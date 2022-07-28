@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {  useRouter } from 'next/router'
+import { useQuery } from 'react-query'
 import styled, { createGlobalStyle } from 'styled-components'
 import {
   Typography,
@@ -17,6 +18,8 @@ import PhoneNumber from 'awesome-phonenumber'
 import Router from 'next/router'
 import { useSnackbar } from 'notistack'
 import * as Sentry from '@sentry/browser'
+
+import {checkOrg} from '../api/v2/organisation'
 
 import theme from '../config/theme'
 import { getErrorMessage } from '../utils/error'
@@ -49,22 +52,28 @@ const Index = () => {
     errors: {}
   })
   const router = useRouter()
-  const [org, setOrg] = useState("FS")
+  const [org, setOrg] = useState("")
   const [programme, setProgramme] = useState("ND")
   const params = router.query
 
+  const {isLoading: loading, data: data2, refetch: orgRefetch} = useQuery(
+    ['organisation', params.organisation],
+    () => 
+      checkOrg(params.organisation)
+  )
+// console.log(params)
   useEffect(() => {
     const errors = {}
-    const { name, email, phone, testCode } = formState.values
+    const { name, email, phone, testCode} = formState.values
 
-    if(params.organisation) {
-      setOrg(params.organisation)
-    }
-  
-    if(org == "FS") {
-      setProgramme(params.programme || 'ND')
-    } else {
-      setProgramme(null)
+    orgRefetch()
+
+    if(!loading|| true) {
+      if(data2?.check) {
+        setOrg(params.organisation)
+      } else {
+        setOrg('FS')
+      }
     }
 
     if (!name) {
@@ -97,7 +106,9 @@ const Index = () => {
       isValid: isEmpty(errors),
       errors: errors || {}
     }))
-  }, [formState.values, params, org])
+  }, [formState.values, params, org, loading])
+
+console.log(formState)
 
   const handleInputChange = event => {
     event.persist()
@@ -165,67 +176,16 @@ const Index = () => {
       })
   }
 
-  // const programList = [
-  //   {
-  //     value: 'ND',
-  //     label: 'NitroDegree'
-  //   },
-  //   {
-  //     value: 'DS',
-  //     label: 'Data Science'
-  //   },
-  //   {
-  //     value: 'BEW',
-  //     label: 'Web Development'
-  //   },
-  //   {
-  //     value: 'MOB',
-  //     label: 'Mobile Development'
-  //   }
-  // ]
-
-  // const [program, setProgram] = useState('ND')
-
   const programOnChange = event => {
     setProgramme(event.target.value)
   }
-
-  // const organisationList = [
-  //   {
-  //     value: 'FS',
-  //     label: 'Forward School'
-  //   },
-  //   {
-  //     value: 'Dell',
-  //     label: 'Dell'
-  //   }
-  // ]
-
-  // const [organisation, setOrganisation] = useState('FS')
 
   const OrganisationOnChange = event => {
     setOrg(event.target.value)
   }
 
-  const hasError = field =>
+  const hasError = field => 
     !!(formState.touched[field] && formState.errors[field])
-
-  const beautifyOrg = (params) => {
-    switch(params) {
-      case("DELL"):
-        return "Dell"
-        break;
-      case("FS"):
-        return "Forward School"
-        break;
-      case("EXPERIOR"):
-        return "Experior"
-        break;
-      default:
-        return "Forward School"
-        break;
-    }
-  }
 
   const beautifyPro = (params) => {
     switch(params) {
@@ -379,7 +339,6 @@ const Index = () => {
                 <></>
               }
               
-
               <TextField
                 id='outlined-select-currency'
                 select
@@ -391,8 +350,8 @@ const Index = () => {
                 value={org}
                 onChange={OrganisationOnChange}
               >
-                <MenuItem value={org}>
-                  {beautifyOrg(org)}
+                <MenuItem value={loading? "" : data2.tag}>
+                  { loading ? "" : data2.name}
                 </MenuItem>
               </TextField>
 

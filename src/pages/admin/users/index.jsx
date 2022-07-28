@@ -182,13 +182,18 @@ const Admins = () => {
     }
   )
   
-  // console.log(data)
-  // console.log(isLoading2, data2, refetch2)
 
   const [modalOpen, setModalOpen] = useState(false)
 
   const onChangeHandler = value => {
     setSearch(value)
+  }
+
+  const handleFilterChange = (value, name) => {
+    setAdminFilters(prev => ({
+      ...prev,
+      [name]: value
+    }))
   }
 
   const onSubmitAdmin = (e) => {
@@ -205,6 +210,7 @@ const Admins = () => {
       role: 'ALL',
       search: 'ALL'
     })
+    setSearch("")
   }
 
   if (isLoading ) {
@@ -259,26 +265,28 @@ const Admins = () => {
                 className={classes.selectContainer}
                 size='small'
               >
-                <InputLabel id='organisation-select-label'>
-                  Organisation
-                </InputLabel>
-                <Select
-                  labelId='organisation-select-label'
-                  id='organisation-select-filled'
-                  className={classes.select}
-                  value={adminFilters.organisation}
-                  onChange={e =>
-                    setFilters(prev => ({
-                      ...prev,
-                      organisation: e.target.value
-                    }))
-                  }
-                >
-                  {/* TODO: This list will be fetched from API */}
-                  <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
-                  <MenuItem value='DELL'>Dell</MenuItem>
-                  <MenuItem value='EXPERIOR'>Experior</MenuItem>
-                </Select>
+                { isLoading2 ?
+                  <></>
+                  :
+                  <>
+                    <InputLabel id='organisation-select-label'>
+                      Organisation
+                    </InputLabel>
+                    <Select
+                      labelId='organisation-select-label'
+                      id='organisation-select-filled'
+                      className={classes.select}
+                      value={adminFilters.organisation}
+                      onChange={e => handleFilterChange(e.target.value, 'organisation')}
+                    >
+                      {data2.map(org => {
+                        return(
+                          <MenuItem key={org.id} value={org.tag}>{org.name}</MenuItem>
+                        )
+                      })}
+                    </Select>
+                  </>
+                }
               </FormControl>
 
               <FormControl
@@ -293,7 +301,7 @@ const Admins = () => {
                   className={classes.select}
                   value={adminFilters.role}
                   onChange={e =>
-                    setFilters(prev => ({
+                    setAdminFilters(prev => ({
                       ...prev,
                       role: e.target.value
                     }))
@@ -316,7 +324,10 @@ const Admins = () => {
                   variant='outlined'
                   size='small'
                   value={search}
-                  onChange={e => onChangeHandler(e.target.value)}
+                  onChange={e => {
+                    onChangeHandler(e.target.value, 'search')
+                    setSearch(e.target.value)
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>

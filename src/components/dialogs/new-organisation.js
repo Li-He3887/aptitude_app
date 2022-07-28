@@ -85,7 +85,8 @@ const NewOrganisation = ({ open, onClose, refetchOrganisation }) => {
 
   const [form, setForm] = useState({
     organisation: '',
-    tag: ''
+    tag: '',
+    testCode: ''
   })
 
   const onChangeHandler = (val, name) => {
@@ -125,6 +126,15 @@ const NewOrganisation = ({ open, onClose, refetchOrganisation }) => {
               value={form.tag}
               className={classes.input}
               onChange={e => onChangeHandler(e.target.value, 'tag')}
+            />
+
+            <TextField
+              label='testCode'
+              variant='outlined'
+              size='large'
+              value={form.testCode}
+              className={classes.input}
+              onChange={e => onChangeHandler(e.target.value, 'testCode')}
             />
 
             <Button
