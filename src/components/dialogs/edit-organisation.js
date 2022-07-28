@@ -49,7 +49,7 @@ const useStyles = makeStyles({
   }
 })
 
-const EditOrganisation = ({ open, onClose, organisationId }) => {
+const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -63,6 +63,7 @@ const EditOrganisation = ({ open, onClose, organisationId }) => {
         }
       })
       onClose()
+      refetch()
     }
   })
 
@@ -139,7 +140,7 @@ const EditOrganisation = ({ open, onClose, organisationId }) => {
 EditOrganisation.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  user: {
+  organisation: {
     id: PropTypes.string,
     name: PropTypes.string,
     tag: PropTypes.string

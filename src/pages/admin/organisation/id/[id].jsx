@@ -59,7 +59,7 @@ const useStyles = makeStyles({
       }
     }, [])
   
-    const { isLoading, data } = useQuery('organisation', () => getOrganisationById(organisationId), {
+    const { isLoading, data, refetch } = useQuery('organisation', () => getOrganisationById(organisationId), {
       onError: () => {
         enqueueSnackbar('Failed to fetch organisation', {
           variant: 'error',
@@ -152,6 +152,7 @@ const useStyles = makeStyles({
               open={openEdit}
               onClose={() => setOpenEdit(false)}
               organisation={data.organisation}
+              refetch={refetch}
             />
           </>
         )}

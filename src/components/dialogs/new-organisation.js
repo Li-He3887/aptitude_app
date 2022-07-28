@@ -52,7 +52,7 @@ const useStyles = makeStyles({
   }
 })
 
-const NewOrganisation = ({ open, onClose }) => {
+const NewOrganisation = ({ open, onClose, refetchOrganisation }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -70,6 +70,7 @@ const NewOrganisation = ({ open, onClose }) => {
         }
       })
       onClose()
+      refetchOrganisation()
     },
     onError: () => {
       enqueueSnackbar('Failed to add organisation', {
@@ -144,7 +145,7 @@ const NewOrganisation = ({ open, onClose }) => {
 NewOrganisation.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  refetchAdmins: PropTypes.func
+  refetchOrganisation: PropTypes.func
 }
 
 export default NewOrganisation

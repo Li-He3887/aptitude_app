@@ -98,19 +98,6 @@ const SingleUser = props => {
     }
   }
 
-  const BeautifyOrg = org => {
-    switch (org) {
-      case 'FORWARDSCHOOL':
-        return 'Forward School'
-      case 'DELL':
-        return 'Dell'
-      case 'EXPERIOR':
-        return 'Experior'
-      default:
-        return null
-    }
-  }
-
   return (
     <AdminLayout admin={me}>
       <div className={classes.container}>
