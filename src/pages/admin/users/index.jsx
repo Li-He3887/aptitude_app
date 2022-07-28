@@ -276,6 +276,7 @@ const Admins = () => {
                       labelId='organisation-select-label'
                       id='organisation-select-filled'
                       className={classes.select}
+                      label='Organisation'
                       value={adminFilters.organisation}
                       onChange={e => handleFilterChange(e.target.value, 'organisation')}
                     >
@@ -299,6 +300,7 @@ const Admins = () => {
                   labelId='role-select-label'
                   id='role-select-filled'
                   className={classes.select}
+                  label='Role'
                   value={adminFilters.role}
                   onChange={e =>
                     setAdminFilters(prev => ({

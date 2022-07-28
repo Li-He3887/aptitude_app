@@ -319,8 +319,9 @@ function Dashboard() {
                     <Select
                       labelId='organisation-select-label'
                       id='organisation-select-filled'
-                      className={classes.select}
+                      // className={classes.select}
                       value={filters.organisation}
+                      label='Organisation'
                       onChange={e => handleFilterChange(e.target.value, 'organisation')}
                     >
                       {orgData.map(org => {
