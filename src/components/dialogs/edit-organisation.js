@@ -6,8 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Button,
-
+  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'

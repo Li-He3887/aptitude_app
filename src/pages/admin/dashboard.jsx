@@ -13,17 +13,17 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { useSnackbar } from 'notistack'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 
-import {getOrganisation} from '../../api/v2/organisation'
+import { getOrganisation } from '../../api/v2/organisation'
 
 import AdminLayout from '../../layouts/admin-layout'
-import PieChart from '../../components/charts/pie-chart'
 import ApplicantsTable from '../../components/tables/result'
+import DashboardStats from '../../components/dashboard-stats'
 import { useQuery } from 'react-query'
-import { getAllTests, getTestAverages } from '../../api/v2/tests'
+import { getAllTests } from '../../api/v2/tests'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -149,26 +149,15 @@ function Dashboard() {
     }
   )
 
-  // TODO: Add API call here
-  const { isLoading: testLoading , error: testError , data: testData } = useQuery(
-    'tests',
-    () => getTestAverages(),
+  const { isLoading: orgLoading, data: orgData } = useQuery(
+    'organisation',
+    () => getOrganisation(),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false
     }
   )
-
-    const {isLoading: orgLoading, error: orgError, data: orgData } = useQuery(
-      'organisation',
-      () => getOrganisation(),
-      {
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false
-      }
-    )
 
   const handleFilterChange = (value, name) => {
     setFilters(prev => ({
@@ -181,7 +170,7 @@ function Dashboard() {
     setSearch(value)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = e => {
     e.preventDefault()
     setFilters(prev => ({
       ...prev,
@@ -197,8 +186,8 @@ function Dashboard() {
       status: 'ALL',
       organisation: 'ALL'
     })
-    setDate1({startDate: null, endDate: null})
-    setSearch("")
+    setDate1({ startDate: null, endDate: null })
+    setSearch('')
   }
 
   useEffect(() => {
@@ -227,14 +216,7 @@ function Dashboard() {
     <AdminLayout admin={me}>
       <div className={classes.container}>
         <h1 className={classes.head1}>Overview</h1>
-        <div className={classes.overviewContainer}>
-          <PieChart
-            totalTests={testData?.totalNumberOfTest || 0}
-            timeData={testData?.timeData || {}}
-            testData={testData?.scoreData || {}}
-            testLoading={testLoading}
-          />
-        </div>
+        <DashboardStats />
         <h3 className={classes.head1}>Applicants</h3>
         <div className={classes.filterContainer}>
           <div className={classes.filters}>
@@ -246,14 +228,12 @@ function Dashboard() {
                 setFilters(prev => ({
                   ...prev,
                   startDate: Date.parse(val)
-                })),
+                }))
                 setDate1(prev => ({
                   ...prev,
                   startDate: Date.parse(val)
                 }))
-              }
-                
-              }
+              }}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -278,14 +258,12 @@ function Dashboard() {
                 setFilters(prev => ({
                   ...prev,
                   endDate: Date.parse(val)
-                })),
+                }))
                 setDate1(prev => ({
                   ...prev,
                   endDate: Date.parse(val)
                 }))
-              }
-                
-              }
+              }}
               renderInput={params => (
                 <TextField
                   {...params}
@@ -308,32 +286,34 @@ function Dashboard() {
               className={classes.selectContainer}
               size='small'
             >
-                {/* TODO: This list will be fetched from API */}
-                { orgLoading ?
-                  <></>
-                  :
-                  <>
-                    <InputLabel id='organisation-select-label'>
-                      Organisation
-                    </InputLabel>
-                    <Select
-                      labelId='organisation-select-label'
-                      id='organisation-select-filled'
-                      // className={classes.select}
-                      value={filters.organisation}
-                      label='Organisation'
-                      onChange={e => handleFilterChange(e.target.value, 'organisation')}
-                    >
-                      {orgData.map(org => {
-                        return(
-                          <MenuItem key={org.id} value={org.tag}>{org.name}</MenuItem>
-                        )
-                      })}
-                    </Select>
-                    
-                  </>
-                  
-                }
+              {/* TODO: This list will be fetched from API */}
+              {orgLoading ? (
+                <></>
+              ) : (
+                <>
+                  <InputLabel id='organisation-select-label'>
+                    Organisation
+                  </InputLabel>
+                  <Select
+                    labelId='organisation-select-label'
+                    id='organisation-select-filled'
+                    className={classes.select}
+                    value={filters.organisation}
+                    label='Organisation'
+                    onChange={e =>
+                      handleFilterChange(e.target.value, 'organisation')
+                    }
+                  >
+                    {orgData.map(org => {
+                      return (
+                        <MenuItem key={org.id} value={org.tag}>
+                          {org.name}
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                </>
+              )}
             </FormControl>
 
             <form onSubmit={onSubmitHandler}>
@@ -356,13 +336,9 @@ function Dashboard() {
               />
             </form>
 
-          <IconButton
-           aria-label="reset"
-           onClick={onResetHandler}
-           >
-            <RestartAltIcon />
-          </IconButton>
-
+            <IconButton aria-label='reset' onClick={onResetHandler}>
+              <RestartAltIcon />
+            </IconButton>
           </div>
         </div>
 

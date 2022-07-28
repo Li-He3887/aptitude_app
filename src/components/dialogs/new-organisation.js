@@ -6,7 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Button,
+  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
@@ -109,44 +109,44 @@ const NewOrganisation = ({ open, onClose, refetchOrganisation }) => {
       </DialogTitle>
 
       <DialogContent>
-          <div className={classes.form}>
-            <TextField
-              label='Organisation Name'
-              variant='outlined'
-              size='large'
-              value={form.name}
-              className={classes.input}
-              onChange={e => onChangeHandler(e.target.value, 'name')}
-            />
+        <div className={classes.form}>
+          <TextField
+            label='Organisation Name'
+            variant='outlined'
+            size='large'
+            value={form.name}
+            className={classes.input}
+            onChange={e => onChangeHandler(e.target.value, 'name')}
+          />
 
-            <TextField
-              label='Tag'
-              variant='outlined'
-              size='large'
-              value={form.tag}
-              className={classes.input}
-              onChange={e => onChangeHandler(e.target.value, 'tag')}
-            />
+          <TextField
+            label='Tag'
+            variant='outlined'
+            size='large'
+            value={form.tag}
+            className={classes.input}
+            onChange={e => onChangeHandler(e.target.value, 'tag')}
+          />
 
-            <TextField
-              label='testCode'
-              variant='outlined'
-              size='large'
-              value={form.testCode}
-              className={classes.input}
-              onChange={e => onChangeHandler(e.target.value, 'testCode')}
-            />
+          <TextField
+            label='testCode'
+            variant='outlined'
+            size='large'
+            value={form.testCode}
+            className={classes.input}
+            onChange={e => onChangeHandler(e.target.value, 'testCode')}
+          />
 
-            <Button
-              disabled={mutation.isLoading}
-              variant='contained'
-              color='primary'
-              size='large'
-              onClick={onSubmitHandler}
-            >
-              {mutation.isLoading ? 'Saving...' : 'Create'}
-            </Button>
-          </div>
+          <Button
+            disabled={mutation.isLoading}
+            variant='contained'
+            color='primary'
+            size='large'
+            onClick={onSubmitHandler}
+          >
+            {mutation.isLoading ? 'Saving...' : 'Create'}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )

@@ -8,7 +8,7 @@ const api = axios.create({
   }
 })
 
-//create organisation
+// create organisation
 export const createOrganisation = ({ name, tag, testCode }) =>
   api.post(`/orgs/add`, {
     name,
@@ -16,14 +16,14 @@ export const createOrganisation = ({ name, tag, testCode }) =>
     testCode
   })
 
-//get organisation by id
-export const getOrganisationById = (organisationId) => {
+// get organisation by id
+export const getOrganisationById = organisationId => {
   return api.get(`/orgs/id/${organisationId}`).then(res => {
     return res.data
   })
 }
 
-//edit organisation
+// edit organisation
 export const editOrganisation = ({ name, tag, testCode, id }) => {
   return api
     .post(`orgs/edit`, {
@@ -37,22 +37,20 @@ export const editOrganisation = ({ name, tag, testCode, id }) => {
     })
 }
 
-//delete organisation
+// delete organisation
 export const deleteOrganisation = id => {
   return api.post('/orgs/delete', { id: id })
 }
 
-//get organisation
+// get organisation
 export const getOrganisation = () => {
-  return api.get('/orgs')
-  .then(res => {
+  return api.get('/orgs').then(res => {
     return res.data.organisation
   })
 }
 
-export const checkOrg = (organisation) => {
-  return api.get(`/orgs/valid/${organisation}`)
-  .then(res => {
+export const checkOrg = organisation => {
+  return api.get(`/orgs/valid/${organisation}`).then(res => {
     return res.data
   })
 }
