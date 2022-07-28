@@ -23,45 +23,52 @@ const useStyles = makeStyles({
   }
 })
 
-const DashboardStats = ({ totalTests }) => {
+const DashboardStats = ({ totalTests, isLoading }) => {
   const classes = useStyles()
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={4}>
-        <StatsCard
-          mainStat='12/20'
-          title='Avg. score out of 659 tests'
-          icon={
-            <div className={classes.iconContainer}>
-              <AssignmentIcon className={classes.greenIcon} />
-            </div>
-          }
-        />
+    <>
+    {isLoading 
+      ?
+        <></> 
+      :
+        <Grid container spacing={3}>
+        <Grid item xs={4}>
+          <StatsCard
+            mainStat={`${Math.floor(totalTests.averageScore)}/20`}
+            title={`Avg. score out of ${totalTests.totalNumberOfTest} tests`}
+            icon={
+              <div className={classes.iconContainer}>
+                <AssignmentIcon className={classes.greenIcon} />
+              </div>
+            }
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <StatsCard
+            mainStat={`${Math.floor((totalTests.totalPass/totalTests.totalNumberOfTest)*100)}%`}
+            title={`${totalTests.totalPass}/${totalTests.totalNumberOfTest} Pass`}
+            icon={
+              <div className={classes.iconContainer}>
+                <CheckIcon className={classes.greenIcon} />
+              </div>
+            }
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <StatsCard
+            mainStat={`${Math.floor((totalTests.totalPerfectScore/totalTests.totalNumberOfTest)*100)}%`}
+            title={`${totalTests.totalPerfectScore}/${totalTests.totalNumberOfTest} Perfect Score`}
+            icon={
+              <div className={classes.iconContainer}>
+                <DoneAllIcon className={classes.greenIcon} />
+              </div>
+            }
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={4}>
-        <StatsCard
-          mainStat='81.9%'
-          title='540 / 659 passed'
-          icon={
-            <div className={classes.iconContainer}>
-              <CheckIcon className={classes.greenIcon} />
-            </div>
-          }
-        />
-      </Grid>
-      <Grid item xs={4}>
-        <StatsCard
-          mainStat='15.32%'
-          title='101 / 659 full score'
-          icon={
-            <div className={classes.iconContainer}>
-              <DoneAllIcon className={classes.greenIcon} />
-            </div>
-          }
-        />
-      </Grid>
-    </Grid>
+    }
+    </>
   )
 }
 

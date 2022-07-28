@@ -15,7 +15,9 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { useSnackbar } from 'notistack'
+import { useQuery } from 'react-query'
 
+import {getOrganisation} from '../../api/v2/organisation'
 import { createAdmin } from '../../api/v2/admins'
 
 const useStyles = makeStyles({
@@ -107,6 +109,22 @@ const NewUser = ({ open, onClose, refetchAdmins }) => {
     mutation.mutate(form)
   }
 
+  const { isLoading, data } = useQuery(
+    'organisation',
+    () => getOrganisation(),
+    {
+      onError: () => {
+        enqueueSnackbar('Could not fetch data', {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
+          }
+        })
+      }
+    }
+  )
+
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
@@ -155,7 +173,7 @@ const NewUser = ({ open, onClose, refetchAdmins }) => {
               className={classes.selectContainer}
               size='large'
             >
-              <InputLabel id='organisation-select-label'>
+              {/* <InputLabel id='organisation-select-label'>
                 Organisation
               </InputLabel>
               <Select
@@ -170,11 +188,40 @@ const NewUser = ({ open, onClose, refetchAdmins }) => {
                   }))
                 }
               >
-                {/* TODO: This list will be fetched from API */}
+                TODO: This list will be fetched from API
                 <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
                 <MenuItem value='DELL'>Dell</MenuItem>
                 <MenuItem value='EXPERIOR'>Experior</MenuItem>
-              </Select>
+              </Select> */}
+
+              { isLoading ?
+                <></>
+                  :
+                <>
+                  <InputLabel id='organisation-select-label'>
+                    Organisation
+                  </InputLabel>
+                  <Select
+                    labelId='organisation-select-label'
+                    id='organisation-select-filled'
+                    className={classes.select}
+                    label='Organisation'
+                    value={form.organisation}
+                    onChange={e =>
+                      setForm(prev => ({
+                        ...prev,
+                        organisation: e.target.value
+                      }))
+                    }
+                  >
+                    {data.map(org => {
+                      return(
+                        <MenuItem key={org.id} value={org.tag}>{org.name}</MenuItem>
+                      )
+                    })}
+                  </Select>
+                </>
+              }
             </FormControl>
             <Button
               disabled={mutation.isLoading}

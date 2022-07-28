@@ -23,7 +23,7 @@ import AdminLayout from '../../layouts/admin-layout'
 import ApplicantsTable from '../../components/tables/result'
 import DashboardStats from '../../components/dashboard-stats'
 import { useQuery } from 'react-query'
-import { getAllTests } from '../../api/v2/tests'
+import { getAllTests, getTestAverages } from '../../api/v2/tests'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -124,6 +124,7 @@ function Dashboard() {
     startDate: null,
     endDate: null
   })
+  const [meOrg, setMeOrg] = useState()
 
   const [filters, setFilters] = useState({
     startDate: Date.parse('10 Jan 2000'),
@@ -199,6 +200,17 @@ function Dashboard() {
         token: localStorage.getItem('token')
       })
       setMe(JSON.parse(localStorage.getItem('admin')))
+      const meee = JSON.parse(localStorage.getItem('admin'))
+      if(meee.organisation.tag === 'FS') {
+        setMeOrg("FS")
+        return 
+      } else {
+        setFilters(prev => ({
+          ...prev,
+          organisation: meee.organisation.tag
+        }))
+        setMeOrg(meee.organisation.tag)
+      }
     }
   }, [])
 
@@ -212,11 +224,23 @@ function Dashboard() {
     })
   }
 
+  const { isLoading: testAveragesLoading, data: testAveragesData } = useQuery(
+    'test-averages',
+    () => getTestAverages((JSON.parse(localStorage.getItem('admin')).organisation.tag)),
+    {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false
+    }
+  )
+
+  console.log(meOrg)
+
   return (
     <AdminLayout admin={me}>
       <div className={classes.container}>
         <h1 className={classes.head1}>Overview</h1>
-        <DashboardStats />
+        <DashboardStats isLoading={testAveragesLoading} totalTests={testAveragesData} />
         <h3 className={classes.head1}>Applicants</h3>
         <div className={classes.filterContainer}>
           <div className={classes.filters}>
@@ -281,7 +305,12 @@ function Dashboard() {
               )}
             />
 
-            <FormControl
+            {
+              meOrg !== "FS"
+              ?
+                <></> 
+              :
+                <FormControl
               variant='outlined'
               className={classes.selectContainer}
               size='small'
@@ -315,6 +344,8 @@ function Dashboard() {
                 </>
               )}
             </FormControl>
+            }
+            
 
             <form onSubmit={onSubmitHandler}>
               <TextField

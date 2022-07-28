@@ -11,8 +11,8 @@ const api = axios.create({
 export const getTest = ({ testId }) => api.get(`/tests/${testId}`)
 
 // Get dashboard test statisitics
-export const getTestAverages = () =>
-  api.get('/tests/average').then(res => {
+export const getTestAverages = (organisation) =>
+  api.get(`/tests/average/${organisation}`).then(res => {
     return res.data
   })
 
