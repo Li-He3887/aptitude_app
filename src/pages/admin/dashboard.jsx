@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { useSnackbar } from 'notistack'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 
@@ -21,10 +21,10 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 // import * as Sentry from '@sentry/browser'
 
 import AdminLayout from '../../layouts/admin-layout'
-import PieChart from '../../components/charts/pie-chart'
 import ApplicantsTable from '../../components/tables/result'
+import DashboardStats from '../../components/dashboard-stats'
 import { useQuery } from 'react-query'
-import { getAllTests, getTestAverages } from '../../api/v2/tests'
+import { getAllTests } from '../../api/v2/tests'
 
 const useStyles = makeStyles(theme => ({
   head1: {
@@ -147,34 +147,6 @@ function Dashboard() {
     }
   )
 
-  // TODO: Add API call here
-  const { isLoading: testLoading , error: testError , data: testData } = useQuery(
-    'tests',
-    () => getTestAverages(),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false
-    }
-  )
-
-  // Using dummy data first, API is crashing server
-  // const testAverages = {
-  //   totalNumberOfTests: 100,
-  //   scoreData: {
-  //     average: 10,
-  //     totalPass: 20,
-  //     totalExcellent: 30,
-  //     totalFail: 40
-  //   },
-  //   timeData: {
-  //     average: 10, // Need to convert from seconds to minutes, don't know whats being returned from API
-  //     fifteenOrLess: 40,
-  //     belowThirty: 20,
-  //     thirty: 60
-  //   }
-  // }
-
   const handleFilterChange = (value, name) => {
     setFilters(prev => ({
       ...prev,
@@ -186,7 +158,7 @@ function Dashboard() {
     setSearch(value)
   }
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = e => {
     e.preventDefault()
     setFilters(prev => ({
       ...prev,
@@ -228,20 +200,11 @@ function Dashboard() {
     })
   }
 
-  // console.log(testData)
-
   return (
     <AdminLayout admin={me}>
       <div className={classes.container}>
         <h1 className={classes.head1}>Overview</h1>
-        <div className={classes.overviewContainer}>
-          <PieChart
-            totalTests={testData?.totalNumberOfTest || 0}
-            timeData={testData?.timeData || {}}
-            testData={testData?.scoreData || {}}
-            testLoading={testLoading}
-          />
-        </div>
+        <DashboardStats />
         <h3 className={classes.head1}>Applicants</h3>
         <div className={classes.filterContainer}>
           <div className={classes.filters}>
@@ -311,7 +274,9 @@ function Dashboard() {
                 id='organisation-select-filled'
                 className={classes.select}
                 value={filters.organisation}
-                onChange={e => handleFilterChange(e.target.value, 'organisation')}
+                onChange={e =>
+                  handleFilterChange(e.target.value, 'organisation')
+                }
               >
                 {/* TODO: This list will be fetched from API */}
                 <MenuItem value='FS'>Forward School</MenuItem>
@@ -336,13 +301,9 @@ function Dashboard() {
               />
             </form>
 
-          <IconButton
-           aria-label="reset"
-           onClick={onResetHandler}
-           >
-            <RestartAltIcon />
-          </IconButton>
-
+            <IconButton aria-label='reset' onClick={onResetHandler}>
+              <RestartAltIcon />
+            </IconButton>
           </div>
         </div>
 
