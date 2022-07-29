@@ -95,14 +95,20 @@ const SingleApplicant = props => {
             >
               View Report
             </Button>
-            <Button
-              variant='contained'
-              color='primary'
-              size='large'
-              onClick={() => setOpenEdit(true)}
-            >
-              Edit Details
-            </Button>
+
+            {data.user.organisation.tag === "FS" ? 
+               <Button
+                variant='contained'
+                color='primary'
+                size='large'
+                onClick={() => setOpenEdit(true)}
+              >
+                Edit Details
+              </Button>
+              :
+              <></>
+            }
+            
           </div>
         </div>
 
@@ -119,10 +125,14 @@ const SingleApplicant = props => {
                 <Typography variant='h6' component='h2' gutterBottom>
                   Result : {data.score} / 20
                 </Typography>
-
-                <Typography variant='h6' component='h2' gutterBottom>
-                  Programme : {data.user.programme}
-                </Typography>
+                {
+                  data.user.organisation.tag === "FS" ? 
+                  <Typography variant='h6' component='h2' gutterBottom>
+                    Programme : {data.user.programme}
+                  </Typography>
+                  :
+                  <></>
+                }
 
                 <Typography variant='h6' component='h2' gutterBottom>
                   Phone No : {data.user.phone.number}

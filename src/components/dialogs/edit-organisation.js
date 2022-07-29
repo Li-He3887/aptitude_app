@@ -48,7 +48,7 @@ const useStyles = makeStyles({
   }
 })
 
-const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
+const EditOrganisation = ({ open, onClose, organisation, refetch }) => {
   const classes = useStyles()
   const { enqueueSnackbar } = useSnackbar()
 
@@ -70,9 +70,9 @@ const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
     name: '',
     tag: '',
     testCode: '',
-    id: organisationId
+    id: organisation._id,
+    ...organisation
   })
-  // console.log(form)
 
   const onChangeHandler = (val, name) => {
     setForm(prev => ({
@@ -82,7 +82,6 @@ const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
   }
 
   const onSubmitHandler = () => {
-    // console.log(form)
     mutation.mutate(form)
   }
 
@@ -99,7 +98,7 @@ const EditOrganisation = ({ open, onClose, organisationId, refetch }) => {
   return (
     <Dialog open={open} fullWidth maxWidth='xs' onClose={onClose}>
       <DialogTitle>
-        <h1 className={classes.head1}>Create Organisation</h1>
+        <h1 className={classes.head1}>Edit Organisation</h1>
       </DialogTitle>
 
       <DialogContent>
@@ -152,7 +151,8 @@ EditOrganisation.propTypes = {
   organisation: {
     id: PropTypes.string,
     name: PropTypes.string,
-    tag: PropTypes.string
+    tag: PropTypes.string,
+    testCode: PropTypes.string
   }
 }
 

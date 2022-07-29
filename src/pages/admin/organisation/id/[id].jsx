@@ -55,7 +55,7 @@ const useStyles = makeStyles({
       if (!localStorage.getItem('token')) {
         router.replace('./auth/sign-in')
       } else {
-        setMe(JSON.parse(localStorage.getItem('organisation')))
+        setMe(JSON.parse(localStorage.getItem('admin')))
       }
     }, [])
   
@@ -149,7 +149,6 @@ const useStyles = makeStyles({
               </Grid>
             </Card>
             <EditOrganisationDialog
-              organisationId={organisationId}
               open={openEdit}
               onClose={() => setOpenEdit(false)}
               organisation={data.organisation}

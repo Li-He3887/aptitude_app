@@ -180,13 +180,23 @@ function Dashboard() {
   }
 
   const onResetHandler = () => {
-    setFilters({
-      startDate: Date.parse('10 Jan 2000'),
-      endDate: now,
-      search: 'ALL',
-      status: 'ALL',
-      organisation: 'ALL'
-    })
+    if(meOrg === 'FS'){
+      setFilters({
+        startDate: Date.parse('10 Jan 2000'),
+        endDate: now,
+        search: 'ALL',
+        status: 'ALL',
+        organisation: 'ALL'
+      })
+    } else {
+      setFilters({
+        startDate: Date.parse('10 Jan 2000'),
+        endDate: now,
+        search: 'ALL',
+        status: 'ALL',
+        organisation: meOrg
+      })
+    }
     setDate1({ startDate: null, endDate: null })
     setSearch('')
   }
@@ -225,8 +235,8 @@ function Dashboard() {
   }
 
   const { isLoading: testAveragesLoading, data: testAveragesData } = useQuery(
-    'test-averages',
-    () => getTestAverages((JSON.parse(localStorage.getItem('admin')).organisation.tag)),
+    ['test-averages', meOrg],
+    () => getTestAverages(meOrg),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -234,13 +244,14 @@ function Dashboard() {
     }
   )
 
-  console.log(meOrg)
-
   return (
     <AdminLayout admin={me}>
       <div className={classes.container}>
         <h1 className={classes.head1}>Overview</h1>
-        <DashboardStats isLoading={testAveragesLoading} totalTests={testAveragesData} />
+        <DashboardStats 
+          isLoading={testAveragesLoading} 
+          totalTests={testAveragesData} 
+        />
         <h3 className={classes.head1}>Applicants</h3>
         <div className={classes.filterContainer}>
           <div className={classes.filters}>

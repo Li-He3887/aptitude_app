@@ -35,6 +35,7 @@ const useStyles = makeStyles({
 function Settings() {
   const classes = useStyles()
   const router = useRouter()
+  const [ loading, setLoading] = useState(true)
 
   const [me, setMe] = useState({})
   const [open, setOpen] = useState(false)
@@ -45,6 +46,7 @@ function Settings() {
     } else {
       setMe(JSON.parse(localStorage.getItem('admin')))
     }
+    setLoading(false)
   }, [])
 
   console.log(me)
@@ -77,12 +79,21 @@ function Settings() {
   return (
     <AdminLayout admin={me}>
       <h1 className={classes.head1}>Settings</h1>
+      {
+        loading 
+        ? 
+          <></>
+        :
+          <>
+            {renderItem('Name', me.name)}
+            {renderItem('Email', me.email)}
+            {renderItem('Role', me.role === 'SUPER_ADMIN' ? 'Super Admin' : 'Admin')}
+            {renderItem('Organisation', me.organisation.tag || '-')}
+            {renderPasswordItem()}
+          </>
+      }
 
-      {renderItem('Name', me.name)}
-      {renderItem('Email', me.email)}
-      {renderItem('Role', me.role === 'SUPER_ADMIN' ? 'Super Admin' : 'Admin')}
-      {renderItem('Organisation', me.organisation || '-')}
-      {renderPasswordItem()}
+      
 
       <ChangePasswordDialog
         open={open}
