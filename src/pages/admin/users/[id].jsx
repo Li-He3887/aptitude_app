@@ -36,6 +36,10 @@ const useStyles = makeStyles({
   deleteBtn: {
     marginLeft: '0.8rem',
     marginRight: '0.8rem'
+  },
+  resendBtn: {
+    marginLeft: '0.8rem',
+    marginRight: '0.8rem'
   }
 })
 
@@ -98,6 +102,10 @@ const SingleUser = props => {
     }
   }
 
+  const handleResend = () => {
+    console.log('Resend email')
+  }
+
   return (
     <AdminLayout admin={me}>
       <div className={classes.container}>
@@ -105,6 +113,16 @@ const SingleUser = props => {
           <h1 className={classes.head1}>Admins Detail</h1>
 
           <div>
+            <Button 
+              variant='contained'
+              color='primary'
+              size='large'
+              className={classes.resendBtn}
+              onClick={handleResend}
+            >
+              Resend Email
+            </Button>
+
             <Button
               variant='contained'
               color='primary'

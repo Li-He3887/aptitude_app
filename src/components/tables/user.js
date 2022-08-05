@@ -43,6 +43,12 @@ const useStyles = makeStyles(theme => ({
     color: '#fff',
     padding: '0.4rem 0.2rem'
   },
+  pendingCell: {
+    backgroundColor: 'red',
+    borderRadius: '6px',
+    color: '#fff',
+    padding: '0.4rem 0.2rem'
+  },
   pages: {
     display: 'flex',
     flexDirection: 'row',
@@ -81,6 +87,7 @@ const UsersTable = ({ rows, count, page, setPage }) => {
               <StyledTableCell align='center'>Phone No.</StyledTableCell>
               <StyledTableCell align='center'>Organisation</StyledTableCell>
               <StyledTableCell align='center'>Role</StyledTableCell>
+              <StyledTableCell align='center'>Status</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -98,6 +105,18 @@ const UsersTable = ({ rows, count, page, setPage }) => {
                   {row.organisation.tag}
                 </StyledTableCell>
                 <StyledTableCell align='center'>{row.role}</StyledTableCell>
+                <StyledTableCell align='center'>
+                  Pending
+                  {/* <div
+                    className={
+                      row.status === 'pending'
+                        ? classes.pendingCell
+                        : classes.statusCell
+                      }
+                  >
+                    {row.status === 'pending'? 'PENDING' : 'PASS'}
+                  </div> */}
+                </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Box, TextField, Button, Paper } from '@material-ui/core'
+import { Box, TextField, Button, Paper, Link } from '@material-ui/core'
 import { getErrorMessage } from '../../../utils/error'
 import { useSnackbar } from 'notistack'
 import { makeStyles } from '@material-ui/styles'
@@ -121,6 +121,10 @@ const SignIn = () => {
             value={credentials.password}
             autoComplete='current-password'
           />
+
+          <Link href={'../forgotpassword'}>
+            Forgot Password ?
+          </Link>
 
           <div className={classes.buttonContainer}>
             <Button
