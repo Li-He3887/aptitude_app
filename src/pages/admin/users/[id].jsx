@@ -8,7 +8,7 @@ import { useSnackbar } from 'notistack'
 import AdminLayout from '../../../layouts/admin-layout'
 import EditUserDialog from '../../../components/dialogs/edit-user'
 import Loader from '../../../components/loader'
-import { getAdminsId, deleteAdmin } from '../../../api/v2/admins'
+import { getAdminsId, deleteAdmin, resendEmail } from '../../../api/v2/admins'
 
 const useStyles = makeStyles({
   root: {
@@ -52,14 +52,7 @@ const SingleUser = props => {
 
   const [me, setMe] = useState({})
   const [openEdit, setOpenEdit] = useState(false)
-
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      router.replace('./auth/sign-in')
-    } else {
-      setMe(JSON.parse(localStorage.getItem('admin')))
-    }
-  }, [])
+  const [email, setEmail] = useState('')
 
   const { isLoading, data } = useQuery('admin', () => getAdminsId(adminId), {
     onError: () => {
@@ -73,6 +66,16 @@ const SingleUser = props => {
     }
   })
 
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.replace('./auth/sign-in')
+    } else {
+      setMe(JSON.parse(localStorage.getItem('admin')))
+    }
+    if(isLoading) return
+    setEmail(data.admins.email)
+  }, [isLoading])
+
   const { mutate } = useMutation(() => deleteAdmin(adminId), {
     onError: () => {
       enqueueSnackbar('Failed to delete admin', {
@@ -84,6 +87,18 @@ const SingleUser = props => {
       })
     }
   })
+
+  const {mutate:mutate2} = useMutation(() => resendEmail(email), {
+    onError: () => {
+      enqueueSnackbar('Failed to send the email', {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right'
+        }
+      })
+    }
+  }) 
 
   if (isLoading) {
     return (
@@ -103,7 +118,11 @@ const SingleUser = props => {
   }
 
   const handleResend = () => {
-    console.log('Resend email')
+    const confirmed = confirm('Are you sure you want to send the email?')
+
+    if (confirmed) {
+      mutate2(email)
+    }
   }
 
   return (
@@ -164,6 +183,9 @@ const SingleUser = props => {
                     </Typography>
                     <Typography variant='h6' component='h2' gutterBottom>
                       Role : {data.admins?.role}
+                    </Typography>
+                    <Typography variant='h6' component='h2' gutterBottom>
+                      Status : {data.admins?.pending ? 'PENDING' : 'ACTIVE'}
                     </Typography>
                   </CardContent>
                 </Grid>

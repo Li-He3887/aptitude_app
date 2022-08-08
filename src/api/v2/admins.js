@@ -90,3 +90,11 @@ export const editAdmin = ({ name, email, role, phone, organisation, id }) => {
       return res.data
     })
 }
+
+export const resendEmail = (email) => {
+  return api.post(`admins/resendEmail/email`, {email})
+}
+
+export const forgotPassword = (email) => {
+  return api.post(`admins/changePass/pass`, {email})
+}

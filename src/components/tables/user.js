@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 600
   },
-  statusCell: {
+  activeCell: {
     borderRadius: '6px',
     backgroundColor: 'green',
     color: '#fff',
@@ -64,9 +64,6 @@ const UsersTable = ({ rows, count, page, setPage }) => {
   const router = useRouter()
 
   // console.log(rows)
-
-  // Make this dynamic
-  // const handleOnRowClick = id => router.push(`/admin/users/${id}`)
 
   const handleOnRowClick = id => {
     router.push(`/admin/users/${id}`)
@@ -106,16 +103,15 @@ const UsersTable = ({ rows, count, page, setPage }) => {
                 </StyledTableCell>
                 <StyledTableCell align='center'>{row.role}</StyledTableCell>
                 <StyledTableCell align='center'>
-                  Pending
-                  {/* <div
+                  <div
                     className={
                       row.status === 'pending'
                         ? classes.pendingCell
-                        : classes.statusCell
+                        : classes.activeCell
                       }
                   >
-                    {row.status === 'pending'? 'PENDING' : 'PASS'}
-                  </div> */}
+                    {row.status === 'pending'? 'PENDING' : 'ACTIVE'}
+                  </div>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

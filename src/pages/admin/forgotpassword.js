@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
-     Box, 
-    TextField, 
-    Button, 
-    Paper 
+  Box, 
+  TextField, 
+  Button, 
+  Paper 
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import { useMutation } from 'react-query'
+import {forgotPassword} from '../../api/v2/admins'
 import ResponsiveImage from '../../components/responsive-image'
 
 const useStyles = makeStyles({
@@ -40,40 +42,66 @@ const useStyles = makeStyles({
     }
   })
 
-function forgotPassword() {
+function forgotPassword2() {
     const classes = useStyles()
+    const [email, setEmail] = useState('')
+
+    const {mutate} = useMutation(() => forgotPassword(email), {
+      onError: () => {
+        enqueueSnackbar('Failed to send the email', {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
+          }
+        })
+      }
+    }) 
+
+    const change = (e) => {
+      setEmail(e.target.value)
+    }
+
+    const handleForgot = () => {
+      const confirmed = confirm('Are you sure you want to send the email?')
+  
+      if (confirmed) {
+        mutate(email)
+      }
+    }
 
     return(
         <div className={classes.container}>
             <Paper elevation={0} className={classes.paperContainer}>
                 <ResponsiveImage
-                width='200px'
-                margin='10px'
-                alt='Forward School'
-                src={require('../../../public/forward-school-logo-blue.png')}
+                  width='200px'
+                  margin='10px'
+                  alt='Forward School'
+                  src={require('../../../public/forward-school-logo-blue.png')}
                 />
 
                 <Box className={classes.inputsContainer}>
                     <TextField
-                        fullWidth
-                        required
-                        margin='normal'
-                        variant='outlined'
-                        label='Email'
-                        id='outlined-required'
-                        value=""
-                        placeholder='Your@email.com'
+                      fullWidth
+                      required
+                      margin='normal'
+                      variant='outlined'
+                      label='Email'
+                      id='outlined-required'
+                      placeholder='Your@email.com'
+                      value={email}
+                      onChange={e => change(e)}
                     />
 
                     <div className={classes.buttonContainer}>
                         <Button
-                        variant='contained'
-                        size='large'
-                        color='primary'
-                        className={classes.btn}
-                        onClick={() => loginHandler()}
+                          variant='contained'
+                          size='large'
+                          color='primary'
+                          className={classes.btn}
+                          onClick={handleForgot}
                         >
-                            Submit
+                          Submit
                         </Button>
                     </div>
                 </Box>
@@ -82,4 +110,4 @@ function forgotPassword() {
     )
 }
 
-export default forgotPassword
+export default forgotPassword2

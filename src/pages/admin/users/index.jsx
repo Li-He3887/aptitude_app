@@ -242,8 +242,8 @@ const Admins = () => {
 
         {/* Admin */}
         <TabPanel value={value} index={0}>
-          <Button
-            className={classes.btn}
+          <div className={classes.btn}>
+            <Button
             variant='contained'
             color='primary'
             size='large'
@@ -251,6 +251,8 @@ const Admins = () => {
           >
             Create Admin
           </Button>
+          </div>
+          
 
           <NewUser
             open={modalOpen}
@@ -361,8 +363,8 @@ const Admins = () => {
 
         {/* Organisation */}
         <TabPanel value={value} index={1}>
-          <Button
-            className={classes.btn}
+          <div className={classes.btn}>
+            <Button
             variant='contained'
             color='primary'
             size='large'
@@ -370,6 +372,8 @@ const Admins = () => {
           >
             Create Organisation
           </Button>
+          </div>
+          
 
           <NewOrganisation
             open={modalOpen}
