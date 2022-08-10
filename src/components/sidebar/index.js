@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'start'
+    alignItems: 'center'
   },
   adminName: {
     color: '#000',
@@ -235,7 +235,7 @@ function Sidebar(props) {
                 {/* TODO: Show organisation */}
                 <div className={classes.adminName}>{admin?.name}</div>
                 <div className={classes.adminRole}>
-                  {admin?.role === 'ADMIN' ? 'Admin' : 'Super-admin'}
+                  {admin?.organisation?.tag} / {admin?.role === 'ADMIN' ? 'Admin' : 'Super-admin'}
                 </div>
               </div>
             )}
