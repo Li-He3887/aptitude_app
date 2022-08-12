@@ -1,0 +1,1 @@
+{"version":1,"redirects":[],"rewrites":[],"dynamicRoutes":[{"page":"/tests/[testId]","regex":"^\\/tests\\/([^\\/]+?)(?:\\/)?$"},{"page":"/tests/[testId]/report","regex":"^\\/tests\\/([^\\/]+?)\\/report(?:\\/)?$"}]}

@@ -1,0 +1,39 @@
+{
+  "devFiles": [],
+  "pages": {
+    "/": [
+      "static/runtime/webpack-08f7b238829422e3b9b2.js",
+      "static/chunks/commons.64edb550ed9869b6732e.js",
+      "static/runtime/main-a3a7f23edf45a5536a72.js"
+    ],
+    "/_app": [
+      "static/runtime/webpack-08f7b238829422e3b9b2.js",
+      "static/chunks/commons.64edb550ed9869b6732e.js",
+      "static/runtime/main-a3a7f23edf45a5536a72.js"
+    ],
+    "/_error": [
+      "static/runtime/webpack-08f7b238829422e3b9b2.js",
+      "static/chunks/commons.64edb550ed9869b6732e.js",
+      "static/runtime/main-a3a7f23edf45a5536a72.js"
+    ],
+    "/_polyfills": [
+      "static/runtime/polyfills-9ff6b9dda47b838b16a0.js",
+      "static/runtime/polyfills-9ff6b9dda47b838b16a0.js.map"
+    ],
+    "/index": [
+      "static/runtime/webpack-08f7b238829422e3b9b2.js",
+      "static/chunks/commons.64edb550ed9869b6732e.js",
+      "static/runtime/main-a3a7f23edf45a5536a72.js"
+    ],
+    "/tests/[testId]": [
+      "static/runtime/webpack-08f7b238829422e3b9b2.js",
+      "static/chunks/commons.64edb550ed9869b6732e.js",
+      "static/runtime/main-a3a7f23edf45a5536a72.js"
+    ],
+    "/tests/[testId]/report": [
+      "static/runtime/webpack-08f7b238829422e3b9b2.js",
+      "static/chunks/commons.64edb550ed9869b6732e.js",
+      "static/runtime/main-a3a7f23edf45a5536a72.js"
+    ]
+  }
+}

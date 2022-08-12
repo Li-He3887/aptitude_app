@@ -1,0 +1,43 @@
+{
+  "modules": {
+    "byIdentifier": {
+      "multi private-next-pages/_app.js": 0,
+      "multi private-next-pages/_document.js": 1,
+      "multi private-next-pages/_error.js": 2,
+      "multi private-next-pages/index.js": 3,
+      "multi private-next-pages/tests/[testId]/index.js": 4,
+      "multi private-next-pages/tests/[testId]/report.js": 5
+    },
+    "usedIds": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5
+    }
+  },
+  "chunks": {
+    "byName": {
+      "init-server.js": 0,
+      "on-error-server.js": 1,
+      "static/aff6OqNcQV334pz-QVuje/pages/_app.js": 2,
+      "static/aff6OqNcQV334pz-QVuje/pages/_document.js": 3,
+      "static/aff6OqNcQV334pz-QVuje/pages/_error.js": 4,
+      "static/aff6OqNcQV334pz-QVuje/pages/index.js": 5,
+      "static/aff6OqNcQV334pz-QVuje/pages/tests/[testId].js": 6,
+      "static/aff6OqNcQV334pz-QVuje/pages/tests/[testId]/report.js": 7
+    },
+    "bySource": {},
+    "usedIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  }
+}

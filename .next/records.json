@@ -1,0 +1,31 @@
+{
+  "modules": {
+    "byIdentifier": {},
+    "usedIds": {}
+  },
+  "chunks": {
+    "byName": {
+      "static/runtime/webpack.js": 0,
+      "commons": 1,
+      "static/aff6OqNcQV334pz-QVuje/pages/_app.js": 2,
+      "static/aff6OqNcQV334pz-QVuje/pages/_error.js": 3,
+      "static/aff6OqNcQV334pz-QVuje/pages/index.js": 4,
+      "static/aff6OqNcQV334pz-QVuje/pages/tests/[testId].js": 5,
+      "static/aff6OqNcQV334pz-QVuje/pages/tests/[testId]/report.js": 6,
+      "static/runtime/main.js": 7,
+      "static/runtime/polyfills.js": 8
+    },
+    "bySource": {},
+    "usedIds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  }
+}
