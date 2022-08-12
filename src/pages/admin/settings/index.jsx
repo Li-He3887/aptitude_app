@@ -49,7 +49,7 @@ function Settings() {
     setLoading(false)
   }, [])
 
-  console.log(me)
+  // console.log(me)
 
   function renderItem(key, value) {
     return (
@@ -92,8 +92,6 @@ function Settings() {
             {renderPasswordItem()}
           </>
       }
-
-      
 
       <ChangePasswordDialog
         open={open}

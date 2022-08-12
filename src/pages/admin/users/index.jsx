@@ -223,8 +223,6 @@ const Admins = () => {
 
   const me = JSON.parse(localStorage.getItem('admin'))
 
-  // TODO: Make API call here, listen for query params - pagination, filters
-
   return (
     <AdminLayout admin={me}>
       <div className={classes.container}>
@@ -350,7 +348,6 @@ const Admins = () => {
               </IconButton>
 
             </div>
-            {/* TODO: Pass in custom table data */}
             <AdminTable
               rows={data.admins || []}
               page={page}

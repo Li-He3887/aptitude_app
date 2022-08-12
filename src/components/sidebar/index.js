@@ -170,7 +170,6 @@ function Sidebar(props) {
           src={require('../../../public/forward-school-logo-blue.png')}
         />
       </div>
-      {/* <h3 className={classes.navbarTitle}>Main</h3> */}
       <List className={classes.list}>
         <Link href='/admin/dashboard' color='inherit' className={classes.link}>
           <ListItem button>
@@ -232,7 +231,6 @@ function Sidebar(props) {
           <Box sx={{ display: 'flex' }}>
             {!!admin && (
               <div className={classes.adminContainer}>
-                {/* TODO: Show organisation */}
                 <div className={classes.adminName}>{admin?.name}</div>
                 <div className={classes.adminRole}>
                   {admin?.organisation?.tag} / {admin?.role === 'ADMIN' ? 'Admin' : 'Super-admin'}
@@ -258,7 +256,7 @@ function Sidebar(props) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* TODO: Handle onLogout */}
+
               <MenuItem onClick={() => logOut()}>
                 <Typography textAlign='center'>Logout</Typography>
               </MenuItem>
@@ -267,7 +265,6 @@ function Sidebar(props) {
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label='mailbox folders'>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation='css'>
           <Drawer
             container={container}
@@ -303,7 +300,7 @@ function Sidebar(props) {
 
 Sidebar.propTypes = {
   window: PropTypes.any,
-  admin: PropTypes.any // TODO: Update this
+  admin: PropTypes.any 
 }
 
 export default Sidebar

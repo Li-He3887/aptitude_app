@@ -173,26 +173,6 @@ const NewUser = ({ open, onClose, refetchAdmins }) => {
               className={classes.selectContainer}
               size='large'
             >
-              {/* <InputLabel id='organisation-select-label'>
-                Organisation
-              </InputLabel>
-              <Select
-                labelId='organisation-select-label'
-                id='organisation-select-filled'
-                className={classes.select}
-                value={form.organisation}
-                onChange={e =>
-                  setForm(prev => ({
-                    ...prev,
-                    organisation: e.target.value
-                  }))
-                }
-              >
-                TODO: This list will be fetched from API
-                <MenuItem value='FORWARDSCHOOL'>Forward School</MenuItem>
-                <MenuItem value='DELL'>Dell</MenuItem>
-                <MenuItem value='EXPERIOR'>Experior</MenuItem>
-              </Select> */}
 
               { isLoading ?
                 <></>

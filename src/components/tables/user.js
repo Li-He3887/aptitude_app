@@ -58,7 +58,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// Pass dynamic props into it
 const UsersTable = ({ rows, count, page, setPage }) => {
   const classes = useStyles()
   const router = useRouter()
