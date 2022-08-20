@@ -8,7 +8,7 @@ import { ResponsivePie } from '@nivo/pie'
 import { ResponsiveBar } from '@nivo/bar'
 
 import theme from '../../../config/theme'
-import ResponsiveImage from '../../../components/ResponsiveImage'
+import ResponsiveImage from '../../../components/responsive-image'
 import FSAT_API from '../../../api'
 const humanizeDuration = require('humanize-duration')
 
@@ -332,7 +332,6 @@ TestReport.getInitialProps = async ({ req, res, query }) => {
   const fsatApi = FSAT_API()
   const { testId } = query
 
-  if (req) {
     try {
       const response = await fsatApi.getTestResults({
         testId
@@ -349,9 +348,7 @@ TestReport.getInitialProps = async ({ req, res, query }) => {
     } catch (error) {
       return { data: null, error: error.response.data }
     }
-  }
-
-  return { data: null, error: null }
+  
 }
 
 TestReport.propTypes = {

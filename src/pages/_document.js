@@ -1,5 +1,5 @@
 import React from 'react'
-import Document, { Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheets as MUIStyleSheets } from '@material-ui/core/styles'
 import { ServerStyleSheet as SCStyleSheet } from 'styled-components'
 import flush from 'styled-jsx/server'
@@ -64,7 +64,7 @@ export default class FSATDocument extends Document {
 
   render() {
     return (
-      <html lang='en'>
+      <Html lang='en'>
         <Head>
           <meta charSet='utf-8' />
           <meta
@@ -83,7 +83,7 @@ export default class FSATDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     )
   }
 }

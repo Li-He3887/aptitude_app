@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import {  useRouter } from 'next/router'
+import { useQuery } from 'react-query'
 import styled, { createGlobalStyle } from 'styled-components'
 import {
   Typography,
@@ -7,8 +9,8 @@ import {
   Box,
   TextField,
   Button,
-  CircularProgress,
-  MenuItem
+  MenuItem,
+  CircularProgress
 } from '@material-ui/core'
 import validator from 'validator'
 import isEmpty from 'lodash/isEmpty'
@@ -17,10 +19,12 @@ import Router from 'next/router'
 import { useSnackbar } from 'notistack'
 import * as Sentry from '@sentry/browser'
 
+import {checkOrg} from '../api/v2/organisation'
+
 import theme from '../config/theme'
 import { getErrorMessage } from '../utils/error'
-import ResponsiveImage from '../components/ResponsiveImage'
-import FSAT_API from '../api'
+import ResponsiveImage from '../components/responsive-image'
+import {createTest} from '../api/v2/index'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -47,21 +51,32 @@ const Index = () => {
     touched: {},
     errors: {}
   })
+  const router = useRouter()
+  const [org, setOrg] = useState("")
+  const [programme, setProgramme] = useState("ND")
+  const params = router.query
 
+  const {isLoading: loading, data: data2, refetch: orgRefetch} = useQuery(
+    ['organisation', params.organisation],
+    () => 
+      checkOrg(params.organisation)
+  )
+// console.log(params)
   useEffect(() => {
     const errors = {}
-    const { name, email, phone, organisation, testCode } = formState.values
+    const { name, email, phone, testCode} = formState.values
 
-    const query = new URLSearchParams(window.location.search)
-    const org = query.get('org') || ''
-    if (org.toLowerCase() === 'experior') {
-      formState.values.organisation = 'experior'
-    } else if (org.toLowerCase() === 'dhibizap') {
-      formState.values.organisation = 'dhibizap'
-    } else if (org.toLowerCase() === 'dell') {
-      formState.values.organisation = 'dell'
-    } else {
-      formState.values.organisation = 'forward'
+    orgRefetch()
+
+    if(!loading|| true) {
+      if(data2?.check) {
+        setOrg(params.organisation)
+      } else {
+        setOrg('FS')
+      }
+      if(params.programme) {
+        setProgramme(params.programme)
+      }
     }
 
     if (!name) {
@@ -72,10 +87,6 @@ const Index = () => {
       errors.email = 'Email is required.'
     } else if (!validator.isEmail(email)) {
       errors.email = 'Email is invalid.'
-    }
-
-    if (!organisation) {
-      errors.organisation = 'Organisation is required.'
     }
 
     if (!testCode) {
@@ -98,7 +109,9 @@ const Index = () => {
       isValid: isEmpty(errors),
       errors: errors || {}
     }))
-  }, [formState.values])
+  }, [formState.values, params, org, loading])
+
+console.log(formState)
 
   const handleInputChange = event => {
     event.persist()
@@ -121,25 +134,23 @@ const Index = () => {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    const fsatApi = FSAT_API()
-    const { name, email, phone, organisation, testCode } = formState.values
+    const { name, email, phone, testCode } = formState.values
 
     setFormState(formState => ({
       ...formState,
       isSubmitting: true
     }))
 
-    fsatApi
-      .createTest({
-        name,
-        email,
-        organisation,
-        testCode,
-        ...(phone && {
-          phone: `+${phone}`
-        })
+    createTest({
+      name,
+      email,
+      programme,
+      organisation: org,
+      testCode,
+      ...(phone && {
+        phone: `+${phone}`
       })
-      .then(response => {
+    }).then(response => {
         if (response.data.ended) {
           Router.push(`/tests/${response.data.id}/report`)
         } else {
@@ -168,8 +179,37 @@ const Index = () => {
       })
   }
 
-  const hasError = field =>
+  const programOnChange = event => {
+    setProgramme(event.target.value)
+  }
+
+  const OrganisationOnChange = event => {
+    setOrg(event.target.value)
+  }
+
+  const hasError = field => 
     !!(formState.touched[field] && formState.errors[field])
+
+  const beautifyPro = (params) => {
+    switch(params) {
+      case("DSE"):
+        return "Data Science Essential"
+        break;
+      case("ADS"):
+        return "Applied Data Science"
+        break;
+      case("ADL"):
+        return "Applied Deep Learning"
+        break;
+      case("ND"):
+        return "NitroDegree"
+        break;
+      default:
+        setProgramme('ND')
+        return "NitroDegree"
+        break;
+    }
+  }
 
   return (
     <>
@@ -281,34 +321,44 @@ const Index = () => {
                   shrink: true
                 }}
               />
+
+              {
+                org == "FS" ?
+                  <TextField
+                  id='outlined-select-currency'
+                  select
+                  fullWidth
+                  required
+                  margin='normal'
+                  variant='outlined'
+                  label='Programme'
+                  value={programme}
+                  onChange={programOnChange}
+                  >
+                    <MenuItem value={programme}>
+                      {beautifyPro(programme)}
+                    </MenuItem>
+                  </TextField>
+                :
+                <></>
+              }
+              
               <TextField
+                id='outlined-select-currency'
+                select
                 fullWidth
                 required
-                label='Organisation'
-                name='organisation'
-                onChange={handleInputChange}
-                value={formState.values.organisation || 'forward'}
-                error={hasError('organisation')}
-                variant='outlined'
                 margin='normal'
-                InputLabelProps={{
-                  shrink: true
-                }}
-                select
+                variant='outlined'
+                label='Organisation'
+                value={org}
+                onChange={OrganisationOnChange}
               >
-                {formState.values.organisation === 'forward' && (
-                  <MenuItem value='forward'>Forward School</MenuItem>
-                )}
-                {formState.values.organisation === 'experior' && (
-                  <MenuItem value='experior'>Experior</MenuItem>
-                )}
-                {formState.values.organisation === 'dhibizap' && (
-                  <MenuItem value='dhibizap'>DHI BizAP</MenuItem>
-                )}
-                {formState.values.organisation === 'dell' && (
-                  <MenuItem value='dell'>Dell</MenuItem>
-                )}
+                <MenuItem value={loading? "" : data2.tag}>
+                  { loading ? "" : data2.name}
+                </MenuItem>
               </TextField>
+
               <TextField
                 fullWidth
                 required

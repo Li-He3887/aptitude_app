@@ -20,6 +20,11 @@ export const getErrorMessage = error => {
           type: 'error',
           message: 'Test code is invalid.'
         }
+      case 'INVALID_EMAIL_OR_PASSWORD':
+        return {
+          type: 'error',
+          message: 'Invalid email or password.'
+        }
       default:
         return {
           type: 'default',
