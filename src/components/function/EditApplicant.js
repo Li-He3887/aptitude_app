@@ -33,7 +33,7 @@ const useStyles = makeStyles({
   }
 })
 
-function EditApplicant({ open, handleClose, user }) {
+function EditApplicant({ open, handleClose, user, refetch }) {
   const classes = useStyles()
   const id = user._id
 
@@ -64,6 +64,12 @@ function EditApplicant({ open, handleClose, user }) {
 
   const onSubmitHandler = () => {
     changeProgramme({id, programme: program})
+    .then(() => {
+      refetch()
+      handleClose()
+    }
+    )
+    
   }
 
   return (
@@ -116,5 +122,6 @@ export default EditApplicant
 
 EditApplicant.propTypes = {
   open: PropTypes.bool,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
+  refetch: PropTypes.func
 }

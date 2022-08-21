@@ -49,7 +49,7 @@ const SingleApplicant = props => {
 
   const applicantId = router.query.id
 
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     'applicant',
     () => getUserById(applicantId),
     {
@@ -145,6 +145,7 @@ const SingleApplicant = props => {
                 open={openEdit}
                 handleClose={() => setOpenEdit(false)}
                 user={data.user}
+                refetch={refetch}
               />
             </Grid>
           </Grid>
