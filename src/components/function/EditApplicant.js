@@ -67,13 +67,8 @@ function EditApplicant({ open, handleClose, user, refetch }) {
     .then(() => {
       refetch()
       handleClose()
-<<<<<<< HEAD
     }
     )
-    
-=======
-    })
->>>>>>> bad76cfa92e6d0799efdaef0cf602c1c8244c56a
   }
 
   return (
