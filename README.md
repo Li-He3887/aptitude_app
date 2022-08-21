@@ -38,7 +38,7 @@ Visit (https://nextjs.org/docs) to view the full documentation.
 
 * [React Query Docs](https://react-query-v3.tanstack.com/)
 
-## We also used a meterial called PropTypes and here the documentation:
+## We also used a material called PropTypes and here the documentation:
 
 * [PropTypes](https://www.npmjs.com/package/prop-types)
 
