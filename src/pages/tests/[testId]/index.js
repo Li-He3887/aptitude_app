@@ -476,7 +476,6 @@ Test.getInitialProps = async ({ req, res, query }) => {
   const fsatApi = FSAT_API()
   const { testId } = query
 
-  if (req) {
     try {
       const response = await fsatApi.getTest({
         testId
@@ -495,9 +494,6 @@ Test.getInitialProps = async ({ req, res, query }) => {
 
       return { data: null, error: error.response.data }
     }
-  }
-
-  return { data: null, error: null }
 }
 
 Test.propTypes = {

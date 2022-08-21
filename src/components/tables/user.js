@@ -104,12 +104,12 @@ const UsersTable = ({ rows, count, page, setPage }) => {
                 <StyledTableCell align='center'>
                   <div
                     className={
-                      row.status === 'pending'
+                      row.pending === 'true'
                         ? classes.pendingCell
                         : classes.activeCell
                       }
                   >
-                    {row.status === 'pending'? 'PENDING' : 'ACTIVE'}
+                    {row.pending === 'true'? 'PENDING' : 'ACTIVE'}
                   </div>
                 </StyledTableCell>
               </StyledTableRow>

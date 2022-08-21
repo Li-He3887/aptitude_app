@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: process.env.FSAT_API_V2_URL || 'http://localhost:3000/v2',
   headers: {
     'Content-Type': 'application/json',
-    'x-request-token': 'eztest'
+    'x-request-token': 'GqCah4Jg7lrDanVfmCskHy7hlp8GMXQt'
   }
 })
 

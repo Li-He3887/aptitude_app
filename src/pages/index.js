@@ -74,6 +74,9 @@ const Index = () => {
       } else {
         setOrg('FS')
       }
+      if(params.programme) {
+        setProgramme(params.programme)
+      }
     }
 
     if (!name) {
@@ -189,19 +192,20 @@ const Index = () => {
 
   const beautifyPro = (params) => {
     switch(params) {
-      case("FEW"):
-        return "Front End Web"
+      case("DSE"):
+        return "Data Science Essential"
         break;
-      case("BEW"):
-        return "Back End Web"
+      case("ADS"):
+        return "Applied Data Science"
         break;
-      case("DS"):
-        return "Data Science"
+      case("ADL"):
+        return "Applied Deep Learning"
         break;
       case("ND"):
         return "NitroDegree"
         break;
       default:
+        setProgramme('ND')
         return "NitroDegree"
         break;
     }
@@ -327,7 +331,7 @@ const Index = () => {
                   required
                   margin='normal'
                   variant='outlined'
-                  label='Programmens'
+                  label='Programme'
                   value={programme}
                   onChange={programOnChange}
                   >

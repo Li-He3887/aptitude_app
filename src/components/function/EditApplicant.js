@@ -43,16 +43,16 @@ function EditApplicant({ open, handleClose, user, refetch }) {
       label: 'NitroDegree'
     },
     {
-      value: 'DS',
-      label: 'Data Science'
+      value: 'DSE',
+      label: 'Data Science Essential'
     },
     {
-      value: 'BEW',
-      label: 'Web Development'
+      value: 'ADS',
+      label: 'Applied Data Science'
     },
     {
-      value: 'MOB',
-      label: 'Mobile Development'
+      value: 'ADL',
+      label: 'Applied Deep Learning'
     }
   ]
 
@@ -67,9 +67,13 @@ function EditApplicant({ open, handleClose, user, refetch }) {
     .then(() => {
       refetch()
       handleClose()
+<<<<<<< HEAD
     }
     )
     
+=======
+    })
+>>>>>>> bad76cfa92e6d0799efdaef0cf602c1c8244c56a
   }
 
   return (
