@@ -26,7 +26,7 @@ Visit (https://nextjs.org/docs) to view the full documentation.
 ```
 
 ## For the date picker we are using: 
-- @mui/x-date-pickers
+* [@mui/x-date-pickers](https://www.npmjs.com/package/@mui/x-date-pickers)
 
 ## For the icon we used two library 
 
