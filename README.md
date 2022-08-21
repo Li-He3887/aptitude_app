@@ -20,10 +20,13 @@ Visit (https://nextjs.org/docs) to view the full documentation.
 
 ## The framework we are using:
 
-Material-Ui version "4.12.4"
-Material-Ui version "^5.8.1"
+```
+- Material-Ui version "4.12.4"
+- Material-Ui version "^5.8.1"
+```
 
-## For the date picker we are using the @mui/x-date-pickers
+## For the date picker we are using: 
+- @mui/x-date-pickers
 
 ## For the icon we used two library 
 

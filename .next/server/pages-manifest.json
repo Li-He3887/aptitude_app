@@ -2,6 +2,16 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/admin/users": "pages/admin/users.js",
-  "/admin/dashboard": "pages/admin/dashboard.js"
+  "/admin/applicant/[id]": "pages/admin/applicant/[id].js",
+  "/admin/auth/sign-in": "pages/admin/auth/sign-in.html",
+  "/admin/dashboard": "pages/admin/dashboard.html",
+  "/admin/forgotpassword": "pages/admin/forgotpassword.html",
+  "/admin": "pages/admin.html",
+  "/admin/organisation/id/[id]": "pages/admin/organisation/id/[id].js",
+  "/admin/settings": "pages/admin/settings.html",
+  "/admin/users/[id]": "pages/admin/users/[id].js",
+  "/admin/users": "pages/admin/users.html",
+  "/": "pages/index.html",
+  "/tests/[testId]": "pages/tests/[testId].js",
+  "/tests/[testId]/report": "pages/tests/[testId]/report.js"
 }
