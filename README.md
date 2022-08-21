@@ -14,8 +14,11 @@ Visit (https://nextjs.org/docs) to view the full documentation.
 
 ```
 - yarn start
+  Is to start a project like "npm start"
 - yarn add
+  Adding a dependency or package like "npm install"
 - yarn build
+  After finish the project and want to build it same like "npm build"
 ``` 
 
 ## The framework we are using:
